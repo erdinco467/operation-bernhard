@@ -773,7 +773,11 @@ footer { border-top: 1px solid var(--rule); padding-block: 2rem 3rem; font-size:
     if (!el) return;
     e.preventDefault();
     if (lenis) lenis.scrollTo(el, { offset: -64 });
-    else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    else {
+      const hd = document.querySelector('header.site');
+      const y = el === document.body ? 0 : el.getBoundingClientRect().top + scrollY - (hd ? Math.max(hd.offsetHeight, 64) : 64);
+      window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+    }
   }));
 
   /* ---------- reading progress + active chapter ---------- */
@@ -992,7 +996,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 2rem 3rem; font-size:
   matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => setStep(cur));
 
   /* ---------- people filter ---------- */
-  const chips = [...document.querySelectorAll('.chip')];
+  const chips = [...document.querySelectorAll('.filter .chip')];
   chips.forEach(c => c.addEventListener('click', () => {
     chips.forEach(x => x.setAttribute('aria-pressed', String(x === c)));
     document.querySelectorAll('.person').forEach(p => { p.hidden = !(c.dataset.filter === 'all' || p.dataset.side === c.dataset.filter); });
