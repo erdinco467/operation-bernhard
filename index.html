@@ -1,0 +1,1198 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operation Bernhard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..700&family=Pinyon+Script&family=Oswald:wght@400..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap">
+<style>
+/* Layout: a long scroll "dossier" in one narrow reading column; the banknote is the one bold element,
+   the workshop and timeline break out to full width. Engraved Didone display + book serif body. */
+:root {
+  --paper: #ecebe4;      /* linen rag paper, slightly cool */
+  --paper-2: #e2e1d8;
+  --ink: #17181c;        /* printing ink */
+  --ink-soft: #4a4c53;
+  --rule: #b9b8ae;
+  --stamp: #1f3f73;      /* deep blue of banknote ink */
+  --note: #f7f6f1;       /* the white of the "white fiver" */
+  --note-ink: #1d1e22;
+  --ok: #2f6b45;
+  --display: "Oswald", "Arial Narrow", sans-serif;
+  --body: "Libre Baskerville", Georgia, "Times New Roman", serif;
+  --script: "Pinyon Script", "Snell Roundhand", cursive;
+  --mono: "Special Elite", "Courier New", monospace;
+  --col: 40rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #16171b; --paper-2: #1e1f24; --ink: #e8e6dd; --ink-soft: #a9a8a0; --rule: #3a3b41;
+    --stamp: #8fb0e0; --note: #e9e7de; --note-ink: #1d1e22; --ok: #7cc196; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #16171b; --paper-2: #1e1f24; --ink: #e8e6dd; --ink-soft: #a9a8a0; --rule: #3a3b41;
+  --stamp: #8fb0e0; --note: #e9e7de; --note-ink: #1d1e22; --ok: #7cc196; color-scheme: dark;
+}
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--body); font-size: 1rem; line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
+}
+/* faint paper fibres */
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .5;
+  background-image: repeating-linear-gradient(115deg, transparent 0 7px, color-mix(in srgb, var(--rule) 18%, transparent) 7px 8px);
+}
+main, header.site, footer { position: relative; z-index: 1; }
+a { color: inherit; text-decoration-color: var(--stamp); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--stamp); outline-offset: 3px; }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.08; text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -.01em; }
+h3 { font-size: 1.35rem; font-weight: 600; }
+p { margin: 0; }
+.col { max-width: var(--col); margin-inline: auto; }
+.wide { max-width: 72rem; margin-inline: auto; }
+section { padding-block: clamp(4rem, 10vw, 7.5rem); }
+.prose { display: grid; gap: 1.1rem; }
+.prose p { color: var(--ink); }
+.lede { font-size: 1.25rem; line-height: 1.55; }
+.kicker { font-family: var(--mono); font-size: .8rem; color: var(--stamp); letter-spacing: .04em; }
+.section-head { display: grid; gap: .9rem; margin-bottom: 2.2rem; }
+.muted { color: var(--ink-soft); }
+.small { font-size: .875rem; }
+
+/* ---------- nav ---------- */
+header.site {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding: .7rem max(16px, env(safe-area-inset-right, 0px)) .7rem max(16px, env(safe-area-inset-left, 0px));
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.05rem; text-decoration: none; white-space: nowrap; }
+nav.toc { display: flex; gap: 1.1rem; overflow-x: auto; scrollbar-width: none; font-size: .9rem; }
+nav.toc a { text-decoration: none; color: var(--ink-soft); white-space: nowrap; }
+nav.toc a:hover, nav.toc a.on { color: var(--ink); }
+.progress { position: absolute; left: 0; bottom: -1px; height: 2px; background: var(--stamp); width: 0; }
+@media (max-width: 760px) { nav.toc { display: none; } }
+
+/* ---------- hero ---------- */
+.hero { padding-block: clamp(2.5rem, 7vw, 5rem) 3rem; display: grid; gap: 2.5rem; }
+@media (min-width: 1000px) {
+  .hero { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: 3rem; }
+  .hero h1 { font-size: clamp(3.6rem, 7vw, 6.4rem) !important; }
+  .note-wrap { transform: rotate(-2deg); }
+}
+.hero h1 {
+  font-size: clamp(3.2rem, 13vw, 9.5rem); font-weight: 400; letter-spacing: -.02em; line-height: .92;
+}
+.hero h1 .sub { display: block; font-family: var(--mono); text-transform: none; font-weight: 400; font-size: .38em; letter-spacing: 0; margin-top: .6rem; color: var(--ink-soft); }
+.hero-text { display: grid; gap: 1.2rem; max-width: 44rem; }
+.serial { font-family: var(--mono); font-size: .85rem; color: var(--stamp); }
+
+.note-stage { position: relative; }
+.note-wrap {
+  position: relative; max-width: 100%; aspect-ratio: 1555 / 965; margin-inline: auto;
+  width: min(100%, 980px); touch-action: pan-y;
+  filter: drop-shadow(0 18px 30px color-mix(in srgb, var(--ink) 22%, transparent));
+}
+.note-wrap img { width: 100%; height: 100%; display: block; border-radius: 2px; }
+.loupe {
+  position: absolute; width: 190px; height: 190px; border-radius: 50%; pointer-events: none;
+  border: 3px solid var(--ink); box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 6px rgba(255,255,255,.25);
+  overflow: hidden; opacity: 0; transform: translate(-50%, -50%); transition: opacity .2s; background: var(--note);
+}
+.loupe.on { opacity: 1; }
+.loupe { background-image: url("img/fiver.webp"); background-repeat: no-repeat; }
+.hotspot {
+  position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+  border: 2px solid var(--stamp); background: color-mix(in srgb, var(--note) 70%, transparent);
+  color: var(--stamp); font: 600 .85rem var(--mono); cursor: pointer; display: grid; place-items: center;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+.hotspot[aria-pressed="true"] { background: var(--stamp); color: var(--note); animation: none; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--stamp) 18%, transparent); } }
+.note-help { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; justify-content: space-between; align-items: baseline; margin-top: 1.8rem; }
+.feature-card {
+  margin-top: 1.2rem; border-left: 3px solid var(--stamp); padding: .4rem 0 .4rem 1.1rem; min-height: 6.5rem;
+  display: grid; gap: .35rem; max-width: 44rem;
+}
+.feature-card h3 { font-size: 1.15rem; }
+
+/* ---------- numbers ---------- */
+.ledger { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); border-top: 2px solid var(--ink); }
+.ledger > div { padding: 1.4rem 1rem 1.6rem 0; border-bottom: 1px solid var(--rule); display: grid; gap: .3rem; align-content: start; }
+.ledger .num { font-family: var(--display); font-size: clamp(2.6rem, 6vw, 3.6rem); line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.ledger .lbl { color: var(--ink-soft); font-size: .95rem; max-width: 16rem; }
+
+
+/* ---------- immersion: file cover, year badge, vignette ---------- */
+.vignette { position: fixed; inset: 0; pointer-events: none; z-index: 2; background: radial-gradient(ellipse at 50% 45%, transparent 55%, color-mix(in srgb, var(--ink) 13%, transparent) 100%); }
+.intro { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: #121316; }
+.intro[hidden] { display: none; }
+.folder { position: relative; width: min(520px, 100%); padding: 3.2rem 2rem 2.4rem; background: #b3b29c; color: #1d1e22; border-radius: 3px 10px 3px 3px; box-shadow: 0 30px 60px rgba(0,0,0,.55); text-align: center; }
+.folder::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(29,30,34,.35); pointer-events: none; }
+.folder-tab { position: absolute; top: -26px; left: 0; background: #b3b29c; padding: .3rem 1rem; border-radius: 6px 6px 0 0; font: .8rem var(--mono); }
+.f-small { font: .9rem var(--mono); letter-spacing: .12em; text-transform: uppercase; margin: 0; }
+.f-title { font: 600 clamp(2rem, 8vw, 3.2rem)/1.05 var(--display); text-transform: uppercase; margin: 1.4rem 0 .8rem; }
+.f-meta { font: .95rem var(--mono); margin: 0 0 2rem; }
+.f-stamp { position: absolute; right: 1.2rem; bottom: 1.2rem; transform: rotate(-12deg); border: 4px double #a3262a; color: #a3262a; font: 700 1.4rem var(--display); letter-spacing: .1em; padding: .1rem .7rem; opacity: .85; }
+.f-open { font: inherit; font-family: var(--mono); font-size: 1rem; background: #1d1e22; color: #f7f6f1; border: 0; padding: .8rem 1.8rem; border-radius: 999px; cursor: pointer; }
+.f-open:hover, .f-open:focus-visible { background: #1f3f73; }
+.f-hint { font: .8rem var(--mono); margin: 1rem 0 0; opacity: .7; }
+.yearbadge { font: 1rem/1 var(--mono); color: var(--stamp); border: 1px solid currentColor; padding: .25rem .5rem; margin-right: auto; margin-left: -.3rem; opacity: 0; transition: opacity .4s; white-space: nowrap; display: inline-block; overflow: hidden; }
+.yearbadge #yearNow { display: inline-block; }
+.yearbadge.on { opacity: 1; }
+@media (max-width: 600px) { .f-hint { display: none; } .f-stamp { bottom: .9rem; font-size: 1.1rem; } }
+.kicker.typing::after { content: "▌"; animation: blink .7s steps(1) infinite; margin-left: 1px; }
+@keyframes blink { 50% { opacity: 0; } }
+.quote .w { display: inline; }
+/* ---------- workshop steps ---------- */
+.workshop { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
+.steps { display: grid; gap: 0; counter-reset: step; }
+.step {
+  text-align: left; background: none; border: 0; border-top: 1px solid var(--rule); padding: 1.1rem 0; color: inherit;
+  font: inherit; cursor: pointer; display: grid; grid-template-columns: 2.4rem 1fr; gap: .2rem 1rem;
+}
+.step:last-child { border-bottom: 1px solid var(--rule); }
+.step .n { font-family: var(--display); font-size: 1.6rem; line-height: 1; color: var(--ink-soft); grid-row: span 2; }
+.step .t { font-family: var(--display); font-weight: 600; font-size: 1.2rem; }
+.step .d { color: var(--ink-soft); display: none; grid-column: 2; }
+.step[aria-expanded="true"] .n { color: var(--stamp); }
+.step[aria-expanded="true"] .d { display: block; color: var(--ink); }
+.plate { position: sticky; top: 6rem; border: 1px solid var(--rule); background: var(--paper-2); padding: 1.2rem; }
+.plate canvas { width: 100%; height: auto; aspect-ratio: 4 / 3; display: block; }
+.plate figcaption { font-size: .85rem; color: var(--ink-soft); margin-top: .7rem; }
+@media (max-width: 820px) { .workshop { grid-template-columns: 1fr; } .plate { position: static; padding: .4rem; margin-inline: -10px !important; } .plate figcaption { padding-inline: .5rem; } }
+
+/* ---------- people ---------- */
+.people { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 0 2.5rem; }
+.person { border-top: 1px solid var(--ink); padding: 1.1rem 0 1.6rem; display: grid; gap: .5rem; align-content: start; }
+.portrait { width: 100%; max-width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 20%; display: block; filter: grayscale(1) contrast(1.05); background: var(--paper-2); margin-bottom: .4rem; }
+.person img[src*="krueger"] { object-position: 82% 40%; }
+.portrait.none { display: grid; place-items: center; border: 1px dashed var(--rule); filter: none; }
+.portrait.none span { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
+.photo { margin: 0; display: grid; gap: .4rem; }
+.photo img { width: 100%; max-width: 100%; height: auto; display: block; }
+.photo figcaption { font-size: .82rem; color: var(--ink-soft); }
+.person .role { font-family: var(--mono); font-size: .78rem; color: var(--ink-soft); }
+.person .side { font-family: var(--mono); font-size: .75rem; padding: .1rem .45rem; border: 1px solid currentColor; justify-self: start; }
+.side.opfer { color: var(--ok); }
+.side.taeter { color: var(--stamp); }
+.person details summary { cursor: pointer; color: var(--stamp); font-size: .95rem; list-style: none; }
+.person details summary::-webkit-details-marker { display: none; }
+.person details summary::before { content: "+ "; font-family: var(--mono); }
+.person details[open] summary::before { content: "– "; }
+.person details p { margin-top: .6rem; }
+.filter { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+.chip {
+  font: .9rem var(--body); padding: .35rem .9rem; border: 1px solid var(--rule); background: transparent; color: var(--ink);
+  border-radius: 999px; cursor: pointer;
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ---------- timeline (horizontal on desktop) ---------- */
+.tl-outer { overflow: hidden; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); }
+.tl-track { display: flex; gap: 0; padding-inline: max(16px, env(safe-area-inset-left, 0px)); width: max-content; }
+.tl-item { width: min(24rem, 78vw); padding: 1.4rem 2rem 1.4rem 0; border-top: 2px solid var(--ink); position: relative; display: grid; gap: .5rem; align-content: start; }
+.tl-item::before { content: ""; position: absolute; top: -7px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
+.tl-item.key::before { background: var(--stamp); border-color: var(--stamp); }
+.tl-date { font-family: var(--display); font-size: 2.2rem; line-height: 1; font-variant-numeric: lining-nums; }
+.tl-date small { font-family: var(--mono); font-size: .8rem; display: block; color: var(--ink-soft); margin-top: .35rem; }
+.tl-sticky.on { position: sticky; top: 88px; }
+@media (max-width: 760px) {
+  .tl-outer { margin-inline: 0; }
+  .tl-track { flex-direction: column; width: auto; padding-inline: 0; }
+  .tl-item { width: auto; border-top: 0; border-left: 2px solid var(--ink); padding: 0 0 2rem 1.4rem; }
+  .tl-item::before { top: .3rem; left: -7px; }
+}
+
+/* ---------- route ---------- */
+.atlas { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+@media (max-width: 860px) { .atlas { grid-template-columns: 1fr; } }
+.map-box { border: 1px solid var(--rule); background: var(--paper-2); position: relative; }
+.map-box svg { width: 100%; height: auto; display: block; }
+.map-box .land { fill: var(--paper); stroke: var(--rule); stroke-width: .8; }
+.map-box .land.reich { fill: color-mix(in srgb, var(--ink) 9%, var(--paper)); stroke: var(--ink-soft); }
+.map-box .cname { font: italic 13px var(--body); fill: var(--ink-soft); pointer-events: none; }
+.map-box .rt { fill: none; stroke: var(--stamp); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.map-box .pin { cursor: pointer; }
+.map-box .pin circle { fill: var(--paper); stroke: var(--ink); stroke-width: 2.5; transition: r .2s; }
+.map-box .pin.on circle { fill: var(--stamp); stroke: var(--stamp); }
+.map-box .pin text { font: 600 12px var(--mono); fill: var(--ink); pointer-events: none; }
+.map-box .pin.on text { fill: var(--paper); }
+.map-box .pin:focus-visible circle { stroke: var(--stamp); stroke-width: 4; }
+.map-legend { display: flex; gap: 1.2rem; flex-wrap: wrap; padding: .6rem .9rem; border-top: 1px solid var(--rule); }
+.lg { display: inline-block; width: 18px; height: 3px; background: var(--stamp); vertical-align: middle; margin-right: .3rem; }
+.lg.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink); }
+.lg.area { width: 14px; height: 10px; background: color-mix(in srgb, var(--ink) 9%, var(--paper)); border: 1px solid var(--ink-soft); }
+.places { display: grid; gap: 1.4rem; }
+.place-list { display: flex; flex-wrap: wrap; gap: .45rem; }
+.place-card { border-top: 2px solid var(--ink); padding-top: 1rem; display: grid; gap: .6rem; min-height: 16rem; }
+.place-card .meta { font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); }
+.bank-steps { list-style: none; padding: 0; margin: 1.4rem 0 0; display: grid; border-top: 1px solid var(--ink); }
+.bank-steps li { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--rule); }
+.bank-steps .by { font-family: var(--display); font-weight: 600; font-size: 1.15rem; font-variant-numeric: lining-nums; }
+@media (max-width: 480px) { .bank-steps li { grid-template-columns: 1fr; gap: .2rem; } }
+.place-card .visit { font-size: .92rem; background: var(--paper-2); padding: .8rem 1rem; display: grid; gap: .2rem; }
+
+/* ---------- money flow ---------- */
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2rem; }
+.flow > div { display: grid; gap: .5rem; align-content: start; }
+.flow .grade { font-family: var(--display); font-size: 2.6rem; line-height: 1; }
+
+/* ---------- dilemma ---------- */
+.quote { font-family: var(--body); font-style: italic; font-size: clamp(1.5rem, 3.4vw, 2.2rem); line-height: 1.3; border-left: 3px solid var(--stamp); padding-left: 1.4rem; }
+.dilemma { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--ink); margin-top: 2rem; }
+.dilemma > div { padding: 1.4rem; display: grid; gap: .5rem; align-content: start; }
+.dilemma > div + div { border-left: 1px solid var(--ink); }
+@media (max-width: 640px) { .dilemma { grid-template-columns: 1fr; } .dilemma > div + div { border-left: 0; border-top: 1px solid var(--ink); } }
+
+/* ---------- quiz ---------- */
+.quiz { border: 2px solid var(--ink); background: var(--note); color: var(--note-ink); padding: clamp(1.2rem, 4vw, 2.4rem); display: grid; gap: 1.2rem; position: relative; overflow: hidden; }
+.quiz .q-meta { display: flex; justify-content: space-between; font-family: var(--mono); font-size: .85rem; color: #5a5b60; }
+.quiz h3 { font-size: clamp(1.3rem, 3vw, 1.7rem); font-weight: 500; }
+.answers { display: grid; gap: .6rem; }
+.answer {
+  text-align: left; font: 1rem var(--body); padding: .8rem 1rem; border: 1px solid #b7b6ad; background: #fff; color: var(--note-ink);
+  cursor: pointer; border-radius: 2px;
+}
+.answer:hover:not(:disabled) { border-color: var(--note-ink); }
+.answer.right { border-color: #2f6b45; background: #e3efe6; }
+.answer.wrong { border-color: #a3262a; background: #f6e1e2; }
+.answer:disabled { cursor: default; }
+.explain { font-size: .95rem; color: #3d3e43; min-height: 1.5rem; }
+.quiz-actions { display: flex; gap: .8rem; flex-wrap: wrap; align-items: center; }
+.btn { font: 600 .95rem var(--body); padding: .7rem 1.3rem; background: var(--note-ink); color: var(--note); border: 0; cursor: pointer; }
+.btn[disabled] { opacity: .35; cursor: default; }
+.stamp-result {
+  font-family: var(--display); font-weight: 800; font-size: clamp(1.6rem, 5vw, 2.6rem); color: var(--stamp); border: 4px double var(--stamp);
+  padding: .3rem 1rem; transform: rotate(-6deg); justify-self: center; text-align: center;
+}
+
+/* ---------- sources ---------- */
+.src-section { padding-block: 3rem 4rem; border-top: 1px solid var(--rule); margin-top: 4rem; text-align: center; }
+.src-toggle { font: inherit; font-size: .95rem; letter-spacing: .04em; color: var(--ink); background: transparent; border: 1px solid var(--rule); border-radius: 999px; padding: .7rem 1.6rem; cursor: pointer; transition: background .2s, border-color .2s; }
+.src-toggle:hover, .src-toggle:focus-visible { border-color: var(--ink); }
+#srcBody { text-align: left; margin-top: 2.4rem; }
+.src-btns { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; }
+.team { margin-top: 2rem; }
+.team-label { font: .8rem var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: .8rem; }
+.team-img { display: block; width: min(100%, 460px); height: auto; margin: 1.8rem auto 0; border: 1px solid var(--rule); }
+.team-names { list-style: none; padding: 0; margin: 0; display: flex; gap: .6rem 2.2rem; justify-content: center; flex-wrap: wrap; font: 600 1.9rem/1.2 var(--display); }
+.src-h { margin-bottom: 1.2rem; }
+.sources { display: grid; gap: .6rem; padding-left: 1.2rem; }
+.sources li { padding-left: .3rem; }
+footer { border-top: 1px solid var(--rule); padding-block: 2rem 3rem; font-size: .9rem; color: var(--ink-soft); }
+
+/* split-word headline reveal */
+.word { display: inline-block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hotspot { animation: none; }
+  * { scroll-behavior: auto !important; }
+}
+</style>
+
+<div class="intro" id="intro" hidden role="dialog" aria-modal="true" aria-label="Deckblatt der Akte">
+  <div class="folder" id="folder">
+    <div class="folder-tab">RSHA · Amt VI F 4</div>
+    <p class="f-small">Geheime Reichssache</p>
+    <p class="f-title">Unternehmen Bernhard</p>
+    <p class="f-meta">Sachsenhausen · Baracken 18 und 19<br>1942 – 1945</p>
+    <div class="f-stamp" aria-hidden="true">GEHEIM</div>
+    <button class="f-open" id="introOpen">Akte öffnen</button>
+    <p class="f-hint">oder einfach scrollen</p>
+  </div>
+</div>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="site">
+  <a class="brand" href="#top">Operation Bernhard</a>
+  <span class="yearbadge" id="yearBadge" aria-hidden="true"><span id="yearNow">1942</span></span>
+  <nav class="toc" aria-label="Kapitel">
+    <a href="#plan">Der Plan</a>
+    <a href="#werkstatt">Die Werkstatt</a>
+    <a href="#menschen">Menschen</a>
+    <a href="#zeitleiste">Zeitleiste</a>
+    <a href="#ende">Standorte</a>
+    <a href="#quiz">Quiz</a>
+  </nav>
+  <div class="progress" id="progress"></div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero wide" data-year="1942" aria-labelledby="t-hero">
+  <div class="hero-text">
+    <p class="serial" id="heroSerial">J 14752</p>
+    <h1 id="t-hero">Operation Bernhard<span class="sub">Falschgeld aus dem Konzentrationslager</span></h1>
+    <p class="lede">Zwischen 1942 und 1945 mussten rund 140 jüdische Häftlinge im KZ Sachsenhausen britische Pfundnoten fälschen. Es wurde die größte Geldfälschung der Geschichte. Die Nationalsozialisten wollten damit Großbritannien schaden und ihren Geheimdienst bezahlen.</p>
+  </div>
+
+  <div class="note-stage">
+    <div class="note-wrap" id="noteWrap">
+      <img id="noteImg" src="img/fiver.webp" width="1555" height="965" alt="Echte Fünf-Pfund-Note der Bank of England von 1931. Genau dieses Muster fälschten die Häftlinge in Sachsenhausen.">
+      <div class="loupe" id="loupe" aria-hidden="true"></div>
+      <button class="hotspot" style="left:19.7%;top:10.6%" data-f="0" aria-pressed="false" aria-label="Merkmal 1: Britannia">1</button>
+      <button class="hotspot" style="left:30.7%;top:23%" data-f="1" aria-pressed="false" aria-label="Merkmal 2: Seriennummer">2</button>
+      <button class="hotspot" style="left:54.5%;top:45.8%" data-f="2" aria-pressed="false" aria-label="Merkmal 3: Wasserzeichen">3</button>
+      <button class="hotspot" style="left:60.3%;top:84%" data-f="3" aria-pressed="false" aria-label="Merkmal 4: Unterschrift">4</button>
+      <button class="hotspot" style="left:96.3%;top:4.4%" data-f="4" aria-pressed="false" aria-label="Merkmal 5: Papier">5</button>
+    </div>
+    <div class="note-help">
+      <p class="small muted">Fahre mit der Maus über die Note, um sie mit der Lupe zu prüfen. Tippe auf die Zahlen.</p>
+    </div>
+    <div class="feature-card" id="featureCard" aria-live="polite">
+      <h3>Was mussten die Fälscher kopieren?</h3>
+      <p class="muted">Wähle ein Merkmal auf der Note. Jedes davon war eine eigene Hürde für die Fälscher.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PLAN ================= -->
+<section id="plan" data-year="1939" class="col" aria-labelledby="t-plan">
+  <div class="section-head">
+    <p class="kicker">1939 – 1942</p>
+    <h2 id="t-plan">Ein Angriff mit Papier</h2>
+  </div>
+  <div class="prose">
+    <p class="lede">Am 18. September 1939, kurz nach Kriegsbeginn, schlug Arthur Nebe, Chef der Kriminalpolizei, einen ungewöhnlichen Plan vor: Deutschland sollte massenhaft falsche Pfundnoten herstellen.</p>
+    <p>Flugzeuge sollten das Falschgeld über Großbritannien abwerfen. Wenn die Menschen es aufheben und ausgeben, verliert das echte Geld an Wert. Die britische Wirtschaft sollte so ins Chaos stürzen. Hitler stimmte zu, Reinhard Heydrich ließ die Arbeit beginnen.</p>
+    <p>Die erste Phase hieß <strong>„Aktion Andreas“</strong>, nach dem Andreaskreuz im Union Jack. In Berlin leitete der SS-Mann Alfred Naujocks eine geheime Werkstatt. Der Mathematiker Albert Langer versuchte herauszufinden, nach welchem System die Bank of England ihre Seriennummern vergab. Das Team entwickelte Papier und Druckplatten, doch die Massenproduktion kam nicht in Gang. Anfang 1942 wurde die Werkstatt geschlossen.</p>
+    <p>Im Juli 1942 befahl Heinrich Himmler einen Neustart mit neuem Ziel. Das Geld sollte nicht mehr abgeworfen werden, sondern den Auslandsgeheimdienst der SS finanzieren. Der Leiter war SS-Sturmbannführer <strong>Bernhard Krüger</strong>. Nach ihm bekam das Unternehmen seinen Namen: <strong>Operation Bernhard</strong>.</p>
+  </div>
+</section>
+
+<!-- ================= NUMBERS ================= -->
+<section class="wide" aria-labelledby="t-num" data-year="1942–45" style="padding-top:0">
+  <h2 id="t-num" class="col" style="font-size:1.4rem;margin-bottom:1.4rem;font-weight:600">Die Fälschung in Zahlen</h2>
+  <div class="ledger">
+    <div><span class="num" data-count="142">142</span><span class="lbl">Häftlinge mussten in der Fälscherwerkstatt arbeiten (1942–1945)</span></div>
+    <div><span class="num" data-count="9" data-suffix=" Mio.">9 Mio.</span><span class="lbl">Banknoten wurden ungefähr gedruckt</span></div>
+    <div><span class="num" data-count="132.6" data-prefix="£" data-suffix=" Mio." data-dec="1">£132,6 Mio.</span><span class="lbl">Nennwert der Fälschungen, nach der häufigsten Schätzung</span></div>
+    <div><span class="num" data-count="4">4</span><span class="lbl">Notenwerte: 5, 10, 20 und 50 Pfund</span></div>
+  </div>
+</section>
+
+<!-- ================= WORKSHOP ================= -->
+<section id="werkstatt" data-year="1942" class="wide" aria-labelledby="t-werk">
+  <div class="section-head col" style="margin-inline:0">
+    <p class="kicker">KZ Sachsenhausen, Baracken 18 und 19</p>
+    <h2 id="t-werk">Die Werkstatt hinter Stacheldraht</h2>
+    <p class="lede">Das Lager Sachsenhausen lag bei Oranienburg, nördlich von Berlin. Mitten darin trennte die SS zwei Baracken mit Stacheldraht ab. Andere Häftlinge durften nicht wissen, was dort geschah. Wähle einen Arbeitsschritt. Die Zeichnung zeigt, was dabei passierte.</p>
+  </div>
+  <div class="workshop">
+    <div class="steps" id="steps">
+      <button class="step" aria-expanded="true" data-s="0"><span class="n">1</span><span class="t">Fachleute aussuchen</span><span class="d">Die SS suchte in Konzentrationslagern nach jüdischen Druckern, Graveuren, Fotografen, Bankangestellten und Zeichnern. Ab Herbst 1942 kamen sie nach Sachsenhausen, viele direkt aus Auschwitz. Einer der Ersten in der Werkstatt war der Drucker Adolf Burger.</span></button>
+      <button class="step" aria-expanded="false" data-s="1"><span class="n">2</span><span class="t">Das Papier</span><span class="d">Britische Banknoten waren aus Leinenfasern hergestellt. Die Papierfabrik Hahnemühle lieferte passendes Papier mit eingearbeitetem Wasserzeichen. Unter UV-Licht musste es genauso aussehen wie das Original.</span></button>
+      <button class="step" aria-expanded="false" data-s="2"><span class="n">3</span><span class="t">Die Druckplatten</span><span class="d">Graveure stachen die Britannia-Figur, die Schrift und die Zierlinien in Kupferplatten. Jede Linie musste stimmen. Echte Noten hatten winzige, absichtlich versteckte Kennzeichen, die die Fälscher finden und mitkopieren mussten.</span></button>
+      <button class="step" aria-expanded="false" data-s="3"><span class="n">4</span><span class="t">Druck und Nummern</span><span class="d">Ab Januar 1943 lief der Druck in zwei Schichten. Seriennummer, Datum und Unterschrift des Chief Cashiers mussten zueinander passen, sonst fiel die Fälschung bei einer Bank sofort auf.</span></button>
+      <button class="step" aria-expanded="false" data-s="4"><span class="n">5</span><span class="t">Prüfen und altern</span><span class="d">Jede Note wurde geprüft und in Qualitätsstufen sortiert. Damit die Noten nicht zu neu wirkten, wurden sie gefaltet, mit Nadeln durchstochen und abgegriffen, so wie echtes Geld aus dem Bankalltag.</span></button>
+    </div>
+    <figure class="plate" style="margin:0">
+      <canvas id="plateCanvas" width="800" height="600" aria-label="Animierte Zeichnung des aktuellen Arbeitsschritts"></canvas>
+      <figcaption id="plateCap">Schritt 1 von 5: Fachleute aussuchen</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= MONEY USE ================= -->
+<section class="col" aria-labelledby="t-use" data-year="1943" style="padding-top:0">
+  <div class="section-head">
+    <p class="kicker">Sortiert nach Qualität</p>
+    <h2 id="t-use">Wohin das Falschgeld ging</h2>
+  </div>
+  <div class="flow">
+    <div><span class="grade">Stufe 1</span><p>Die besten Noten. Sie sollten in neutralen Ländern wie der Schweiz sogar die Prüfung durch Banken bestehen. Damit bezahlte die SS Spione.</p></div>
+    <div><span class="grade">Stufe 2</span><p>Gute Noten für Geschäfte mit Kollaborateuren in besetzten Ländern.</p></div>
+    <div><span class="grade">Stufe 3–4</span><p>Stufe 3 war für einen möglichen Abwurf über Großbritannien gedacht, dazu kam es nie. Stufe 4 wurde vernichtet.</p></div>
+  </div>
+  <div class="prose" style="margin-top:2.4rem">
+    <p>Verteilt wurde das Geld von <strong>Friedrich Schwend</strong>. Von Schloss Labers bei Meran in Südtirol aus tauschte er es über ein Netz von Agenten gegen echte Devisen, Gold und Waren. Er selbst behielt einen großen Anteil.</p>
+    <p>Der bekannteste Empfänger war der Spion <strong>„Cicero“</strong>. Elyesa Bazna war Diener des britischen Botschafters in Ankara und verkaufte 1943/44 geheime Dokumente an die Deutschen. Bezahlt wurde er mit gefälschten Pfund.</p>
+    <p>Auch bei der Befreiung Mussolinis im September 1943 spielte das Falschgeld eine Rolle. Mit Noten im Wert von 100.000 Pfund kaufte die SS Informationen darüber, wo der gestürzte italienische Diktator gefangen gehalten wurde: in einem Hotel auf dem Gran Sasso.</p>
+  </div>
+</section>
+
+<!-- ================= BANK OF ENGLAND ================= -->
+<section class="col" aria-labelledby="t-bank" data-year="1943" style="padding-top:0">
+  <div class="section-head">
+    <p class="kicker">London, 1943</p>
+    <h2 id="t-bank">Die Bank of England schlägt Alarm</h2>
+  </div>
+  <div class="prose">
+    <p>Die Fälschungen waren so gut, dass selbst Fachleute sie kaum erkannten. Ein Mitarbeiter der Bank of England nannte sie die gefährlichsten Fälschungen, die man je gesehen hatte.</p>
+  </div>
+  <figure class="photo" style="margin-block:2rem">
+    <img src="img/note20.webp" alt="Gefälschte 20-Pfund-Note der Bank of England mit dem Datum 7. Juni 1937, hergestellt im KZ Sachsenhausen" loading="lazy" width="900" height="559">
+    <figcaption>Eine echte Fälschung aus Sachsenhausen: 20-Pfund-Note mit dem Datum 7. Juni 1937 und der Unterschrift von Chief Cashier K. O. Peppiatt.</figcaption>
+  </figure>
+  <p>Die Bank reagierte Schritt für Schritt:</p>
+  <ol class="bank-steps">
+    <li><span class="by">1940</span><span>Eine neue blaue 1-Pfund-Note bekommt als Schutz einen eingearbeiteten Metallfaden.</span></li>
+    <li><span class="by">1943</span><span>Die Einfuhr von Pfundnoten nach Großbritannien wird verboten. Die Bank warnt öffentlich vor Fälschungen.</span></li>
+    <li><span class="by">April 1943</span><span>Neue Noten ab 10 Pfund werden nicht mehr ausgegeben.</span></li>
+    <li><span class="by">nach 1945</span><span>Alle großen Noten werden eingezogen. Es folgen neue, farbige Scheine mit besseren Sicherheitsmerkmalen.</span></li>
+  </ol>
+  <div class="prose" style="margin-top:2rem">
+    <p><strong>Und die Dollars?</strong> Im Mai 1944 befahl Ernst Kaltenbrunner, der Chef des RSHA, auch US-Dollar zu fälschen. Die Häftlinge zögerten die Arbeit hinaus, so gut es ging. Erst im Januar 1945 waren Vorder- und Rückseite der 100-Dollar-Note fertig. Es entstanden nur etwa 20 Probestücke ohne Seriennummern. In Umlauf kamen keine gefälschten Dollars mehr.</p>
+  </div>
+</section>
+
+<!-- ================= PEOPLE ================= -->
+<section id="menschen" data-year="1942–45" class="wide" aria-labelledby="t-people">
+  <div class="section-head col" style="margin-inline:0">
+    <p class="kicker">Täter und Opfer</p>
+    <h2 id="t-people">Die Menschen dahinter</h2>
+  </div>
+  <div class="filter" role="group" aria-label="Personen filtern">
+    <button class="chip" aria-pressed="true" data-filter="all">Alle</button>
+    <button class="chip" aria-pressed="false" data-filter="opfer">Häftlinge</button>
+    <button class="chip" aria-pressed="false" data-filter="taeter">Täter und Nutznießer</button>
+  </div>
+  <div class="people" id="people">
+    <article class="person" data-side="taeter">
+      <img class="portrait" src="img/krueger.webp" alt="Bernhard Krüger auf Fotos aus britischer Gefangenschaft, Profil und Vorderansicht" loading="lazy" width="345" height="209">
+      <span class="side taeter">Täter</span>
+      <h3>Bernhard Krüger</h3>
+      <p class="role">1904 – 1989 · SS-Sturmbannführer</p>
+      <p>Leiter der Fälscherwerkstatt im Reichssicherheitshauptamt. Er wählte Papier, Farben und Häftlinge aus.</p>
+      <details><summary>Mehr lesen</summary><p>Krüger war gelernter Textilingenieur. 1946 nahmen ihn die Briten fest. Angeklagt wurde er nie, denn das Fälschen feindlichen Geldes galt nicht als Kriegsverbrechen. Später arbeitete er ausgerechnet bei der Papierfabrik Hahnemühle, die das Papier geliefert hatte. Er starb 1989 in Hamburg.</p></details>
+    </article>
+    <article class="person" data-side="opfer">
+      <img class="portrait" src="img/burger.webp" alt="Adolf Burger spricht 2006 auf einer Konferenz" loading="lazy" width="800" height="600">
+      <span class="side opfer">Häftling</span>
+      <h3>Adolf Burger</h3>
+      <p class="role">1917 – 2016 · Drucker aus der Slowakei</p>
+      <p>Häftlingsnummer 64401 in Auschwitz. Er überlebte die Werkstatt und wurde zum wichtigsten Zeitzeugen.</p>
+      <details><summary>Mehr lesen</summary><p>Burger wurde 1942 verhaftet, weil er Taufscheine für Juden gefälscht hatte. Seine Frau Gisela wurde in Auschwitz ermordet. Nach dem Krieg sprach er vor mehr als 90.000 Jugendlichen über seine Erlebnisse. Sein Buch „Des Teufels Werkstatt“ ist die Vorlage für den Film „Die Fälscher“.</p></details>
+    </article>
+    <article class="person" data-side="opfer">
+      <img class="portrait" src="img/smolianoff.webp" alt="Porträtfoto von Salomon Smolianoff" loading="lazy" width="500" height="690">
+      <span class="side opfer">Häftling</span>
+      <h3>Salomon Smolianoff</h3>
+      <p class="role">um 1897 – 1976 · Berufsfälscher aus Russland</p>
+      <p>Ein verurteilter Geldfälscher. Er galt als einer der besten Graveure in der Werkstatt.</p>
+      <details><summary>Mehr lesen</summary><p>Smolianoff saß schon vor dem Krieg wegen Fälschung im Gefängnis. In Sachsenhausen sollte er vor allem bei den Dollarnoten helfen. Nach dem Krieg ging er nach Südamerika und starb 1976 in Brasilien. Die Hauptfigur im Film „Die Fälscher“ ist an ihn angelehnt.</p></details>
+    </article>
+    <article class="person" data-side="taeter">
+      <img class="portrait" src="img/naujocks.webp" alt="Porträtfoto von Alfred Naujocks, aufgenommen von der US-Armee" loading="lazy" width="500" height="655">
+      <span class="side taeter">Täter</span>
+      <h3>Alfred Naujocks</h3>
+      <p class="role">1911 – 1966 · SS-Offizier</p>
+      <p>Leiter der ersten Phase „Aktion Andreas“ in Berlin.</p>
+      <details><summary>Mehr lesen</summary><p>Naujocks ist vor allem durch den fingierten Überfall auf den Sender Gleiwitz bekannt, der Hitler 1939 als Vorwand für den Angriff auf Polen diente. Ende 1940 verlor er die Leitung der Fälscher.</p></details>
+    </article>
+    <article class="person" data-side="taeter">
+      <span class="side taeter">Nutznießer</span>
+      <h3>Friedrich Schwend</h3>
+      <p class="role">1906 – 1980 · Geldwäscher der SS</p>
+      <p>Er brachte das Falschgeld von Südtirol aus in Umlauf.</p>
+      <details><summary>Mehr lesen</summary><p>Schwend nahm Millionen ein und behielt einen Teil davon. Nach dem Krieg floh er nach Peru. 1979 wurde er in Deutschland wegen Totschlags zu einer Bewährungsstrafe verurteilt.</p></details>
+    </article>
+    <article class="person" data-side="taeter">
+      <img class="portrait" src="img/bazna.webp" alt="Porträtfoto von Elyesa Bazna" loading="lazy" width="500" height="831">
+      <span class="side taeter">Nutznießer</span>
+      <h3>Elyesa Bazna, „Cicero“</h3>
+      <p class="role">1904 – 1970 · Spion in Ankara</p>
+      <p>Verkaufte britische Geheimnisse und wurde mit Falschgeld bezahlt.</p>
+      <details><summary>Mehr lesen</summary><p>Erst nach dem Krieg merkte Bazna, dass sein Lohn wertlos war. Er versuchte später, von der Bundesrepublik Geld zu bekommen, hatte damit aber keinen Erfolg.</p></details>
+    </article>
+  </div>
+</section>
+
+<!-- ================= DILEMMA ================= -->
+<section class="col" aria-labelledby="t-dil" data-year="1944">
+  <div class="section-head">
+    <p class="kicker">Leben in der Werkstatt</p>
+    <h2 id="t-dil">Überleben durch Arbeit für die Täter</h2>
+  </div>
+  <div class="prose">
+    <p>Die Fälscher lebten anders als die übrigen Häftlinge. Sie hatten Betten, bessere Kleidung und mehr Essen. Die SS brauchte sie gesund. Gearbeitet wurde in zwei Schichten zu je zwölf Stunden.</p>
+    <p>Krüger sprach die Häftlinge mit „Sie“ an, nicht mit dem herabwürdigenden „du“, das die SS sonst gegenüber Juden benutzte. Es gab Zeitungen, Zigaretten und ein Radio. Die Häftlinge spielten Tischtennis, manchmal sogar gegen die Wachleute, und führten kleine Theaterstücke auf. Zwölf Häftlinge bekamen sogar die Kriegsverdienstmedaille.</p>
+    <p>Doch alle wussten: Sie waren Geheimnisträger. Niemand außerhalb der Baracken durfte von der Werkstatt erfahren. Wenn die Arbeit vorbei ist, wird die SS sie wahrscheinlich töten. Sieben Häftlinge, die krank wurden, erschoss die SS.</p>
+    <p>Einige Häftlinge hielten ihre Erinnerungen fest. Der Maler <strong>Leo Haas</strong> zeichnete 1944 die Werkstatt, die Zeichnung liegt heute in der Gedenkstätte Sachsenhausen. Der Norweger <strong>Moritz Nachtstern</strong> veröffentlichte schon 1949 einen Bericht, Adolf Burger folgte mit mehreren Büchern.</p>
+  </div>
+  <p class="quote" style="margin-top:2rem">Gute Arbeit hielt sie am Leben. Aber jede gute Note half dem Regime, das ihre Familien ermordete.</p>
+  <div class="dilemma">
+    <div><h3>Arbeiten</h3><p>Wer sorgfältig arbeitete, blieb nützlich und hatte eine Chance zu überleben.</p></div>
+    <div><h3>Sabotieren</h3><p>Bei den Dollarnoten verzögerten die Häftlinge die Arbeit absichtlich. Bis Kriegsende wurden keine fertigen Dollars ausgeliefert. Ein Risiko, das sie das Leben hätte kosten können.</p></div>
+  </div>
+</section>
+
+<!-- ================= TIMELINE ================= -->
+<section id="zeitleiste" data-year="" aria-labelledby="t-tl" class="tl-section">
+  <div class="tl-sticky" id="tlSticky">
+  <div class="section-head wide">
+    <p class="kicker">1939 – 2008</p>
+    <h2 id="t-tl">Zeitleiste</h2>
+  </div>
+  <div class="tl-outer" id="tlOuter">
+    <div class="tl-track" id="tlTrack">
+      <div class="tl-item key"><p class="tl-date">1939<small>18. September</small></p><p>Arthur Nebe schlägt vor, Großbritannien mit Falschgeld zu schwächen. Hitler stimmt zu.</p></div>
+      <div class="tl-item"><p class="tl-date">1940<small>Berlin</small></p><p>„Aktion Andreas“ unter Alfred Naujocks beginnt. Papier und Seriennummern werden erforscht.</p></div>
+      <div class="tl-item key"><p class="tl-date">1942<small>Juli bis Dezember</small></p><p>Neustart unter Bernhard Krüger. Die ersten Häftlinge kommen in die Baracken 18 und 19 in Sachsenhausen.</p></div>
+      <div class="tl-item"><p class="tl-date">1943<small>Januar</small></p><p>Die Massenproduktion beginnt. Bald werden zehntausende Noten im Monat gedruckt.</p></div>
+      <div class="tl-item"><p class="tl-date">1943<small>April</small></p><p>Die Bank of England gibt keine neuen Noten ab 10 Pfund mehr aus. Sie ahnt die Gefahr.</p></div>
+      <div class="tl-item"><p class="tl-date">1943/44<small>Ankara</small></p><p>Der Spion „Cicero“ wird mit gefälschten Pfund bezahlt.</p></div>
+      <div class="tl-item"><p class="tl-date">1944<small>Mai</small></p><p>Befehl, auch US-Dollar zu fälschen. Die Häftlinge arbeiten absichtlich langsam.</p></div>
+      <div class="tl-item key"><p class="tl-date">1945<small>März</small></p><p>Die Rote Armee rückt vor. Werkstatt und Häftlinge werden nach Österreich gebracht: Mauthausen, dann Redl-Zipf.</p></div>
+      <div class="tl-item"><p class="tl-date">1945<small>Ende April</small></p><p>Kisten mit Falschgeld und Druckplatten werden im Toplitzsee versenkt.</p></div>
+      <div class="tl-item key"><p class="tl-date">1945<small>5./6. Mai</small></p><p>Die Häftlinge kommen ins Lager Ebensee. US-Truppen befreien sie dort. Die SS kommt nicht mehr dazu, sie zu töten.</p></div>
+      <div class="tl-item"><p class="tl-date">1959<small>Toplitzsee</small></p><p>Taucher im Auftrag der Zeitschrift „Stern“ holen Kisten mit Falschgeld aus dem See.</p></div>
+      <div class="tl-item"><p class="tl-date">2008<small>Los Angeles</small></p><p>„Die Fälscher“ gewinnt den Oscar als bester fremdsprachiger Film.</p></div>
+    </div>
+  </div>
+  </div>
+  <div class="tl-run" id="tlRun" aria-hidden="true"></div>
+</section>
+
+<!-- ================= END / ROUTE ================= -->
+<section id="ende" data-year="1945" class="wide" aria-labelledby="t-end">
+  <div class="section-head col" style="margin-inline:0">
+    <p class="kicker">Standorte · Frühjahr 1945</p>
+    <h2 id="t-end">Die Orte der Fälschung</h2>
+    <p class="lede">Die Spur des Falschgelds führt quer durch Europa. Als die Front näher kam, ließ die SS die Werkstatt abbauen. Maschinen, Geld und Häftlinge gingen auf eine letzte Reise nach Österreich. Wähle einen Ort auf der Karte oder in der Liste.</p>
+  </div>
+  <div class="atlas" id="standorte">
+    <div class="map-box">
+      <svg id="mapSvg" viewBox="0 0 640 720" role="img" aria-label="Karte von Mitteleuropa mit allen Orten der Operation Bernhard und dem Weg der Häftlinge 1945"></svg>
+      <div class="map-legend small muted"><span><i class="lg route"></i> Weg der Häftlinge 1945</span><span><i class="lg dot"></i> Ort (antippen)</span><span><i class="lg area"></i> Deutschland und Österreich</span></div>
+    </div>
+    <div class="places">
+      <div class="place-list" id="placeList" role="list"></div>
+      <div class="place-card" id="placeCard" aria-live="polite"></div>
+    </div>
+  </div>
+  <div class="prose col" style="margin-top:2rem;margin-inline:0">
+    <p>Die SS wollte die Fälscher als Mitwisser beseitigen. Im Lager Ebensee sollten sie getötet werden. Weil ein Lastwagen eine Panne hatte, kam die letzte Gruppe zu spät, und die Mordaktion fand nicht mehr statt. Am 5. und 6. Mai 1945 befreiten amerikanische Soldaten das Lager.</p>
+    <p>Im Toplitzsee, einem tiefen Bergsee im Salzkammergut, versenkte die SS in der Nacht zum 29. April Kisten mit Falschgeld und Druckplatten. Taucher fanden 1959, 1963 und 2000 weitere Kisten. Bis heute ranken sich um den See Gerüchte über einen „Nazi-Schatz“.</p>
+  </div>
+</section>
+
+<!-- ================= AFTER ================= -->
+<section class="col" aria-labelledby="t-after" data-year="nach 1945">
+  <div class="section-head">
+    <p class="kicker">Nach 1945</p>
+    <h2 id="t-after">Was blieb</h2>
+  </div>
+  <div class="prose">
+    <p><strong>Die Bank of England</strong> zog nach dem Krieg alle Noten ab 5 Pfund aus dem Verkehr. Neue Scheine wurden farbig gedruckt und hatten bessere Sicherheitsmerkmale: die neue 5-Pfund-Note 1957, die 10-Pfund-Note 1964, die 20-Pfund-Note 1970 und die 50-Pfund-Note 1981. 2003 gab die Bank zu, dass die Fälschungen die Stabilität des Pfunds im Krieg ernsthaft bedroht hatten.</p>
+    <p><strong>Die Täter</strong> kamen meist ohne Strafe davon. Weder Krüger noch Schwend wurden für die Fälschungen verurteilt.</p>
+    <p><strong>Die Überlebenden</strong> erzählten ihre Geschichte. Adolf Burger tat das bis ins hohe Alter in Schulen. Ohne seine Berichte wüssten wir heute viel weniger über die Werkstatt.</p>
+    <p><strong>Der Film „Die Fälscher“</strong> von Stefan Ruzowitzky (Österreich/Deutschland 2007) erzählt die Geschichte nach. August Diehl spielt Adolf Burger. Der Film gewann 2008 als erster österreichischer Film einen Oscar. Er ist ein Spielfilm, manches ist zugespitzt oder erfunden.</p>
+  </div>
+</section>
+
+<!-- ================= QUIZ ================= -->
+<section id="quiz" class="col" aria-labelledby="t-quiz">
+  <div class="section-head">
+    <p class="kicker">Teste dein Wissen</p>
+    <h2 id="t-quiz">Echt oder falsch?</h2>
+  </div>
+  <div class="quiz" id="quizBox">
+    <div class="q-meta"><span id="qCount">Frage 1 von 10</span><span id="qScore">0 richtig</span></div>
+    <h3 id="qText">…</h3>
+    <div class="answers" id="qAnswers"></div>
+    <p class="explain" id="qExplain" aria-live="polite"></p>
+    <div class="quiz-actions"><button class="btn" id="qNext" disabled>Nächste Frage</button></div>
+  </div>
+</section>
+
+<!-- ================= SOURCES ================= -->
+<section id="quellen" class="col src-section" aria-label="Quellen">
+  <div class="src-btns">
+    <button class="src-toggle" id="srcToggle" aria-expanded="false" aria-controls="srcBody">Quellen anzeigen</button>
+    <button class="src-toggle" id="teamToggle" aria-expanded="false" aria-controls="teamBody">Projektgruppe</button>
+  </div>
+  <div id="teamBody" class="team" hidden>
+    <p class="team-label">Erstellt von</p>
+    <ul class="team-names" translate="no"><li>Jackie</li><li>Arda</li><li>Erdinc</li><li>ron</li></ul>
+    <img class="team-img" src="img/team.webp" width="923" height="1093" loading="lazy" alt="JoJo-Meme „Iced teas, four of 'em“: vier Figuren aus JoJo's Bizarre Adventure an einer Bar, darüber die Namen Jackie, Arda, Erdinc und ron.">
+  </div>
+  <div id="srcBody" hidden>
+  <h2 class="src-h">Quellen</h2>
+  <ol class="sources">
+    <li>Adolf Burger: <em>Des Teufels Werkstatt. Die Geldfälscherwerkstatt im KZ Sachsenhausen.</em> Berlin 1999 (erweiterte Neuausgabe).</li>
+    <li>Lawrence Malkin: <em>Krueger's Men. The Secret Nazi Counterfeit Plot and the Prisoners of Block 19.</em> New York 2006.</li>
+    <li>Florian Osuch: <em>„Blüten“ aus dem KZ. Die Geldfälscheraktion „Operation Bernhard“ im Konzentrationslager Sachsenhausen.</em> Hamburg 2009.</li>
+    <li>Anthony Pirie: <em>Operation Bernhard.</em> London 1961.</li>
+    <li>Moritz Nachtstern: <em>Falskmynter i blokk 19.</em> Oslo 1949 (Erinnerungen eines Häftlings).</li>
+    <li>Stefan Wedrac: <em>Die Brauerei Zipf im Nationalsozialismus.</em> 2021 (zum Außenlager „Schlier“ in Redl-Zipf).</li>
+    <li>KZ-Gedenkstätte Mauthausen: Archiv und Sammlungen zum Außenlager Redl-Zipf („Schlier“). <a href="https://collections.mauthausen-memorial.org/" target="_blank" rel="noopener">collections.mauthausen-memorial.org</a></li>
+    <li>Kartengrundlage: Natural Earth / world-atlas (gemeinfrei).</li>
+    <li>Gedenkstätte und Museum Sachsenhausen: Geschichte des KZ Sachsenhausen 1936–1945. <a href="https://www.sachsenhausen-sbg.de/geschichte/1936-1945-konzentrationslager-sachsenhausen/" target="_blank" rel="noopener">sachsenhausen-sbg.de</a></li>
+    <li>Wikipedia: <a href="https://de.wikipedia.org/wiki/Aktion_Bernhard" target="_blank" rel="noopener">Aktion Bernhard</a>, <a href="https://de.wikipedia.org/wiki/Adolf_Burger" target="_blank" rel="noopener">Adolf Burger</a>, <a href="https://de.wikipedia.org/wiki/Bernhard_Kr%C3%BCger_(SS-Mitglied)" target="_blank" rel="noopener">Bernhard Krüger</a>, <a href="https://en.wikipedia.org/wiki/Operation_Bernhard" target="_blank" rel="noopener">Operation Bernhard (englisch)</a>. Abgerufen am 3. November 2026.</li>
+    <li>Film: <em>Die Fälscher.</em> Regie: Stefan Ruzowitzky. Österreich/Deutschland 2007.</li>
+  </ol>
+  <h3 style="margin:2.4rem 0 .8rem">Bilder (Wikimedia Commons, gemeinfrei)</h3>
+  <ul class="sources small">
+    <li>Fünf-Pfund-Note von 1931 (oben auf der Seite): Bank of England, „Bank of England £5 note 1931.jpg“.</li>
+    <li>Bild der Projektgruppe: Standbild aus „JoJo's Bizarre Adventure: Stardust Crusaders“ (David Production), mit eigenen Namen beschriftet.</li>
+    <li>Bernhard Krüger in britischer Gefangenschaft: British Military, „BernhardCaptivity.jpg“.</li>
+    <li>Adolf Burger, 2006: D. Kraus, „Adolf burger na konferenci 2006.jpg“.</li>
+    <li>Salomon Smolianoff: unbekannter Fotograf, „Portrait photograph of Salomon Smolianoff.jpg“.</li>
+    <li>Alfred Naujocks: U.S. Army, „Alfred Naujocks.jpg“.</li>
+    <li>Elyesa Bazna: unbekannter Fotograf, „Elyesa Bazna.jpg“.</li>
+    <li>Gefälschte 20-Pfund-Note: „20 Pounds, Operation Bernhard (1937).jpg“ (zugeschnitten).</li>
+    <li>KZ Sachsenhausen, Turm A: Cabologist, 2007, „Sachsenhausen Entrance Tower 2007.jpg“.</li>
+    <li>Toplitzsee: Blueangel, „Toplitzsee.jpg“.</li>
+    <li>Lager Ebensee 1945: J. Malan Heslop, US Army Signal Corps, „Ebensee Camp.jpg“.</li>
+  </ul>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script type="application/json" id="geoData">{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"n":"Schweiz","id":"756"},"geometry":{"type":"Polygon","coordinates":[[[9.52,47.52],[9.55,47.51],[9.62,47.47],[9.61,47.39],[9.53,47.27],[9.48,47.17],[9.48,47.1],[9.49,47.06],[9.5,47.06],[9.58,47.06],[9.62,47.06],[9.74,47.04],[9.84,47.01],[9.87,46.98],[9.88,46.94],[10,46.88],[10.13,46.85],[10.18,46.86],[10.35,46.99],[10.42,46.96],[10.46,46.9],[10.45,46.87],[10.41,46.74],[10.4,46.66],[10.44,46.62],[10.44,46.58],[10.43,46.55],[10.36,46.55],[10.27,46.57],[10.2,46.62],[10.14,46.61],[10.09,46.6],[10.06,46.55],[10.04,46.48],[10.05,46.45],[10.08,46.42],[10.11,46.36],[10.13,46.29],[10.15,46.25],[10.13,46.24],[10.08,46.23],[10.04,46.24],[9.97,46.33],[9.94,46.36],[9.88,46.37],[9.79,46.35],[9.64,46.3],[9.58,46.3],[9.53,46.31],[9.48,46.35],[9.44,46.43],[9.43,46.48],[9.4,46.48],[9.3,46.5],[9.26,46.48],[9.26,46.39],[9.25,46.29],[9.2,46.22],[9.07,46.1],[9.02,46.05],[9,46.02],[9,45.98],[9.02,45.93],[9.05,45.88],[9.02,45.85],[8.96,45.83],[8.9,45.86],[8.89,45.92],[8.78,46],[8.83,46.06],[8.82,46.08],[8.64,46.11],[8.57,46.16],[8.46,46.25],[8.44,46.28],[8.44,46.4],[8.44,46.43],[8.42,46.45],[8.37,46.45],[8.3,46.4],[8.23,46.34],[8.09,46.27],[8.08,46.26],[8.13,46.19],[8.12,46.16],[8.02,46.05],[7.99,46.02],[7.85,45.95],[7.79,45.92],[7.59,45.97],[7.54,45.98],[7.45,45.94],[7.33,45.91],[7.13,45.88],[7.05,45.9],[7.02,45.93],[7,45.96],[6.95,46.02],[6.9,46.05],[6.86,46.09],[6.81,46.13],[6.77,46.16],[6.82,46.28],[6.78,46.31],[6.77,46.37],[6.78,46.41],[6.76,46.42],[6.58,46.44],[6.43,46.43],[6.32,46.39],[6.23,46.33],[6.22,46.32],[6.23,46.31],[6.27,46.25],[6.2,46.19],[6.09,46.15],[6.01,46.14],[5.97,46.15],[5.97,46.21],[6.04,46.24],[6.1,46.28],[6.11,46.34],[6.12,46.38],[6.06,46.43],[6.07,46.46],[6.11,46.52],[6.13,46.57],[6.16,46.61],[6.28,46.68],[6.41,46.75],[6.43,46.83],[6.44,46.93],[6.46,46.95],[6.63,47],[6.67,47.03],[6.69,47.06],[6.82,47.16],[6.95,47.27],[6.98,47.3],[7,47.32],[7,47.34],[6.99,47.35],[6.92,47.36],[6.9,47.39],[6.97,47.45],[7.05,47.49],[7.14,47.49],[7.17,47.47],[7.17,47.45],[7.2,47.43],[7.27,47.43],[7.34,47.43],[7.42,47.46],[7.47,47.51],[7.49,47.55],[7.62,47.59],[7.7,47.57],[7.93,47.56],[8.09,47.58],[8.2,47.61],[8.33,47.61],[8.42,47.59],[8.43,47.59],[8.45,47.6],[8.48,47.61],[8.56,47.62],[8.57,47.64],[8.57,47.65],[8.55,47.66],[8.45,47.65],[8.41,47.66],[8.4,47.69],[8.44,47.73],[8.51,47.77],[8.57,47.78],[8.62,47.77],[8.73,47.7],[8.75,47.7],[8.77,47.71],[8.79,47.72],[8.83,47.7],[8.87,47.66],[8.88,47.66],[9.13,47.67],[9.18,47.67],[9.35,47.6],[9.52,47.52]]]}},{"type":"Feature","properties":{"n":"Slowakei","id":"703"},"geometry":{"type":"Polygon","coordinates":[[[22.54,49.07],[22.52,49.03],[22.48,48.98],[22.43,48.93],[22.39,48.87],[22.33,48.75],[22.3,48.69],[22.14,48.57],[22.13,48.41],[22.11,48.39],[21.77,48.34],[21.72,48.35],[21.67,48.38],[21.65,48.4],[21.63,48.42],[21.6,48.46],[21.56,48.5],[21.5,48.52],[21.45,48.55],[21.38,48.55],[21.2,48.51],[21.07,48.51],[20.98,48.52],[20.87,48.55],[20.64,48.55],[20.49,48.53],[20.48,48.5],[20.33,48.3],[20.13,48.22],[19.95,48.15],[19.9,48.13],[19.81,48.16],[19.71,48.2],[19.63,48.22],[19.56,48.21],[19.5,48.16],[19.47,48.11],[19.27,48.07],[18.91,48.05],[18.79,48],[18.75,47.94],[18.75,47.89],[18.78,47.85],[18.74,47.81],[18.73,47.79],[18.48,47.78],[18.15,47.76],[17.95,47.77],[17.76,47.77],[17.63,47.81],[17.48,47.89],[17.32,47.99],[17.3,47.99],[17.28,48],[17.17,48.01],[17.15,48.01],[17.09,48.04],[17.07,48.08],[16.97,48.2],[16.86,48.39],[16.86,48.44],[16.9,48.5],[16.94,48.55],[16.95,48.59],[16.95,48.6],[16.99,48.68],[17.06,48.78],[17.13,48.84],[17.19,48.86],[17.3,48.84],[17.48,48.83],[17.62,48.84],[17.76,48.89],[17.83,48.93],[17.89,48.97],[17.91,49],[17.94,49.01],[18.05,49.04],[18.08,49.07],[18.1,49.12],[18.11,49.18],[18.13,49.23],[18.16,49.26],[18.37,49.34],[18.38,49.36],[18.42,49.39],[18.48,49.42],[18.53,49.46],[18.6,49.49],[18.68,49.49],[18.75,49.49],[18.81,49.51],[18.83,49.51],[18.94,49.5],[18.96,49.45],[18.97,49.4],[19.15,49.4],[19.25,49.51],[19.3,49.53],[19.39,49.56],[19.44,49.6],[19.48,49.58],[19.54,49.5],[19.59,49.45],[19.63,49.42],[19.63,49.41],[19.67,49.4],[19.73,49.39],[19.77,49.37],[19.79,49.32],[19.79,49.27],[19.77,49.24],[19.76,49.2],[19.8,49.19],[19.87,49.2],[19.92,49.22],[20.06,49.18],[20.11,49.27],[20.16,49.32],[20.24,49.34],[20.3,49.37],[20.36,49.38],[20.4,49.38],[20.42,49.39],[20.48,49.39],[20.53,49.38],[20.62,49.39],[20.73,49.37],[20.8,49.33],[20.87,49.32],[20.95,49.32],[21,49.34],[21.08,49.42],[21.14,49.42],[21.22,49.43],[21.35,49.43],[21.64,49.41],[21.71,49.38],[21.89,49.34],[21.97,49.3],[22,49.25],[22.02,49.21],[22.2,49.15],[22.47,49.08],[22.54,49.07]]]}},{"type":"Feature","properties":{"n":"Slowenien","id":"705"},"geometry":{"type":"Polygon","coordinates":[[[16.52,46.5],[16.43,46.52],[16.32,46.53],[16.3,46.52],[16.26,46.51],[16.24,46.48],[16.25,46.39],[16.23,46.37],[16.1,46.38],[16.07,46.37],[16,46.31],[15.93,46.28],[15.85,46.26],[15.78,46.23],[15.71,46.21],[15.64,46.2],[15.61,46.17],[15.59,46.14],[15.6,46.11],[15.67,46.05],[15.68,45.98],[15.67,45.9],[15.65,45.86],[15.63,45.83],[15.45,45.8],[15.28,45.73],[15.27,45.72],[15.35,45.66],[15.36,45.65],[15.29,45.61],[15.28,45.58],[15.29,45.54],[15.33,45.5],[15.34,45.47],[15.24,45.44],[15.11,45.45],[14.96,45.5],[14.9,45.49],[14.85,45.47],[14.79,45.48],[14.73,45.51],[14.65,45.57],[14.61,45.61],[14.59,45.65],[14.57,45.66],[14.54,45.65],[14.51,45.6],[14.43,45.51],[14.37,45.48],[14.28,45.49],[14.16,45.49],[14.09,45.48],[13.99,45.51],[13.97,45.5],[13.97,45.48],[13.93,45.45],[13.88,45.43],[13.61,45.48],[13.58,45.52],[13.64,45.54],[13.72,45.59],[13.78,45.58],[13.84,45.59],[13.88,45.61],[13.83,45.68],[13.72,45.76],[13.66,45.79],[13.58,45.81],[13.57,45.83],[13.61,45.96],[13.6,45.98],[13.51,45.97],[13.49,45.99],[13.48,46.01],[13.49,46.04],[13.55,46.09],[13.62,46.13],[13.64,46.16],[13.63,46.18],[13.55,46.2],[13.49,46.22],[13.45,46.22],[13.42,46.21],[13.4,46.23],[13.38,46.26],[13.4,46.32],[13.48,46.37],[13.56,46.41],[13.64,46.45],[13.68,46.46],[13.7,46.52],[13.74,46.52],[13.83,46.51],[13.93,46.5],[14.02,46.48],[14.1,46.46],[14.27,46.44],[14.42,46.43],[14.47,46.42],[14.5,46.42],[14.55,46.4],[14.58,46.41],[14.6,46.44],[14.68,46.46],[14.76,46.5],[14.81,46.54],[14.84,46.58],[14.89,46.61],[14.95,46.61],[15,46.63],[15.22,46.64],[15.44,46.63],[15.55,46.65],[15.63,46.7],[15.76,46.71],[15.77,46.71],[15.96,46.68],[15.97,46.7],[15.98,46.71],[15.98,46.8],[16.04,46.84],[16.09,46.86],[16.28,46.86],[16.31,46.83],[16.32,46.78],[16.34,46.72],[16.37,46.7],[16.39,46.68],[16.38,46.64],[16.42,46.61],[16.5,46.52],[16.52,46.5]]]}},{"type":"Feature","properties":{"n":"Polen","id":"616"},"geometry":{"type":"Polygon","coordinates":[[[23.6,51.52],[23.66,51.45],[23.68,51.4],[23.66,51.35],[23.66,51.31],[23.71,51.26],[23.86,51.13],[23.94,50.99],[23.99,50.94],[24.1,50.87],[24.1,50.84],[24.06,50.82],[24.02,50.82],[24,50.81],[23.98,50.79],[24.01,50.76],[24.05,50.72],[24.09,50.62],[24.09,50.53],[24.05,50.51],[24,50.46],[23.97,50.41],[23.71,50.38],[23.65,50.33],[23.51,50.23],[23.41,50.17],[23.27,50.07],[23.03,49.9],[22.95,49.83],[22.89,49.77],[22.71,49.61],[22.65,49.54],[22.66,49.48],[22.72,49.35],[22.73,49.29],[22.72,49.24],[22.7,49.19],[22.71,49.17],[22.76,49.14],[22.85,49.08],[22.85,49.06],[22.84,49.04],[22.81,49.02],[22.7,49.04],[22.58,49.08],[22.54,49.07],[22.47,49.08],[22.2,49.15],[22.02,49.21],[22,49.25],[21.97,49.3],[21.89,49.34],[21.71,49.38],[21.64,49.41],[21.35,49.43],[21.22,49.43],[21.14,49.42],[21.08,49.42],[21,49.34],[20.95,49.32],[20.87,49.32],[20.8,49.33],[20.73,49.37],[20.62,49.39],[20.53,49.38],[20.48,49.39],[20.42,49.39],[20.4,49.38],[20.36,49.38],[20.3,49.37],[20.24,49.34],[20.16,49.32],[20.11,49.27],[20.06,49.18],[19.92,49.22],[19.87,49.2],[19.8,49.19],[19.76,49.2],[19.77,49.24],[19.79,49.27],[19.79,49.32],[19.77,49.37],[19.73,49.39],[19.67,49.4],[19.63,49.41],[19.63,49.42],[19.59,49.45],[19.54,49.5],[19.48,49.58],[19.44,49.6],[19.39,49.56],[19.3,49.53],[19.25,49.51],[19.15,49.4],[18.97,49.4],[18.96,49.45],[18.94,49.5],[18.83,49.51],[18.83,49.54],[18.81,49.61],[18.6,49.76],[18.57,49.82],[18.58,49.84],[18.56,49.88],[18.52,49.9],[18.35,49.93],[18.3,49.91],[18.26,49.93],[18.2,49.96],[18.1,49.99],[18.09,50.01],[18.05,50.03],[18.03,50.04],[18.02,50.02],[17.98,50],[17.88,49.97],[17.83,49.98],[17.79,50.01],[17.75,50.06],[17.68,50.1],[17.63,50.12],[17.6,50.14],[17.59,50.16],[17.71,50.19],[17.74,50.23],[17.72,50.3],[17.7,50.31],[17.66,50.28],[17.56,50.26],[17.46,50.25],[17.42,50.25],[17.15,50.38],[16.98,50.42],[16.88,50.43],[16.87,50.41],[16.91,50.34],[16.99,50.26],[16.99,50.24],[16.9,50.2],[16.84,50.19],[16.78,50.16],[16.72,50.12],[16.68,50.1],[16.64,50.1],[16.6,50.12],[16.49,50.25],[16.35,50.34],[16.34,50.37],[16.29,50.37],[16.23,50.39],[16.21,50.42],[16.24,50.45],[16.28,50.48],[16.36,50.5],[16.38,50.52],[16.39,50.54],[16.42,50.57],[16.41,50.58],[16.36,50.62],[16.28,50.66],[16.07,50.63],[16.01,50.61],[15.98,50.63],[15.95,50.67],[15.89,50.68],[15.82,50.71],[15.73,50.74],[15.64,50.75],[15.46,50.79],[15.4,50.8],[15.36,50.81],[15.31,50.85],[15.28,50.88],[15.26,50.96],[15.13,50.99],[14.99,51.01],[14.99,51],[14.99,50.93],[14.98,50.89],[14.9,50.86],[14.81,50.86],[14.82,50.87],[14.92,51.01],[14.96,51.09],[15.02,51.25],[14.95,51.38],[14.93,51.43],[14.91,51.46],[14.73,51.52],[14.71,51.54],[14.74,51.63],[14.73,51.66],[14.68,51.7],[14.63,51.77],[14.6,51.83],[14.68,51.91],[14.69,51.96],[14.73,52.03],[14.75,52.07],[14.75,52.08],[14.7,52.11],[14.69,52.15],[14.7,52.21],[14.68,52.25],[14.61,52.28],[14.57,52.31],[14.55,52.36],[14.57,52.43],[14.62,52.53],[14.51,52.64],[14.25,52.78],[14.13,52.88],[14.14,52.93],[14.19,52.98],[14.29,53.03],[14.37,53.1],[14.41,53.2],[14.41,53.22],[14.42,53.28],[14.3,53.56],[14.28,53.62],[14.27,53.71],[14.26,53.73],[14.49,53.67],[14.58,53.64],[14.57,53.68],[14.55,53.71],[14.56,53.75],[14.56,53.82],[14.35,53.86],[14.21,53.87],[14.2,53.92],[14.21,53.95],[14.25,53.93],[14.38,53.92],[14.72,54.02],[15.29,54.14],[15.9,54.25],[16.04,54.27],[16.19,54.29],[16.24,54.33],[16.29,54.36],[16.37,54.44],[16.56,54.55],[16.89,54.6],[17.01,54.65],[17.26,54.73],[17.84,54.82],[18.08,54.84],[18.32,54.84],[18.53,54.77],[18.76,54.68],[18.8,54.63],[18.68,54.67],[18.5,54.74],[18.44,54.75],[18.59,54.51],[18.67,54.43],[18.84,54.37],[18.98,54.35],[19.41,54.39],[19.56,54.43],[19.6,54.46],[19.64,54.45],[19.92,54.43],[20.21,54.42],[20.67,54.41],[21.14,54.39],[21.63,54.38],[22.17,54.36],[22.73,54.35],[22.76,54.36],[22.82,54.4],[22.89,54.39],[22.98,54.37],[23.02,54.35],[23.03,54.33],[23.04,54.3],[23.09,54.3],[23.17,54.28],[23.28,54.24],[23.37,54.2],[23.45,54.14],[23.48,54.08],[23.48,54.01],[23.48,53.96],[23.48,53.94],[23.6,53.6],[23.79,53.27],[23.86,53.11],[23.89,53.03],[23.91,52.91],[23.92,52.82],[23.92,52.77],[23.9,52.7],[23.84,52.66],[23.48,52.55],[23.41,52.52],[23.3,52.43],[23.2,52.34],[23.18,52.31],[23.18,52.29],[23.2,52.26],[23.33,52.21],[23.46,52.17],[23.5,52.14],[23.6,52.1],[23.63,52.07],[23.65,52.04],[23.65,51.97],[23.61,51.88],[23.63,51.81],[23.58,51.76],[23.55,51.71],[23.54,51.62],[23.6,51.52]]]}},{"type":"Feature","properties":{"n":"Niederlande","id":"528"},"geometry":{"type":"MultiPolygon","coordinates":[[[[5.99,50.75],[5.89,50.75],[5.8,50.75],[5.75,50.76],[5.69,50.78],[5.67,50.81],[5.64,50.84],[5.65,50.87],[5.74,50.93],[5.75,50.95],[5.74,50.96],[5.75,50.99],[5.82,51.09],[5.83,51.13],[5.8,51.15],[5.75,51.17],[5.61,51.2],[5.54,51.24],[5.51,51.28],[5.48,51.29],[5.43,51.27],[5.31,51.26],[5.21,51.28],[5.1,51.35],[5.07,51.41],[5.06,51.45],[5.03,51.47],[4.99,51.45],[4.94,51.41],[4.85,51.4],[4.82,51.41],[4.82,51.43],[4.81,51.45],[4.78,51.48],[4.76,51.49],[4.64,51.42],[4.59,51.42],[4.53,51.45],[4.5,51.47],[4.44,51.46],[4.38,51.43],[4.4,51.37],[4.37,51.36],[4.3,51.36],[4.22,51.39],[4.14,51.4],[4.01,51.44],[3.82,51.41],[3.69,51.45],[3.59,51.45],[3.52,51.49],[3.45,51.54],[3.5,51.58],[3.55,51.59],[3.74,51.6],[3.89,51.57],[4.14,51.46],[4.21,51.46],[4.28,51.47],[4.24,51.5],[4.17,51.52],[4.08,51.55],[4.01,51.6],[4.18,51.61],[4.16,51.63],[4.13,51.67],[3.95,51.81],[3.98,51.85],[4.03,51.93],[4.08,51.99],[4.13,52.01],[4.21,52.06],[4.38,52.2],[4.48,52.31],[4.56,52.44],[4.68,52.81],[4.71,52.87],[4.77,52.94],[4.84,52.93],[4.89,52.91],[5.06,52.96],[5.36,53.1],[5.45,53.21],[5.53,53.27],[5.87,53.38],[6.06,53.41],[6.35,53.42],[6.56,53.43],[6.82,53.44],[6.91,53.38],[6.97,53.33],[7.06,53.3],[7.2,53.28],[7.19,53.19],[7.19,53],[7.18,52.97],[7.12,52.89],[7.05,52.75],[7.03,52.65],[7.01,52.63],[6.75,52.63],[6.71,52.62],[6.71,52.6],[6.72,52.57],[6.71,52.55],[6.69,52.53],[6.7,52.5],[6.75,52.46],[6.83,52.44],[6.92,52.44],[6.97,52.44],[7,52.42],[7.04,52.38],[7.03,52.33],[7.02,52.27],[6.98,52.21],[6.86,52.14],[6.8,52.11],[6.75,52.1],[6.72,52.08],[6.71,52.06],[6.72,52.04],[6.8,51.98],[6.8,51.97],[6.77,51.94],[6.74,51.91],[6.52,51.85],[6.42,51.86],[6.37,51.83],[6.36,51.82],[6.3,51.85],[6.17,51.88],[6.12,51.87],[6.09,51.85],[6.01,51.83],[5.95,51.8],[5.95,51.76],[6.05,51.66],[6.09,51.64],[6.09,51.6],[6.14,51.55],[6.19,51.49],[6.2,51.45],[6.19,51.41],[6.17,51.36],[6.08,51.22],[6.08,51.2],[6.08,51.18],[6.11,51.17],[6.14,51.16],[6.13,51.15],[5.96,51.06],[5.94,51.04],[5.87,51.05],[5.86,51.03],[5.87,51.01],[5.9,50.98],[5.96,50.97],[6.01,50.95],[6.05,50.91],[5.99,50.75]]],[[[4.22,51.39],[4.21,51.35],[4.17,51.31],[4.04,51.25],[3.9,51.21],[3.83,51.21],[3.78,51.23],[3.76,51.25],[3.68,51.28],[3.58,51.29],[3.52,51.26],[3.47,51.24],[3.43,51.25],[3.4,51.26],[3.38,51.29],[3.35,51.38],[3.43,51.39],[3.59,51.4],[3.72,51.37],[3.88,51.36],[4.01,51.4],[4.11,51.36],[4.22,51.39]]],[[[6.33,53.51],[6.19,53.48],[6.16,53.48],[6.17,53.49],[6.29,53.51],[6.33,53.51]]],[[[5.93,53.46],[5.73,53.44],[5.66,53.46],[5.65,53.47],[5.71,53.47],[5.88,53.47],[5.93,53.46],[5.93,53.46]]],[[[5.11,53.31],[4.92,53.24],[4.91,53.25],[5.03,53.31],[5.11,53.31]]],[[[5.33,53.39],[5.23,53.38],[5.19,53.39],[5.42,53.43],[5.56,53.44],[5.58,53.44],[5.33,53.39]]],[[[4.89,53.07],[4.79,53],[4.73,53.02],[4.71,53.04],[4.74,53.09],[4.89,53.18],[4.89,53.07]]],[[[3.95,51.74],[4.05,51.68],[4.07,51.67],[4.07,51.65],[3.95,51.63],[3.82,51.69],[3.73,51.68],[3.7,51.71],[3.7,51.73],[3.79,51.75],[3.95,51.74]]],[[[6.73,53.58],[6.64,53.58],[6.67,53.6],[6.76,53.63],[6.8,53.63],[6.73,53.58]]],[[[-68.2,12.14],[-68.25,12.03],[-68.28,12.08],[-68.29,12.17],[-68.31,12.21],[-68.35,12.23],[-68.37,12.26],[-68.37,12.3],[-68.22,12.23],[-68.2,12.14]]],[[[-62.94,17.5],[-62.96,17.48],[-62.98,17.48],[-63,17.5],[-63,17.53],[-62.98,17.52],[-62.97,17.52],[-62.97,17.51],[-62.94,17.5]]],[[[-63.23,17.62],[-63.24,17.62],[-63.25,17.63],[-63.25,17.65],[-63.24,17.65],[-63.23,17.65],[-63.23,17.63],[-63.23,17.62]]]]}},{"type":"Feature","properties":{"n":"Luxemburg","id":"442"},"geometry":{"type":"Polygon","coordinates":[[[6.12,50.12],[6.11,50.09],[6.11,50.03],[6.14,49.97],[6.2,49.92],[6.26,49.87],[6.32,49.84],[6.44,49.8],[6.49,49.8],[6.49,49.75],[6.49,49.71],[6.45,49.68],[6.41,49.65],[6.38,49.6],[6.35,49.51],[6.35,49.45],[6.28,49.48],[6.24,49.49],[6.18,49.5],[6.12,49.49],[6.08,49.45],[6.01,49.45],[5.96,49.45],[5.93,49.48],[5.9,49.49],[5.82,49.5],[5.79,49.54],[5.82,49.55],[5.84,49.58],[5.86,49.61],[5.88,49.65],[5.81,49.73],[5.79,49.76],[5.73,49.81],[5.73,49.83],[5.74,49.86],[5.74,49.88],[5.74,49.92],[5.79,49.96],[5.82,50.01],[5.87,50.08],[5.98,50.17],[6.05,50.15],[6.09,50.15],[6.11,50.12],[6.12,50.12]]]}},{"type":"Feature","properties":{"n":"Liechtenstein","id":"438"},"geometry":{"type":"Polygon","coordinates":[[[9.58,47.06],[9.5,47.06],[9.49,47.06],[9.48,47.1],[9.48,47.17],[9.53,47.27],[9.54,47.25],[9.54,47.23],[9.55,47.21],[9.56,47.19],[9.57,47.16],[9.6,47.13],[9.61,47.11],[9.6,47.08],[9.58,47.06]]]}},{"type":"Feature","properties":{"n":"Italien","id":"380"},"geometry":{"type":"MultiPolygon","coordinates":[[[[7.02,45.93],[7.05,45.9],[7.13,45.88],[7.33,45.91],[7.45,45.94],[7.54,45.98],[7.59,45.97],[7.79,45.92],[7.85,45.95],[7.99,46.02],[8.02,46.05],[8.12,46.16],[8.13,46.19],[8.08,46.26],[8.09,46.27],[8.23,46.34],[8.3,46.4],[8.37,46.45],[8.42,46.45],[8.44,46.43],[8.44,46.4],[8.44,46.28],[8.46,46.25],[8.57,46.16],[8.64,46.11],[8.82,46.08],[8.83,46.06],[8.78,46],[8.89,45.92],[8.9,45.86],[8.96,45.83],[9.02,45.85],[9.05,45.88],[9.02,45.93],[9,45.98],[9,46.02],[9.02,46.05],[9.07,46.1],[9.2,46.22],[9.25,46.29],[9.26,46.39],[9.26,46.48],[9.3,46.5],[9.4,46.48],[9.43,46.48],[9.44,46.43],[9.48,46.35],[9.53,46.31],[9.58,46.3],[9.64,46.3],[9.79,46.35],[9.88,46.37],[9.94,46.36],[9.97,46.33],[10.04,46.24],[10.08,46.23],[10.13,46.24],[10.15,46.25],[10.13,46.29],[10.11,46.36],[10.08,46.42],[10.05,46.45],[10.04,46.48],[10.06,46.55],[10.09,46.6],[10.14,46.61],[10.2,46.62],[10.27,46.57],[10.36,46.55],[10.43,46.55],[10.44,46.58],[10.44,46.62],[10.4,46.66],[10.41,46.74],[10.45,46.87],[10.48,46.86],[10.58,46.85],[10.69,46.85],[10.76,46.79],[10.83,46.78],[10.93,46.77],[10.99,46.78],[11.03,46.8],[11.06,46.86],[11.13,46.94],[11.24,46.98],[11.43,46.98],[11.53,47],[11.63,47],[11.7,46.98],[11.77,46.99],[11.97,47.04],[12.17,47.08],[12.2,47.08],[12.2,47.06],[12.17,47.03],[12.13,46.99],[12.16,46.94],[12.27,46.84],[12.33,46.76],[12.39,46.7],[12.48,46.67],[12.6,46.65],[12.7,46.65],[12.81,46.63],[13.17,46.57],[13.35,46.56],[13.49,46.56],[13.7,46.52],[13.68,46.46],[13.64,46.45],[13.56,46.41],[13.48,46.37],[13.4,46.32],[13.38,46.26],[13.4,46.23],[13.42,46.21],[13.45,46.22],[13.49,46.22],[13.55,46.2],[13.63,46.18],[13.64,46.16],[13.62,46.13],[13.55,46.09],[13.49,46.04],[13.48,46.01],[13.49,45.99],[13.51,45.97],[13.6,45.98],[13.61,45.96],[13.57,45.83],[13.58,45.81],[13.66,45.79],[13.72,45.76],[13.83,45.68],[13.88,45.61],[13.84,45.59],[13.78,45.58],[13.72,45.59],[13.78,45.63],[13.63,45.77],[13.56,45.77],[13.47,45.71],[13.21,45.77],[13.16,45.75],[13.12,45.7],[13.03,45.64],[12.9,45.61],[12.76,45.54],[12.61,45.5],[12.5,45.46],[12.43,45.47],[12.54,45.54],[12.49,45.55],[12.35,45.49],[12.27,45.45],[12.25,45.37],[12.22,45.24],[12.29,45.21],[12.39,45.04],[12.52,44.97],[12.5,44.9],[12.47,44.85],[12.39,44.8],[12.32,44.83],[12.28,44.83],[12.25,44.72],[12.31,44.43],[12.4,44.22],[12.49,44.14],[12.69,43.99],[12.91,43.92],[13.3,43.69],[13.51,43.61],[13.56,43.57],[13.69,43.39],[13.8,43.18],[13.92,42.85],[14.01,42.69],[14.18,42.51],[14.54,42.24],[14.87,42.05],[15.17,41.93],[15.41,41.91],[15.96,41.94],[16.06,41.93],[16.17,41.9],[16.19,41.81],[16.15,41.76],[16.03,41.7],[15.91,41.62],[15.9,41.51],[16.01,41.44],[16.55,41.23],[17.1,41.06],[17.27,40.98],[17.47,40.84],[17.96,40.65],[18.03,40.56],[18.33,40.37],[18.46,40.22],[18.48,40.1],[18.42,39.99],[18.39,39.9],[18.34,39.82],[18.22,39.85],[18.08,39.94],[17.87,40.28],[17.48,40.31],[17.4,40.34],[17.26,40.4],[17.25,40.44],[17.21,40.49],[17.18,40.5],[17.03,40.51],[16.93,40.46],[16.81,40.33],[16.67,40.14],[16.53,39.86],[16.52,39.75],[16.6,39.64],[16.82,39.58],[17,39.48],[17.11,39.38],[17.12,39.14],[17.17,39],[17.1,38.92],[16.95,38.94],[16.76,38.89],[16.62,38.8],[16.56,38.72],[16.57,38.49],[16.54,38.41],[16.28,38.25],[16.14,38.09],[16.11,38.02],[16.06,37.94],[15.72,37.94],[15.65,38.03],[15.64,38.18],[15.7,38.26],[15.82,38.3],[15.9,38.48],[15.88,38.61],[15.93,38.67],[15.97,38.71],[16.07,38.74],[16.2,38.76],[16.21,38.94],[16.11,39.02],[16.07,39.14],[16.02,39.35],[15.85,39.63],[15.76,39.87],[15.69,39.99],[15.59,40.05],[15.39,40.05],[15.29,40.07],[14.95,40.24],[14.93,40.27],[14.93,40.31],[14.99,40.38],[14.95,40.47],[14.91,40.56],[14.84,40.63],[14.77,40.67],[14.61,40.64],[14.56,40.63],[14.46,40.63],[14.38,40.6],[14.34,40.6],[14.46,40.73],[14.43,40.76],[14.31,40.81],[14.15,40.82],[14.1,40.83],[14.07,40.79],[14.05,40.81],[14.05,40.87],[13.86,41.13],[13.73,41.24],[13.67,41.26],[13.56,41.23],[13.36,41.28],[13.25,41.29],[13.19,41.28],[13.09,41.24],[13.04,41.27],[13.02,41.3],[12.85,41.41],[12.63,41.47],[12.21,41.81],[12.08,41.94],[11.81,42.08],[11.64,42.29],[11.5,42.36],[11.3,42.42],[11.25,42.42],[11.19,42.39],[11.14,42.39],[11.1,42.42],[11.14,42.44],[11.18,42.46],[11.17,42.53],[10.94,42.74],[10.8,42.8],[10.77,42.85],[10.74,42.9],[10.71,42.94],[10.64,42.96],[10.59,42.95],[10.51,42.97],[10.52,43.07],[10.53,43.14],[10.52,43.2],[10.45,43.37],[10.32,43.51],[10.25,43.85],[10.19,43.95],[10.05,44.02],[9.73,44.1],[9.29,44.32],[9.2,44.32],[8.93,44.41],[8.76,44.42],[8.55,44.35],[8.29,44.14],[8.08,43.92],[8,43.88],[7.73,43.8],[7.49,43.77],[7.49,43.82],[7.48,43.86],[7.52,43.91],[7.59,43.96],[7.65,44.03],[7.68,44.08],[7.67,44.12],[7.64,44.16],[7.6,44.17],[7.37,44.13],[7.32,44.14],[7.15,44.2],[6.97,44.28],[6.9,44.34],[6.87,44.39],[6.89,44.43],[6.88,44.46],[6.84,44.51],[6.87,44.56],[6.93,44.63],[6.96,44.68],[7.01,44.69],[7.03,44.72],[6.99,44.83],[6.97,44.85],[6.94,44.86],[6.89,44.86],[6.8,44.88],[6.74,44.92],[6.72,44.97],[6.69,45.02],[6.63,45.07],[6.63,45.12],[6.69,45.14],[6.78,45.15],[6.84,45.13],[6.98,45.21],[7.03,45.22],[7.08,45.24],[7.12,45.35],[7.15,45.38],[7.16,45.4],[7.13,45.42],[7.01,45.5],[6.96,45.58],[6.88,45.67],[6.81,45.71],[6.79,45.74],[6.79,45.78],[6.81,45.81],[6.94,45.87],[7.02,45.93]],[[12.44,41.9],[12.44,41.91],[12.43,41.91],[12.43,41.9],[12.43,41.9],[12.44,41.9]],[[12.49,43.9],[12.52,43.95],[12.5,43.99],[12.44,43.98],[12.4,43.94],[12.43,43.89],[12.49,43.9]]],[[[10.4,42.86],[10.43,42.82],[10.43,42.8],[10.41,42.77],[10.42,42.71],[10.33,42.76],[10.21,42.74],[10.13,42.74],[10.11,42.78],[10.13,42.81],[10.25,42.82],[10.29,42.83],[10.36,42.82],[10.4,42.86]]],[[[13.94,40.71],[13.89,40.7],[13.87,40.71],[13.85,40.72],[13.87,40.76],[13.96,40.74],[13.96,40.72],[13.94,40.71]]],[[[12.05,36.76],[12,36.75],[11.94,36.78],[11.94,36.83],[11.95,36.84],[12.03,36.82],[12.05,36.78],[12.05,36.76]]],[[[15.58,38.22],[15.51,38.11],[15.47,38.06],[15.23,37.78],[15.21,37.72],[15.19,37.65],[15.17,37.59],[15.13,37.53],[15.1,37.46],[15.1,37.38],[15.12,37.34],[15.15,37.31],[15.19,37.28],[15.23,37.24],[15.17,37.21],[15.24,37.14],[15.29,37.1],[15.29,37.06],[15.29,37.01],[15.19,36.93],[15.14,36.89],[15.11,36.84],[15.1,36.78],[15.11,36.74],[15.11,36.69],[15,36.69],[14.89,36.72],[14.78,36.71],[14.61,36.77],[14.56,36.78],[14.5,36.8],[14.37,36.97],[14.26,37.05],[14.14,37.1],[14.02,37.11],[13.91,37.1],[13.8,37.14],[13.59,37.25],[13.36,37.35],[13.26,37.41],[13.22,37.45],[13.17,37.48],[13.04,37.51],[12.92,37.57],[12.87,37.57],[12.76,37.57],[12.7,37.57],[12.64,37.59],[12.53,37.67],[12.45,37.77],[12.44,37.82],[12.49,37.94],[12.55,38.05],[12.6,38.09],[12.66,38.11],[12.7,38.14],[12.74,38.18],[12.85,38.06],[12.9,38.03],[12.95,38.04],[13.05,38.08],[13.06,38.13],[13.16,38.19],[13.29,38.19],[13.35,38.18],[13.38,38.13],[13.43,38.11],[13.49,38.1],[13.68,38],[13.74,37.98],[13.79,37.98],[13.94,38.02],[14.05,38.04],[14.29,38.02],[14.42,38.04],[14.51,38.05],[14.64,38.09],[14.74,38.15],[14.79,38.17],[14.84,38.17],[14.98,38.17],[15.12,38.15],[15.18,38.17],[15.22,38.21],[15.28,38.23],[15.34,38.22],[15.5,38.29],[15.57,38.3],[15.63,38.27],[15.58,38.22]]],[[[9.63,40.88],[9.68,40.82],[9.79,40.56],[9.8,40.5],[9.78,40.44],[9.75,40.4],[9.64,40.27],[9.66,40.16],[9.7,40.09],[9.71,40.02],[9.69,39.92],[9.62,39.35],[9.59,39.25],[9.56,39.17],[9.49,39.14],[9.39,39.17],[9.26,39.22],[9.21,39.21],[9.15,39.2],[9.1,39.21],[9.06,39.24],[9.02,39.04],[8.97,38.96],[8.88,38.91],[8.8,38.91],[8.72,38.93],[8.65,38.93],[8.6,38.96],[8.55,39.03],[8.49,39.11],[8.42,39.21],[8.41,39.29],[8.4,39.48],[8.42,39.52],[8.45,39.56],[8.46,39.65],[8.45,39.72],[8.47,39.75],[8.51,39.72],[8.54,39.73],[8.54,39.77],[8.55,39.84],[8.49,39.9],[8.41,39.92],[8.4,39.98],[8.41,40.04],[8.45,40.08],[8.47,40.13],[8.47,40.29],[8.41,40.35],[8.39,40.44],[8.35,40.5],[8.3,40.56],[8.23,40.61],[8.19,40.65],[8.18,40.77],[8.2,40.87],[8.22,40.91],[8.25,40.91],[8.31,40.86],[8.36,40.85],[8.47,40.83],[8.57,40.85],[8.7,40.9],[8.82,40.95],[9,41.11],[9.11,41.14],[9.16,41.19],[9.18,41.24],[9.23,41.26],[9.28,41.2],[9.35,41.2],[9.46,41.15],[9.5,41.11],[9.54,41.05],[9.57,41.03],[9.61,41.02],[9.62,41.01],[9.59,40.99],[9.55,40.93],[9.57,40.91],[9.63,40.88]]],[[[8.48,39.07],[8.42,38.97],[8.36,39.04],[8.36,39.1],[8.37,39.12],[8.44,39.09],[8.48,39.07]]],[[[8.29,41.04],[8.25,40.99],[8.21,41],[8.22,41.03],[8.27,41.1],[8.32,41.12],[8.34,41.1],[8.32,41.06],[8.29,41.04]]]]}},{"type":"Feature","properties":{"n":"Ungarn","id":"348"},"geometry":{"type":"Polygon","coordinates":[[[22.13,48.41],[22.23,48.41],[22.23,48.41],[22.25,48.41],[22.27,48.36],[22.27,48.36],[22.3,48.33],[22.32,48.29],[22.35,48.26],[22.42,48.24],[22.52,48.21],[22.58,48.13],[22.67,48.1],[22.68,48.1],[22.7,48.11],[22.77,48.11],[22.78,48.09],[22.84,48.06],[22.86,48.03],[22.85,48],[22.85,47.96],[22.88,47.95],[22.85,47.92],[22.68,47.8],[22.61,47.77],[22.56,47.76],[22.49,47.77],[22.42,47.76],[22.35,47.74],[22.29,47.73],[22.25,47.7],[22.19,47.63],[22.11,47.57],[22.04,47.54],[22,47.5],[21.99,47.4],[21.95,47.36],[21.9,47.33],[21.87,47.3],[21.79,47.14],[21.72,47.08],[21.66,47.04],[21.65,47.01],[21.65,46.96],[21.58,46.88],[21.49,46.79],[21.48,46.75],[21.5,46.7],[21.41,46.65],[21.36,46.62],[21.32,46.61],[21.3,46.57],[21.25,46.49],[21.26,46.45],[21.26,46.41],[21.19,46.39],[21.17,46.35],[21.15,46.31],[21.12,46.28],[21.04,46.24],[20.84,46.26],[20.76,46.25],[20.74,46.22],[20.73,46.19],[20.71,46.17],[20.66,46.15],[20.61,46.13],[20.51,46.17],[20.28,46.13],[20.24,46.11],[20.21,46.13],[20.16,46.14],[19.94,46.16],[19.85,46.15],[19.72,46.15],[19.61,46.17],[19.53,46.16],[19.46,46.09],[19.42,46.06],[19.39,46.05],[19.33,46.03],[19.28,46],[19.21,45.98],[19.15,45.99],[19.09,46.02],[19.07,46.01],[19.05,45.98],[19.02,45.96],[18.93,45.93],[18.91,45.93],[18.9,45.93],[18.83,45.91],[18.72,45.9],[18.66,45.91],[18.56,45.81],[18.53,45.8],[18.44,45.77],[18.36,45.75],[18.29,45.77],[18.26,45.77],[17.96,45.77],[17.81,45.79],[17.71,45.83],[17.64,45.87],[17.61,45.91],[17.53,45.94],[17.41,45.95],[17.31,46],[17.24,46.08],[17.15,46.14],[17.03,46.19],[16.94,46.25],[16.87,46.34],[16.75,46.42],[16.57,46.49],[16.52,46.5],[16.5,46.52],[16.42,46.61],[16.38,46.64],[16.39,46.68],[16.37,46.7],[16.34,46.72],[16.32,46.78],[16.31,46.83],[16.28,46.86],[16.09,46.86],[16.25,46.97],[16.33,47],[16.43,47],[16.45,47.01],[16.46,47.02],[16.48,47.06],[16.49,47.09],[16.49,47.12],[16.48,47.14],[16.44,47.15],[16.42,47.22],[16.44,47.25],[16.46,47.27],[16.44,47.37],[16.44,47.4],[16.52,47.4],[16.57,47.42],[16.62,47.45],[16.64,47.48],[16.68,47.54],[16.64,47.61],[16.43,47.66],[16.42,47.67],[16.47,47.7],[16.52,47.73],[16.55,47.75],[16.59,47.75],[16.65,47.74],[16.75,47.69],[16.79,47.68],[16.82,47.69],[16.86,47.7],[16.97,47.7],[17.07,47.71],[17.04,47.76],[17.04,47.8],[17.03,47.84],[17.04,47.87],[17.08,47.9],[17.09,47.96],[17.15,48.01],[17.17,48.01],[17.28,48],[17.3,47.99],[17.32,47.99],[17.48,47.89],[17.63,47.81],[17.76,47.77],[17.95,47.77],[18.15,47.76],[18.48,47.78],[18.73,47.79],[18.74,47.81],[18.78,47.85],[18.75,47.89],[18.75,47.94],[18.79,48],[18.91,48.05],[19.27,48.07],[19.47,48.11],[19.5,48.16],[19.56,48.21],[19.63,48.22],[19.71,48.2],[19.81,48.16],[19.9,48.13],[19.95,48.15],[20.13,48.22],[20.33,48.3],[20.48,48.5],[20.49,48.53],[20.64,48.55],[20.87,48.55],[20.98,48.52],[21.07,48.51],[21.2,48.51],[21.38,48.55],[21.45,48.55],[21.5,48.52],[21.56,48.5],[21.6,48.46],[21.63,48.42],[21.65,48.4],[21.67,48.38],[21.72,48.35],[21.77,48.34],[22.11,48.39],[22.13,48.41]]]}},{"type":"Feature","properties":{"n":"Deutschland","id":"276"},"geometry":{"type":"MultiPolygon","coordinates":[[[[9.52,47.52],[9.35,47.6],[9.18,47.67],[9.13,47.67],[8.88,47.66],[8.87,47.66],[8.83,47.7],[8.79,47.72],[8.77,47.71],[8.75,47.7],[8.73,47.7],[8.62,47.77],[8.57,47.78],[8.51,47.77],[8.44,47.73],[8.4,47.69],[8.41,47.66],[8.45,47.65],[8.55,47.66],[8.57,47.65],[8.57,47.64],[8.56,47.62],[8.48,47.61],[8.45,47.6],[8.43,47.59],[8.42,47.59],[8.33,47.61],[8.2,47.61],[8.09,47.58],[7.93,47.56],[7.7,47.57],[7.62,47.59],[7.57,47.61],[7.53,47.67],[7.54,47.77],[7.59,47.91],[7.61,48],[7.58,48.06],[7.62,48.16],[7.71,48.28],[7.76,48.41],[7.8,48.55],[7.84,48.64],[7.92,48.7],[8.12,48.87],[8.14,48.89],[8.13,48.97],[8.08,48.99],[8,49.01],[7.8,49.04],[7.61,49.06],[7.53,49.09],[7.45,49.15],[7.4,49.15],[7.31,49.13],[7.2,49.11],[7.12,49.13],[7.07,49.12],[7.04,49.11],[7.02,49.12],[7,49.18],[6.96,49.2],[6.89,49.21],[6.85,49.2],[6.82,49.17],[6.78,49.15],[6.73,49.16],[6.61,49.29],[6.58,49.32],[6.56,49.35],[6.54,49.4],[6.46,49.44],[6.38,49.46],[6.35,49.45],[6.35,49.51],[6.38,49.6],[6.41,49.65],[6.45,49.68],[6.49,49.71],[6.49,49.75],[6.49,49.8],[6.44,49.8],[6.32,49.84],[6.26,49.87],[6.2,49.92],[6.14,49.97],[6.11,50.03],[6.11,50.09],[6.12,50.12],[6.12,50.14],[6.18,50.23],[6.36,50.32],[6.35,50.4],[6.34,50.45],[6.29,50.49],[6.2,50.5],[6.18,50.52],[6.17,50.55],[6.24,50.6],[6.15,50.64],[6.12,50.68],[6.01,50.73],[5.99,50.75],[6.05,50.91],[6.01,50.95],[5.96,50.97],[5.9,50.98],[5.87,51.01],[5.86,51.03],[5.87,51.05],[5.94,51.04],[5.96,51.06],[6.13,51.15],[6.14,51.16],[6.11,51.17],[6.08,51.18],[6.08,51.2],[6.08,51.22],[6.17,51.36],[6.19,51.41],[6.2,51.45],[6.19,51.49],[6.14,51.55],[6.09,51.6],[6.09,51.64],[6.05,51.66],[5.95,51.76],[5.95,51.8],[6.01,51.83],[6.09,51.85],[6.12,51.87],[6.17,51.88],[6.3,51.85],[6.36,51.82],[6.37,51.83],[6.42,51.86],[6.52,51.85],[6.74,51.91],[6.77,51.94],[6.8,51.97],[6.8,51.98],[6.72,52.04],[6.71,52.06],[6.72,52.08],[6.75,52.1],[6.8,52.11],[6.86,52.14],[6.98,52.21],[7.02,52.27],[7.03,52.33],[7.04,52.38],[7,52.42],[6.97,52.44],[6.92,52.44],[6.83,52.44],[6.75,52.46],[6.7,52.5],[6.69,52.53],[6.71,52.55],[6.72,52.57],[6.71,52.6],[6.71,52.62],[6.75,52.63],[7.01,52.63],[7.03,52.65],[7.05,52.75],[7.12,52.89],[7.18,52.97],[7.19,53],[7.19,53.19],[7.2,53.28],[7.15,53.33],[7.05,53.38],[7.08,53.48],[7.11,53.56],[7.21,53.66],[7.28,53.68],[7.63,53.7],[8.01,53.69],[8.17,53.54],[8.11,53.47],[8.2,53.43],[8.25,53.45],[8.28,53.51],[8.3,53.58],[8.33,53.61],[8.45,53.55],[8.49,53.51],[8.49,53.39],[8.54,53.56],[8.51,53.67],[8.53,53.78],[8.58,53.84],[8.62,53.88],[8.9,53.84],[9.21,53.86],[9.32,53.81],[9.59,53.6],[9.67,53.57],[9.78,53.55],[9.63,53.6],[9.31,53.86],[9.22,53.89],[9.07,53.9],[8.98,53.93],[8.92,53.97],[8.9,54],[8.91,54.26],[8.85,54.3],[8.78,54.31],[8.74,54.3],[8.65,54.29],[8.63,54.35],[8.65,54.4],[8.83,54.43],[8.95,54.47],[8.96,54.54],[8.88,54.59],[8.79,54.7],[8.68,54.79],[8.67,54.9],[8.86,54.9],[8.9,54.9],[9.19,54.84],[9.25,54.81],[9.34,54.81],[9.5,54.84],[9.62,54.85],[9.66,54.83],[9.73,54.83],[9.74,54.83],[9.75,54.81],[9.89,54.78],[9.95,54.74],[10.02,54.67],[10.03,54.58],[9.94,54.51],[9.87,54.47],[10.14,54.49],[10.17,54.45],[10.21,54.41],[10.36,54.44],[10.73,54.32],[10.96,54.38],[11.01,54.38],[11.06,54.28],[11.01,54.18],[10.81,54.08],[10.86,54.01],[10.92,54],[11.1,54.01],[11.4,53.95],[11.46,53.96],[11.7,54.11],[11.8,54.14],[12.11,54.17],[12.17,54.23],[12.3,54.28],[12.38,54.35],[12.58,54.47],[12.78,54.45],[12.9,54.42],[13.03,54.41],[13.15,54.28],[13.45,54.14],[13.73,54.15],[13.82,54.02],[13.87,53.85],[13.95,53.8],[14.02,53.77],[14.25,53.73],[14.26,53.73],[14.27,53.71],[14.28,53.62],[14.3,53.56],[14.42,53.28],[14.41,53.22],[14.41,53.2],[14.37,53.1],[14.29,53.03],[14.19,52.98],[14.14,52.93],[14.13,52.88],[14.25,52.78],[14.51,52.64],[14.62,52.53],[14.57,52.43],[14.55,52.36],[14.57,52.31],[14.61,52.28],[14.68,52.25],[14.7,52.21],[14.69,52.15],[14.7,52.11],[14.75,52.08],[14.75,52.07],[14.73,52.03],[14.69,51.96],[14.68,51.91],[14.6,51.83],[14.63,51.77],[14.68,51.7],[14.73,51.66],[14.74,51.63],[14.71,51.54],[14.73,51.52],[14.91,51.46],[14.93,51.43],[14.95,51.38],[15.02,51.25],[14.96,51.09],[14.92,51.01],[14.82,50.87],[14.81,50.86],[14.8,50.84],[14.77,50.82],[14.72,50.82],[14.66,50.83],[14.61,50.86],[14.63,50.91],[14.6,50.92],[14.56,50.95],[14.55,50.99],[14.51,51.01],[14.37,51.03],[14.32,51.04],[14.28,51.03],[14.25,51],[14.27,50.98],[14.3,50.95],[14.38,50.91],[14.37,50.9],[14.2,50.86],[14.1,50.82],[14,50.8],[13.9,50.76],[13.7,50.72],[13.56,50.7],[13.53,50.69],[13.47,50.62],[13.44,50.6],[13.4,50.61],[13.38,50.62],[13.34,50.61],[13.31,50.59],[13.27,50.58],[13.24,50.58],[13.18,50.51],[13.02,50.49],[13,50.46],[12.97,50.42],[12.94,50.41],[12.87,50.42],[12.76,50.43],[12.71,50.41],[12.63,50.4],[12.55,50.39],[12.45,50.35],[12.36,50.27],[12.31,50.21],[12.28,50.18],[12.23,50.24],[12.17,50.29],[12.13,50.31],[12.1,50.31],[12.09,50.3],[12.09,50.27],[12.13,50.21],[12.17,50.18],[12.18,50.15],[12.21,50.1],[12.28,50.04],[12.39,50],[12.46,49.96],[12.51,49.9],[12.51,49.88],[12.5,49.85],[12.47,49.83],[12.45,49.8],[12.39,49.74],[12.41,49.71],[12.46,49.68],[12.5,49.64],[12.56,49.58],[12.63,49.46],[12.68,49.41],[12.75,49.37],[12.81,49.33],[12.92,49.33],[13.02,49.26],[13.14,49.16],[13.23,49.11],[13.29,49.1],[13.34,49.06],[13.38,49.01],[13.4,48.98],[13.44,48.96],[13.55,48.96],[13.69,48.88],[13.77,48.82],[13.82,48.77],[13.8,48.75],[13.8,48.69],[13.8,48.62],[13.79,48.59],[13.73,48.54],[13.69,48.53],[13.67,48.52],[13.49,48.58],[13.47,48.57],[13.46,48.57],[13.41,48.39],[13.38,48.36],[13.32,48.33],[13.21,48.3],[13.14,48.29],[13.08,48.28],[12.9,48.2],[12.81,48.16],[12.76,48.11],[12.76,48.08],[12.85,47.99],[12.95,47.89],[12.95,47.81],[12.91,47.75],[12.9,47.72],[12.93,47.71],[12.99,47.71],[13.03,47.7],[13.06,47.66],[13.05,47.58],[13.03,47.51],[13.02,47.48],[12.97,47.48],[12.88,47.51],[12.81,47.54],[12.78,47.56],[12.78,47.59],[12.8,47.61],[12.77,47.64],[12.68,47.67],[12.59,47.66],[12.53,47.64],[12.48,47.64],[12.44,47.67],[12.36,47.69],[12.27,47.7],[12.21,47.72],[12.2,47.71],[12.2,47.65],[12.18,47.62],[11.72,47.58],[11.57,47.55],[11.47,47.51],[11.39,47.49],[11.37,47.46],[11.3,47.42],[11.21,47.41],[11.19,47.42],[11.14,47.41],[11.04,47.39],[10.98,47.4],[10.95,47.43],[10.9,47.47],[10.87,47.5],[10.87,47.52],[10.74,47.52],[10.66,47.55],[10.48,47.54],[10.44,47.55],[10.43,47.54],[10.4,47.42],[10.37,47.37],[10.31,47.31],[10.24,47.28],[10.18,47.28],[10.19,47.32],[10.2,47.36],[10.16,47.37],[10.1,47.38],[10.07,47.39],[10.07,47.43],[10.06,47.45],[10.04,47.47],[9.97,47.5],[9.84,47.55],[9.75,47.58],[9.71,47.55],[9.65,47.53],[9.55,47.53],[9.52,47.52]]],[[[13.71,54.38],[13.74,54.31],[13.71,54.28],[13.6,54.34],[13.48,54.34],[13.42,54.25],[13.37,54.25],[13.19,54.33],[13.16,54.37],[13.16,54.4],[13.18,54.51],[13.18,54.54],[13.23,54.58],[13.24,54.64],[13.34,54.7],[13.42,54.7],[13.45,54.65],[13.49,54.62],[13.64,54.58],[13.66,54.56],[13.67,54.54],[13.6,54.49],[13.58,54.46],[13.6,54.42],[13.71,54.38]]],[[[14.21,53.95],[14.2,53.92],[14.21,53.87],[14.17,53.87],[14.05,53.86],[13.93,53.88],[13.9,53.94],[13.92,54],[13.87,54.04],[13.83,54.06],[13.82,54.09],[13.83,54.13],[14.04,54.03],[14.21,53.95]]],[[[11.28,54.42],[11.13,54.42],[11.07,54.46],[11.01,54.47],[11.04,54.52],[11.09,54.53],[11.23,54.5],[11.28,54.44],[11.28,54.42]]],[[[8.31,54.79],[8.29,54.77],[8.3,54.91],[8.4,55.06],[8.45,55.05],[8.4,55.01],[8.39,54.99],[8.37,54.93],[8.38,54.9],[8.63,54.89],[8.6,54.87],[8.35,54.85],[8.31,54.79]]],[[[8.59,54.71],[8.55,54.69],[8.45,54.69],[8.4,54.71],[8.42,54.74],[8.47,54.76],[8.51,54.76],[8.57,54.75],[8.59,54.71]]]]}},{"type":"Feature","properties":{"n":"Frankreich","id":"250"},"geometry":{"type":"MultiPolygon","coordinates":[[[[9.48,42.81],[9.46,42.66],[9.47,42.62],[9.51,42.58],[9.53,42.55],[9.56,42.16],[9.55,42.13],[9.43,41.97],[9.4,41.93],[9.39,41.73],[9.37,41.68],[9.33,41.63],[9.25,41.46],[9.19,41.39],[9,41.48],[8.89,41.52],[8.84,41.56],[8.81,41.59],[8.83,41.63],[8.88,41.67],[8.89,41.7],[8.77,41.74],[8.72,41.76],[8.72,41.8],[8.76,41.87],[8.74,41.93],[8.67,41.92],[8.62,41.93],[8.62,41.96],[8.65,42],[8.7,42.04],[8.7,42.1],[8.64,42.12],[8.59,42.16],[8.57,42.22],[8.61,42.26],[8.67,42.28],[8.63,42.34],[8.59,42.35],[8.57,42.36],[8.59,42.39],[8.64,42.43],[8.71,42.55],[8.81,42.61],[8.99,42.65],[9.05,42.66],[9.09,42.7],[9.14,42.73],[9.2,42.73],[9.25,42.71],[9.29,42.69],[9.32,42.71],[9.34,42.77],[9.32,42.81],[9.33,42.94],[9.36,43.02],[9.42,43.02],[9.46,42.98],[9.46,42.95],[9.48,42.86],[9.48,42.81]]],[[[7.62,47.59],[7.49,47.55],[7.47,47.51],[7.42,47.46],[7.34,47.43],[7.27,47.43],[7.2,47.43],[7.17,47.45],[7.17,47.47],[7.14,47.49],[7.05,47.49],[6.97,47.45],[6.9,47.39],[6.92,47.36],[6.99,47.35],[7,47.34],[7,47.32],[6.98,47.3],[6.95,47.27],[6.82,47.16],[6.69,47.06],[6.67,47.03],[6.63,47],[6.46,46.95],[6.44,46.93],[6.43,46.83],[6.41,46.75],[6.28,46.68],[6.16,46.61],[6.13,46.57],[6.11,46.52],[6.07,46.46],[6.06,46.43],[6.12,46.38],[6.11,46.34],[6.1,46.28],[6.04,46.24],[5.97,46.21],[5.97,46.15],[6.01,46.14],[6.09,46.15],[6.2,46.19],[6.27,46.25],[6.23,46.31],[6.22,46.32],[6.23,46.33],[6.32,46.39],[6.43,46.43],[6.58,46.44],[6.76,46.42],[6.78,46.41],[6.77,46.37],[6.78,46.31],[6.82,46.28],[6.77,46.16],[6.81,46.13],[6.86,46.09],[6.9,46.05],[6.95,46.02],[7,45.96],[7.02,45.93],[6.94,45.87],[6.81,45.81],[6.79,45.78],[6.79,45.74],[6.81,45.71],[6.88,45.67],[6.96,45.58],[7.01,45.5],[7.13,45.42],[7.16,45.4],[7.15,45.38],[7.12,45.35],[7.08,45.24],[7.03,45.22],[6.98,45.21],[6.84,45.13],[6.78,45.15],[6.69,45.14],[6.63,45.12],[6.63,45.07],[6.69,45.02],[6.72,44.97],[6.74,44.92],[6.8,44.88],[6.89,44.86],[6.94,44.86],[6.97,44.85],[6.99,44.83],[7.03,44.72],[7.01,44.69],[6.96,44.68],[6.93,44.63],[6.87,44.56],[6.84,44.51],[6.88,44.46],[6.89,44.43],[6.87,44.39],[6.9,44.34],[6.97,44.28],[7.15,44.2],[7.32,44.14],[7.37,44.13],[7.6,44.17],[7.64,44.16],[7.67,44.12],[7.68,44.08],[7.65,44.03],[7.59,43.96],[7.52,43.91],[7.48,43.86],[7.49,43.82],[7.49,43.77],[7.44,43.75],[7.44,43.76],[7.41,43.77],[7.4,43.77],[7.38,43.75],[7.38,43.73],[7.26,43.7],[7.18,43.66],[6.86,43.44],[6.72,43.37],[6.69,43.33],[6.66,43.26],[6.57,43.2],[6.49,43.17],[6.31,43.14],[6.11,43.07],[6.03,43.1],[5.81,43.1],[5.67,43.18],[5.41,43.23],[5.32,43.35],[5.2,43.35],[5.12,43.35],[5.07,43.37],[5.06,43.41],[5.06,43.44],[4.98,43.43],[4.91,43.43],[4.87,43.41],[4.84,43.39],[4.81,43.41],[4.79,43.4],[4.79,43.38],[4.71,43.37],[4.63,43.39],[4.41,43.45],[4.38,43.46],[4.22,43.48],[4.16,43.5],[4.11,43.56],[4.07,43.58],[4.05,43.59],[3.91,43.56],[3.86,43.52],[3.79,43.46],[3.26,43.19],[3.16,43.08],[3.05,42.91],[3.04,42.84],[3.09,42.59],[3.2,42.46],[3.21,42.43],[3.15,42.43],[3.05,42.45],[2.97,42.47],[2.89,42.46],[2.82,42.43],[2.75,42.41],[2.7,42.41],[2.67,42.39],[2.66,42.36],[2.65,42.34],[2.57,42.35],[2.37,42.39],[2.2,42.42],[2.1,42.39],[2.03,42.35],[1.99,42.36],[1.95,42.39],[1.93,42.43],[1.86,42.46],[1.7,42.5],[1.72,42.53],[1.74,42.56],[1.74,42.58],[1.71,42.6],[1.57,42.64],[1.5,42.64],[1.46,42.62],[1.43,42.6],[1.35,42.69],[1.29,42.71],[1.21,42.71],[1.11,42.74],[1.01,42.78],[0.77,42.84],[0.7,42.85],[0.67,42.84],[0.65,42.8],[0.64,42.7],[0.63,42.69],[0.52,42.69],[0.38,42.7],[0.31,42.69],[0.25,42.69],[0.2,42.72],[-0.04,42.69],[-0.08,42.7],[-0.14,42.75],[-0.21,42.79],[-0.26,42.8],[-0.3,42.83],[-0.34,42.83],[-0.4,42.81],[-0.48,42.8],[-0.55,42.8],[-0.59,42.8],[-0.74,42.91],[-0.76,42.94],[-0.84,42.95],[-0.93,42.95],[-1.18,43.02],[-1.29,43.06],[-1.3,43.08],[-1.3,43.1],[-1.32,43.1],[-1.35,43.06],[-1.37,43.04],[-1.4,43.03],[-1.43,43.04],[-1.46,43.05],[-1.48,43.07],[-1.46,43.11],[-1.42,43.15],[-1.41,43.2],[-1.41,43.24],[-1.47,43.27],[-1.56,43.28],[-1.63,43.28],[-1.71,43.31],[-1.76,43.32],[-1.79,43.37],[-1.79,43.41],[-1.63,43.44],[-1.49,43.56],[-1.34,44.02],[-1.24,44.56],[-1.17,44.66],[-1.08,44.69],[-1.15,44.76],[-1.2,44.73],[-1.22,44.69],[-1.24,44.67],[-1.19,45.16],[-1.15,45.34],[-1.08,45.53],[-0.94,45.46],[-0.83,45.38],[-0.77,45.31],[-0.69,45.09],[-0.64,45.05],[-0.55,45],[-0.58,45.05],[-0.64,45.09],[-0.73,45.38],[-0.79,45.47],[-0.88,45.54],[-1.17,45.69],[-1.2,45.71],[-1.21,45.77],[-1.11,45.77],[-1.03,45.74],[-1.04,45.77],[-1.07,45.81],[-1.1,45.92],[-1.14,46.2],[-1.13,46.25],[-1.15,46.31],[-1.24,46.32],[-1.31,46.33],[-1.39,46.35],[-1.79,46.52],[-1.92,46.69],[-2.06,46.81],[-2.09,46.87],[-2.09,46.92],[-2.02,47.04],[-2.08,47.11],[-2.14,47.13],[-2.2,47.16],[-2.15,47.22],[-2.11,47.26],[-2.03,47.27],[-1.92,47.26],[-1.82,47.23],[-1.74,47.22],[-1.97,47.31],[-2.35,47.28],[-2.44,47.29],[-2.5,47.31],[-2.53,47.38],[-2.48,47.41],[-2.43,47.47],[-2.48,47.51],[-2.55,47.53],[-2.67,47.53],[-2.77,47.51],[-2.8,47.54],[-2.73,47.6],[-2.79,47.63],[-2.86,47.61],[-2.96,47.6],[-3.07,47.62],[-3.16,47.69],[-3.22,47.69],[-3.26,47.69],[-3.33,47.71],[-3.4,47.72],[-3.44,47.71],[-3.51,47.75],[-3.9,47.84],[-4.07,47.85],[-4.22,47.81],[-4.31,47.82],[-4.38,47.88],[-4.43,47.97],[-4.68,48.04],[-4.63,48.09],[-4.51,48.1],[-4.38,48.13],[-4.33,48.17],[-4.43,48.22],[-4.51,48.23],[-4.55,48.25],[-4.58,48.29],[-4.53,48.31],[-4.5,48.3],[-4.4,48.29],[-4.24,48.3],[-4.3,48.35],[-4.37,48.36],[-4.39,48.37],[-4.52,48.37],[-4.58,48.36],[-4.72,48.36],[-4.75,48.41],[-4.76,48.45],[-4.72,48.54],[-4.53,48.62],[-4.06,48.71],[-3.86,48.7],[-3.71,48.71],[-3.54,48.76],[-3.47,48.81],[-3.23,48.84],[-3,48.79],[-2.79,48.6],[-2.69,48.54],[-2.45,48.65],[-2.08,48.65],[-2,48.58],[-1.97,48.63],[-1.91,48.7],[-1.85,48.67],[-1.82,48.63],[-1.44,48.64],[-1.38,48.65],[-1.48,48.7],[-1.56,48.8],[-1.58,49.2],[-1.69,49.31],[-1.81,49.49],[-1.87,49.59],[-1.87,49.63],[-1.86,49.68],[-1.7,49.68],[-1.59,49.67],[-1.37,49.71],[-1.26,49.68],[-1.27,49.6],[-1.23,49.49],[-1.19,49.45],[-1.14,49.39],[-0.96,49.39],[-0.77,49.36],[-0.52,49.36],[-0.16,49.3],[-0.01,49.33],[0.14,49.4],[0.42,49.45],[0.44,49.47],[0.28,49.46],[0.13,49.51],[0.11,49.56],[0.13,49.6],[0.19,49.7],[0.62,49.86],[0.92,49.91],[1.24,50],[1.41,50.09],[1.51,50.21],[1.55,50.23],[1.59,50.25],[1.55,50.29],[1.58,50.74],[1.61,50.82],[1.67,50.88],[1.77,50.93],[1.91,50.99],[2.45,51.07],[2.53,51.1],[2.54,51.05],[2.58,50.99],[2.6,50.96],[2.58,50.91],[2.6,50.88],[2.67,50.81],[2.76,50.75],[2.84,50.71],[2.86,50.72],[2.92,50.73],[3.02,50.77],[3.11,50.78],[3.16,50.75],[3.18,50.73],[3.23,50.66],[3.25,50.59],[3.27,50.53],[3.32,50.51],[3.48,50.5],[3.59,50.48],[3.63,50.46],[3.67,50.33],[3.69,50.31],[3.72,50.32],[3.75,50.34],[3.79,50.35],[3.86,50.34],[3.95,50.34],[4.04,50.32],[4.17,50.25],[4.17,50.22],[4.15,50.18],[4.13,50.14],[4.16,50.13],[4.19,50.09],[4.19,50.05],[4.15,50.02],[4.14,50],[4.14,49.98],[4.15,49.97],[4.18,49.96],[4.37,49.95],[4.55,49.96],[4.66,50],[4.67,50.05],[4.71,50.1],[4.77,50.14],[4.82,50.15],[4.86,50.14],[4.79,49.96],[4.84,49.91],[4.85,49.85],[4.87,49.79],[4.93,49.79],[5.01,49.78],[5.06,49.76],[5.12,49.72],[5.21,49.69],[5.28,49.68],[5.3,49.65],[5.36,49.62],[5.43,49.55],[5.51,49.51],[5.54,49.51],[5.61,49.53],[5.71,49.54],[5.79,49.54],[5.82,49.5],[5.9,49.49],[5.93,49.48],[5.96,49.45],[6.01,49.45],[6.08,49.45],[6.12,49.49],[6.18,49.5],[6.24,49.49],[6.28,49.48],[6.35,49.45],[6.38,49.46],[6.46,49.44],[6.54,49.4],[6.56,49.35],[6.58,49.32],[6.61,49.29],[6.73,49.16],[6.78,49.15],[6.82,49.17],[6.85,49.2],[6.89,49.21],[6.96,49.2],[7,49.18],[7.02,49.12],[7.04,49.11],[7.07,49.12],[7.12,49.13],[7.2,49.11],[7.31,49.13],[7.4,49.15],[7.45,49.15],[7.53,49.09],[7.61,49.06],[7.8,49.04],[8,49.01],[8.08,48.99],[8.13,48.97],[8.14,48.89],[8.12,48.87],[7.92,48.7],[7.84,48.64],[7.8,48.55],[7.76,48.41],[7.71,48.28],[7.62,48.16],[7.58,48.06],[7.61,48],[7.59,47.91],[7.54,47.77],[7.53,47.67],[7.57,47.61],[7.62,47.59]]],[[[-1.18,45.9],[-1.22,45.82],[-1.28,45.9],[-1.37,45.97],[-1.39,46.03],[-1.39,46.05],[-1.28,46],[-1.18,45.9]]],[[[45.18,-12.98],[45.12,-12.98],[45.09,-12.96],[45.07,-12.9],[45.09,-12.84],[45.09,-12.79],[45.04,-12.7],[45.09,-12.65],[45.14,-12.71],[45.16,-12.71],[45.22,-12.75],[45.2,-12.82],[45.21,-12.85],[45.18,-12.92],[45.18,-12.98]]],[[[55.8,-21.34],[55.65,-21.37],[55.56,-21.36],[55.36,-21.27],[55.31,-21.22],[55.23,-21.06],[55.25,-21],[55.31,-20.9],[55.45,-20.86],[55.6,-20.88],[55.66,-20.91],[55.74,-21.02],[55.84,-21.14],[55.82,-21.28],[55.8,-21.34]]],[[[-60.83,14.49],[-60.84,14.44],[-60.86,14.43],[-60.9,14.47],[-61.06,14.47],[-61.09,14.51],[-61.09,14.53],[-61.01,14.6],[-61.11,14.62],[-61.14,14.65],[-61.22,14.8],[-61.21,14.85],[-61.18,14.87],[-61.13,14.87],[-61.03,14.83],[-60.95,14.76],[-60.93,14.75],[-60.92,14.74],[-60.93,14.69],[-60.89,14.64],[-60.87,14.61],[-60.83,14.49]]],[[[-61.33,16.23],[-61.44,16.22],[-61.52,16.23],[-61.54,16.3],[-61.5,16.36],[-61.53,16.43],[-61.51,16.48],[-61.47,16.51],[-61.41,16.47],[-61.4,16.41],[-61.36,16.36],[-61.17,16.26],[-61.33,16.23]]],[[[-61.59,16.01],[-61.67,15.96],[-61.71,15.98],[-61.76,16.06],[-61.79,16.3],[-61.77,16.34],[-61.75,16.36],[-61.64,16.33],[-61.6,16.29],[-61.55,16.27],[-61.58,16.23],[-61.56,16.05],[-61.59,16.01]]],[[[-61.23,15.89],[-61.29,15.89],[-61.31,15.9],[-61.32,15.95],[-61.27,16],[-61.25,16.01],[-61.21,15.96],[-61.2,15.92],[-61.23,15.89]]],[[[-54.62,2.33],[-54.6,2.34],[-54.57,2.34],[-54.54,2.34],[-54.48,2.42],[-54.4,2.46],[-54.26,2.71],[-54.2,2.82],[-54.19,2.88],[-54.17,2.99],[-54.2,3.14],[-54.19,3.18],[-54.06,3.35],[-54.01,3.45],[-54.01,3.53],[-53.99,3.59],[-54.01,3.62],[-54.03,3.63],[-54.08,3.71],[-54.11,3.77],[-54.2,3.83],[-54.25,3.9],[-54.35,4.05],[-54.34,4.14],[-54.37,4.17],[-54.4,4.2],[-54.39,4.24],[-54.42,4.34],[-54.44,4.43],[-54.45,4.48],[-54.43,4.58],[-54.44,4.69],[-54.47,4.75],[-54.48,4.84],[-54.47,4.92],[-54.45,4.96],[-54.45,5.01],[-54.33,5.19],[-54.24,5.29],[-54.16,5.36],[-54.09,5.41],[-53.99,5.68],[-53.92,5.77],[-53.85,5.78],[-53.46,5.56],[-53.27,5.54],[-52.9,5.43],[-52.76,5.27],[-52.45,5.02],[-52.29,4.94],[-52.29,4.88],[-52.32,4.77],[-52.22,4.86],[-52.06,4.72],[-52.01,4.65],[-51.96,4.51],[-51.98,4.43],[-52,4.39],[-52,4.35],[-51.95,4.4],[-51.93,4.44],[-51.92,4.52],[-51.88,4.63],[-51.83,4.64],[-51.78,4.57],[-51.7,4.29],[-51.67,4.23],[-51.65,4.14],[-51.66,4.1],[-51.65,4.06],[-51.68,4.04],[-51.77,3.99],[-51.81,3.93],[-51.83,3.87],[-51.88,3.83],[-51.93,3.78],[-51.94,3.73],[-51.99,3.7],[-52,3.65],[-52.12,3.45],[-52.16,3.37],[-52.23,3.27],[-52.27,3.24],[-52.33,3.18],[-52.36,3.12],[-52.36,3.05],[-52.4,2.97],[-52.42,2.9],[-52.45,2.86],[-52.56,2.65],[-52.56,2.57],[-52.58,2.53],[-52.65,2.43],[-52.7,2.36],[-52.78,2.32],[-52.87,2.27],[-52.9,2.21],[-52.97,2.18],[-53.01,2.18],[-53.08,2.2],[-53.18,2.21],[-53.23,2.21],[-53.25,2.23],[-53.29,2.3],[-53.33,2.34],[-53.37,2.32],[-53.43,2.28],[-53.51,2.25],[-53.56,2.26],[-53.68,2.29],[-53.74,2.31],[-53.75,2.34],[-53.77,2.35],[-53.79,2.35],[-53.83,2.31],[-53.88,2.28],[-53.94,2.23],[-54.09,2.15],[-54.13,2.12],[-54.17,2.14],[-54.23,2.15],[-54.29,2.16],[-54.43,2.21],[-54.51,2.25],[-54.55,2.29],[-54.59,2.31],[-54.62,2.33]]]]}},{"type":"Feature","properties":{"n":"Dänemark","id":"208"},"geometry":{"type":"MultiPolygon","coordinates":[[[[12.57,55.79],[12.57,55.68],[12.54,55.66],[12.51,55.64],[12.41,55.62],[12.32,55.59],[12.24,55.54],[12.22,55.47],[12.27,55.41],[12.39,55.39],[12.41,55.29],[12.32,55.24],[12.09,55.19],[12.07,55.07],[12.07,54.98],[12.07,54.91],[12.05,54.81],[11.86,54.77],[11.74,54.92],[11.74,54.97],[11.7,55.04],[11.7,55.1],[11.66,55.19],[11.48,55.21],[11.41,55.21],[11.31,55.2],[11.29,55.2],[11.17,55.33],[11.19,55.47],[11.13,55.54],[11.12,55.57],[11.12,55.6],[11.07,55.63],[11.01,55.64],[10.98,55.72],[11.05,55.74],[11.22,55.73],[11.28,55.74],[11.32,55.75],[11.46,55.88],[11.46,55.91],[11.48,55.94],[11.63,55.96],[11.69,55.91],[11.68,55.83],[11.69,55.73],[11.78,55.7],[11.82,55.7],[11.86,55.77],[11.89,55.81],[11.92,55.83],[11.94,55.9],[11.91,55.94],[11.87,55.97],[12.04,56.05],[12.22,56.12],[12.32,56.12],[12.43,56.11],[12.53,56.08],[12.58,56.06],[12.61,56.03],[12.54,55.96],[12.53,55.92],[12.57,55.79]]],[[[9.74,54.83],[9.73,54.83],[9.66,54.83],[9.62,54.85],[9.5,54.84],[9.34,54.81],[9.25,54.81],[9.19,54.84],[8.9,54.9],[8.86,54.9],[8.67,54.9],[8.66,54.99],[8.64,55.05],[8.57,55.13],[8.67,55.16],[8.65,55.33],[8.62,55.42],[8.35,55.51],[8.13,55.6],[8.18,55.9],[8.2,55.98],[8.12,56.14],[8.13,56.32],[8.16,56.61],[8.23,56.62],[8.28,56.62],[8.47,56.56],[8.55,56.56],[8.61,56.51],[8.67,56.5],[8.72,56.54],[8.74,56.63],[8.89,56.73],[8.99,56.77],[9.07,56.79],[9.14,56.75],[9.2,56.7],[9.21,56.81],[9.25,57.01],[9.11,57.04],[8.99,57.02],[8.88,56.89],[8.77,56.72],[8.6,56.71],[8.47,56.66],[8.35,56.71],[8.27,56.75],[8.27,56.81],[8.29,56.85],[8.43,56.98],[8.62,57.11],[8.81,57.11],[8.95,57.15],[9.04,57.16],[9.3,57.15],[9.43,57.17],[9.55,57.23],[9.82,57.48],[9.96,57.58],[10.26,57.62],[10.53,57.73],[10.61,57.74],[10.48,57.65],[10.46,57.62],[10.45,57.56],[10.54,57.45],[10.52,57.38],[10.52,57.24],[10.44,57.17],[10.34,57.02],[10.29,57],[10.29,56.82],[10.3,56.78],[10.28,56.62],[10.38,56.55],[10.49,56.52],[10.85,56.52],[10.88,56.49],[10.93,56.44],[10.9,56.36],[10.86,56.3],[10.76,56.24],[10.62,56.2],[10.54,56.2],[10.43,56.28],[10.37,56.25],[10.32,56.21],[10.23,56.01],[10.18,55.87],[10.16,55.85],[10.11,55.87],[10.02,55.88],[9.91,55.84],[9.96,55.81],[10.02,55.76],[10,55.74],[9.9,55.71],[9.81,55.65],[9.77,55.61],[9.66,55.56],[9.59,55.49],[9.62,55.41],[9.64,55.34],[9.67,55.27],[9.64,55.21],[9.51,55.12],[9.46,55.04],[9.57,55.04],[9.65,55.02],[9.69,55],[9.73,54.97],[9.7,54.93],[9.74,54.83]]],[[[10.64,55.61],[10.69,55.56],[10.74,55.45],[10.82,55.32],[10.78,55.27],[10.81,55.2],[10.78,55.13],[10.63,55.05],[10.44,55.05],[10.25,55.09],[9.99,55.16],[9.97,55.21],[9.93,55.23],[9.86,55.36],[9.86,55.52],[10,55.54],[10.29,55.61],[10.35,55.6],[10.42,55.56],[10.51,55.56],[10.62,55.61],[10.64,55.61]]],[[[11.36,54.89],[11.54,54.83],[11.66,54.83],[11.74,54.81],[11.76,54.77],[11.77,54.68],[11.68,54.65],[11.59,54.66],[11.46,54.63],[11.04,54.77],[11.04,54.89],[11.06,54.94],[11.26,54.95],[11.36,54.89]]],[[[10.73,54.75],[10.69,54.75],[10.63,54.83],[10.62,54.85],[10.69,54.9],[10.74,54.96],[10.86,55.05],[10.92,55.16],[10.95,55.16],[10.92,55.06],[10.77,54.8],[10.73,54.75]]],[[[12.55,54.97],[12.51,54.95],[12.36,54.96],[12.18,54.89],[12.12,54.91],[12.14,54.96],[12.16,54.97],[12.22,54.99],[12.26,55.02],[12.27,55.06],[12.31,55.04],[12.42,55.03],[12.47,55.02],[12.51,55],[12.55,54.97]]],[[[12.67,55.6],[12.57,55.55],[12.55,55.56],[12.52,55.62],[12.57,55.65],[12.6,55.68],[12.62,55.68],[12.65,55.65],[12.67,55.6]]],[[[10.49,54.85],[10.42,54.84],[10.34,54.86],[10.22,54.94],[10.2,54.96],[10.27,54.95],[10.35,54.91],[10.41,54.9],[10.5,54.86],[10.49,54.85]]],[[[10.06,54.89],[9.96,54.87],[9.91,54.9],[9.8,54.91],[9.77,55.06],[9.78,55.07],[9.83,55.06],[10,54.99],[10.06,54.91],[10.06,54.89]]],[[[10.61,55.78],[10.59,55.76],[10.53,55.78],[10.52,55.85],[10.54,55.91],[10.52,55.96],[10.55,55.99],[10.64,55.91],[10.66,55.88],[10.63,55.83],[10.61,55.78]]],[[[11.05,57.25],[11.01,57.23],[10.87,57.26],[10.94,57.31],[11.09,57.33],[11.17,57.32],[11.08,57.28],[11.05,57.25]]],[[[15.09,55.02],[15.05,55],[14.88,55.03],[14.68,55.1],[14.72,55.24],[14.77,55.3],[15.13,55.14],[15.14,55.09],[15.09,55.02]]]]}},{"type":"Feature","properties":{"n":"Tschechien","id":"203"},"geometry":{"type":"Polygon","coordinates":[[[18.83,49.51],[18.81,49.51],[18.75,49.49],[18.68,49.49],[18.6,49.49],[18.53,49.46],[18.48,49.42],[18.42,49.39],[18.38,49.36],[18.37,49.34],[18.16,49.26],[18.13,49.23],[18.11,49.18],[18.1,49.12],[18.08,49.07],[18.05,49.04],[17.94,49.01],[17.91,49],[17.89,48.97],[17.83,48.93],[17.76,48.89],[17.62,48.84],[17.48,48.83],[17.3,48.84],[17.19,48.86],[17.13,48.84],[17.06,48.78],[16.99,48.68],[16.95,48.6],[16.93,48.62],[16.88,48.7],[16.83,48.71],[16.76,48.72],[16.71,48.73],[16.6,48.78],[16.54,48.8],[16.48,48.8],[16.41,48.77],[16.37,48.74],[16.22,48.74],[16.06,48.75],[15.82,48.86],[15.77,48.87],[15.7,48.86],[15.6,48.89],[15.4,48.96],[15.31,48.97],[15.25,48.96],[15.2,48.95],[15.16,48.95],[15.14,48.97],[15.07,49],[14.99,49],[14.97,48.98],[14.95,48.83],[14.92,48.77],[14.82,48.77],[14.79,48.75],[14.71,48.67],[14.69,48.6],[14.55,48.61],[14.49,48.63],[14.43,48.62],[14.37,48.58],[14.19,48.58],[14.05,48.6],[13.99,48.69],[13.92,48.73],[13.84,48.76],[13.82,48.77],[13.77,48.82],[13.69,48.88],[13.55,48.96],[13.44,48.96],[13.4,48.98],[13.38,49.01],[13.34,49.06],[13.29,49.1],[13.23,49.11],[13.14,49.16],[13.02,49.26],[12.92,49.33],[12.81,49.33],[12.75,49.37],[12.68,49.41],[12.63,49.46],[12.56,49.58],[12.5,49.64],[12.46,49.68],[12.41,49.71],[12.39,49.74],[12.45,49.8],[12.47,49.83],[12.5,49.85],[12.51,49.88],[12.51,49.9],[12.46,49.96],[12.39,50],[12.28,50.04],[12.21,50.1],[12.18,50.15],[12.17,50.18],[12.13,50.21],[12.09,50.27],[12.09,50.3],[12.1,50.31],[12.13,50.31],[12.17,50.29],[12.23,50.24],[12.28,50.18],[12.31,50.21],[12.36,50.27],[12.45,50.35],[12.55,50.39],[12.63,50.4],[12.71,50.41],[12.76,50.43],[12.87,50.42],[12.94,50.41],[12.97,50.42],[13,50.46],[13.02,50.49],[13.18,50.51],[13.24,50.58],[13.27,50.58],[13.31,50.59],[13.34,50.61],[13.38,50.62],[13.4,50.61],[13.44,50.6],[13.47,50.62],[13.53,50.69],[13.56,50.7],[13.7,50.72],[13.9,50.76],[14,50.8],[14.1,50.82],[14.2,50.86],[14.37,50.9],[14.38,50.91],[14.3,50.95],[14.27,50.98],[14.25,51],[14.28,51.03],[14.32,51.04],[14.37,51.03],[14.51,51.01],[14.55,50.99],[14.56,50.95],[14.6,50.92],[14.63,50.91],[14.61,50.86],[14.66,50.83],[14.72,50.82],[14.77,50.82],[14.8,50.84],[14.81,50.86],[14.9,50.86],[14.98,50.89],[14.99,50.93],[14.99,51],[14.99,51.01],[15.13,50.99],[15.26,50.96],[15.28,50.88],[15.31,50.85],[15.36,50.81],[15.4,50.8],[15.46,50.79],[15.64,50.75],[15.73,50.74],[15.82,50.71],[15.89,50.68],[15.95,50.67],[15.98,50.63],[16.01,50.61],[16.07,50.63],[16.28,50.66],[16.36,50.62],[16.41,50.58],[16.42,50.57],[16.39,50.54],[16.38,50.52],[16.36,50.5],[16.28,50.48],[16.24,50.45],[16.21,50.42],[16.23,50.39],[16.29,50.37],[16.34,50.37],[16.35,50.34],[16.49,50.25],[16.6,50.12],[16.64,50.1],[16.68,50.1],[16.72,50.12],[16.78,50.16],[16.84,50.19],[16.9,50.2],[16.99,50.24],[16.99,50.26],[16.91,50.34],[16.87,50.41],[16.88,50.43],[16.98,50.42],[17.15,50.38],[17.42,50.25],[17.46,50.25],[17.56,50.26],[17.66,50.28],[17.7,50.31],[17.72,50.3],[17.74,50.23],[17.71,50.19],[17.59,50.16],[17.6,50.14],[17.63,50.12],[17.68,50.1],[17.75,50.06],[17.79,50.01],[17.83,49.98],[17.88,49.97],[17.98,50],[18.02,50.02],[18.03,50.04],[18.05,50.03],[18.09,50.01],[18.1,49.99],[18.2,49.96],[18.26,49.93],[18.3,49.91],[18.35,49.93],[18.52,49.9],[18.56,49.88],[18.58,49.84],[18.57,49.82],[18.6,49.76],[18.81,49.61],[18.83,49.54],[18.83,49.51]]]}},{"type":"Feature","properties":{"n":"Kroatien","id":"191"},"geometry":{"type":"MultiPolygon","coordinates":[[[[13.58,45.52],[13.61,45.48],[13.88,45.43],[13.93,45.45],[13.97,45.48],[13.97,45.5],[13.99,45.51],[14.09,45.48],[14.16,45.49],[14.28,45.49],[14.37,45.48],[14.43,45.51],[14.51,45.6],[14.54,45.65],[14.57,45.66],[14.59,45.65],[14.61,45.61],[14.65,45.57],[14.73,45.51],[14.79,45.48],[14.85,45.47],[14.9,45.49],[14.96,45.5],[15.11,45.45],[15.24,45.44],[15.34,45.47],[15.33,45.5],[15.29,45.54],[15.28,45.58],[15.29,45.61],[15.36,45.65],[15.35,45.66],[15.27,45.72],[15.28,45.73],[15.45,45.8],[15.63,45.83],[15.65,45.86],[15.67,45.9],[15.68,45.98],[15.67,46.05],[15.6,46.11],[15.59,46.14],[15.61,46.17],[15.64,46.2],[15.71,46.21],[15.78,46.23],[15.85,46.26],[15.93,46.28],[16,46.31],[16.07,46.37],[16.1,46.38],[16.23,46.37],[16.25,46.39],[16.24,46.48],[16.26,46.51],[16.3,46.52],[16.32,46.53],[16.43,46.52],[16.52,46.5],[16.57,46.49],[16.75,46.42],[16.87,46.34],[16.94,46.25],[17.03,46.19],[17.15,46.14],[17.24,46.08],[17.31,46],[17.41,45.95],[17.53,45.94],[17.61,45.91],[17.64,45.87],[17.71,45.83],[17.81,45.79],[17.96,45.77],[18.26,45.77],[18.29,45.77],[18.36,45.75],[18.44,45.77],[18.53,45.8],[18.56,45.81],[18.66,45.91],[18.72,45.9],[18.83,45.91],[18.9,45.93],[18.91,45.93],[18.9,45.91],[18.89,45.87],[18.84,45.84],[18.89,45.77],[18.95,45.66],[18.92,45.6],[18.95,45.56],[19.06,45.53],[19.06,45.52],[19.03,45.5],[19.01,45.47],[19.01,45.4],[19.09,45.34],[19.27,45.28],[19.33,45.27],[19.35,45.25],[19.38,45.23],[19.4,45.21],[19.4,45.19],[19.39,45.17],[19.3,45.17],[19.2,45.17],[19.14,45.2],[19.13,45.17],[19.13,45.15],[19.06,45.14],[19.1,44.97],[19.09,44.93],[19.06,44.91],[19.04,44.92],[19.01,44.92],[19,44.9],[19.01,44.87],[18.94,44.87],[18.84,44.88],[18.79,44.91],[18.78,44.95],[18.78,44.98],[18.75,45.03],[18.66,45.08],[18.49,45.09],[18.42,45.1],[18.36,45.12],[18.29,45.13],[18.22,45.13],[18.14,45.12],[17.99,45.14],[17.95,45.11],[17.88,45.08],[17.81,45.08],[17.69,45.16],[17.65,45.16],[17.54,45.12],[17.5,45.12],[17.47,45.13],[17.33,45.16],[17.26,45.17],[17.21,45.16],[17.13,45.17],[16.92,45.28],[16.79,45.2],[16.53,45.22],[16.45,45.16],[16.36,45.06],[16.29,45.01],[16.23,45.03],[16.16,45.07],[16.03,45.19],[15.96,45.21],[15.89,45.22],[15.82,45.2],[15.79,45.18],[15.76,45.01],[15.74,44.86],[15.74,44.77],[15.88,44.68],[16.05,44.54],[16.1,44.52],[16.13,44.47],[16.17,44.35],[16.21,44.21],[16.3,44.12],[16.38,44.06],[16.47,44],[16.59,43.91],[16.69,43.82],[16.71,43.78],[16.9,43.65],[17.08,43.52],[17.25,43.47],[17.27,43.45],[17.27,43.34],[17.29,43.31],[17.4,43.2],[17.62,43.04],[17.65,43.01],[17.66,42.98],[17.64,42.96],[17.58,42.94],[17.54,42.96],[17.33,43.11],[17.13,43.21],[16.9,43.39],[16.6,43.46],[16.39,43.54],[16.27,43.53],[16.13,43.51],[16.05,43.5],[15.99,43.52],[15.94,43.57],[15.95,43.61],[15.94,43.66],[15.82,43.74],[15.65,43.81],[15.5,43.91],[15.19,44.17],[15.12,44.26],[15.18,44.27],[15.23,44.27],[15.28,44.29],[15.37,44.29],[15.47,44.27],[15.38,44.33],[15.27,44.38],[14.98,44.6],[14.9,44.71],[14.88,44.82],[14.91,44.97],[14.86,45.08],[14.63,45.22],[14.55,45.3],[14.39,45.34],[14.31,45.34],[14.27,45.28],[14.24,45.16],[14.09,45],[14.04,44.93],[13.97,44.84],[13.9,44.83],[13.86,44.84],[13.74,44.99],[13.63,45.11],[13.61,45.16],[13.6,45.23],[13.52,45.48],[13.58,45.52]]],[[[16.65,43],[16.84,42.97],[16.97,42.98],[17.09,42.96],[17.17,42.93],[17.19,42.92],[17.09,42.91],[16.98,42.93],[16.85,42.9],[16.74,42.91],[16.7,42.93],[16.67,42.96],[16.65,43]]],[[[17.2,43.13],[17.12,43.12],[16.68,43.12],[16.55,43.14],[16.41,43.2],[16.37,43.21],[16.52,43.23],[16.66,43.21],[16.7,43.18],[17.06,43.14],[17.2,43.13]]],[[[16.79,43.27],[16.63,43.27],[16.49,43.29],[16.42,43.32],[16.43,43.34],[16.45,43.39],[16.6,43.38],[16.84,43.35],[16.89,43.31],[16.88,43.3],[16.79,43.27]]],[[[15.23,44.06],[15.25,44.03],[15.12,44.09],[15.08,44.14],[15.06,44.16],[15.23,44.06]]],[[[14.81,44.98],[14.69,44.96],[14.63,44.99],[14.61,45.03],[14.51,45.04],[14.45,45.08],[14.44,45.1],[14.52,45.15],[14.57,45.23],[14.63,45.18],[14.7,45.09],[14.74,45.07],[14.81,44.98]]],[[[14.83,44.76],[14.86,44.71],[14.76,44.75],[14.68,44.77],[14.66,44.8],[14.67,44.82],[14.69,44.85],[14.75,44.85],[14.77,44.82],[14.83,44.76]]],[[[15.19,44.34],[15.16,44.31],[15.1,44.36],[15.04,44.39],[15,44.43],[14.91,44.49],[14.88,44.54],[14.76,44.66],[14.74,44.7],[14.81,44.65],[14.86,44.62],[14.9,44.61],[15.01,44.53],[15.11,44.44],[15.24,44.35],[15.21,44.35],[15.19,44.34]]],[[[15.19,43.92],[15.2,43.91],[15.2,43.9],[15.15,43.91],[15.14,43.91],[14.89,44.13],[14.87,44.17],[14.95,44.12],[15.19,43.92]]],[[[15.37,43.97],[15.44,43.9],[15.37,43.91],[15.31,43.96],[15.27,44.01],[15.37,43.97]]],[[[14.49,44.66],[14.48,44.62],[14.42,44.67],[14.39,44.76],[14.31,44.9],[14.3,44.94],[14.34,44.98],[14.34,45.02],[14.29,45.15],[14.33,45.16],[14.36,45.17],[14.37,45.08],[14.39,45.03],[14.47,44.97],[14.45,44.87],[14.47,44.73],[14.48,44.69],[14.49,44.66]]],[[[17.61,42.77],[17.74,42.7],[17.34,42.79],[17.39,42.8],[17.43,42.8],[17.61,42.77]]],[[[18.44,42.56],[18.44,42.52],[18.48,42.48],[18.52,42.43],[18.33,42.53],[18.16,42.63],[17.83,42.8],[17.58,42.84],[17.26,42.97],[17.04,43.02],[17.13,43.03],[17.22,43.03],[17.72,42.85],[17.67,42.9],[17.74,42.91],[17.8,42.9],[17.84,42.85],[17.92,42.81],[18.05,42.74],[18.12,42.69],[18.3,42.6],[18.35,42.59],[18.44,42.56]]]]}},{"type":"Feature","properties":{"n":"Belgien","id":"056"},"geometry":{"type":"Polygon","coordinates":[[[4.22,51.39],[4.3,51.36],[4.37,51.36],[4.4,51.37],[4.38,51.43],[4.44,51.46],[4.5,51.47],[4.53,51.45],[4.59,51.42],[4.64,51.42],[4.76,51.49],[4.78,51.48],[4.81,51.45],[4.82,51.43],[4.82,51.41],[4.85,51.4],[4.94,51.41],[4.99,51.45],[5.03,51.47],[5.06,51.45],[5.07,51.41],[5.1,51.35],[5.21,51.28],[5.31,51.26],[5.43,51.27],[5.48,51.29],[5.51,51.28],[5.54,51.24],[5.61,51.2],[5.75,51.17],[5.8,51.15],[5.83,51.13],[5.82,51.09],[5.75,50.99],[5.74,50.96],[5.75,50.95],[5.74,50.93],[5.65,50.87],[5.64,50.84],[5.67,50.81],[5.69,50.78],[5.75,50.76],[5.8,50.75],[5.89,50.75],[5.99,50.75],[6.01,50.73],[6.12,50.68],[6.15,50.64],[6.24,50.6],[6.17,50.55],[6.18,50.52],[6.2,50.5],[6.29,50.49],[6.34,50.45],[6.35,50.4],[6.36,50.32],[6.18,50.23],[6.12,50.14],[6.12,50.12],[6.11,50.12],[6.09,50.15],[6.05,50.15],[5.98,50.17],[5.87,50.08],[5.82,50.01],[5.79,49.96],[5.74,49.92],[5.74,49.88],[5.74,49.86],[5.73,49.83],[5.73,49.81],[5.79,49.76],[5.81,49.73],[5.88,49.65],[5.86,49.61],[5.84,49.58],[5.82,49.55],[5.79,49.54],[5.71,49.54],[5.61,49.53],[5.54,49.51],[5.51,49.51],[5.43,49.55],[5.36,49.62],[5.3,49.65],[5.28,49.68],[5.21,49.69],[5.12,49.72],[5.06,49.76],[5.01,49.78],[4.93,49.79],[4.87,49.79],[4.85,49.85],[4.84,49.91],[4.79,49.96],[4.86,50.14],[4.82,50.15],[4.77,50.14],[4.71,50.1],[4.67,50.05],[4.66,50],[4.55,49.96],[4.37,49.95],[4.18,49.96],[4.15,49.97],[4.14,49.98],[4.14,50],[4.15,50.02],[4.19,50.05],[4.19,50.09],[4.16,50.13],[4.13,50.14],[4.15,50.18],[4.17,50.22],[4.17,50.25],[4.04,50.32],[3.95,50.34],[3.86,50.34],[3.79,50.35],[3.75,50.34],[3.72,50.32],[3.69,50.31],[3.67,50.33],[3.63,50.46],[3.59,50.48],[3.48,50.5],[3.32,50.51],[3.27,50.53],[3.25,50.59],[3.23,50.66],[3.18,50.73],[3.16,50.75],[3.11,50.78],[3.02,50.77],[2.92,50.73],[2.86,50.72],[2.84,50.71],[2.76,50.75],[2.67,50.81],[2.6,50.88],[2.58,50.91],[2.6,50.96],[2.58,50.99],[2.54,51.05],[2.53,51.1],[2.96,51.26],[3.22,51.35],[3.35,51.38],[3.38,51.29],[3.4,51.26],[3.43,51.25],[3.47,51.24],[3.52,51.26],[3.58,51.29],[3.68,51.28],[3.76,51.25],[3.78,51.23],[3.83,51.21],[3.9,51.21],[4.04,51.25],[4.17,51.31],[4.21,51.35],[4.22,51.39]]]}},{"type":"Feature","properties":{"n":"Österreich","id":"040"},"geometry":{"type":"Polygon","coordinates":[[[9.53,47.27],[9.61,47.39],[9.62,47.47],[9.55,47.51],[9.52,47.52],[9.55,47.53],[9.65,47.53],[9.71,47.55],[9.75,47.58],[9.84,47.55],[9.97,47.5],[10.04,47.47],[10.06,47.45],[10.07,47.43],[10.07,47.39],[10.1,47.38],[10.16,47.37],[10.2,47.36],[10.19,47.32],[10.18,47.28],[10.24,47.28],[10.31,47.31],[10.37,47.37],[10.4,47.42],[10.43,47.54],[10.44,47.55],[10.48,47.54],[10.66,47.55],[10.74,47.52],[10.87,47.52],[10.87,47.5],[10.9,47.47],[10.95,47.43],[10.98,47.4],[11.04,47.39],[11.14,47.41],[11.19,47.42],[11.21,47.41],[11.3,47.42],[11.37,47.46],[11.39,47.49],[11.47,47.51],[11.57,47.55],[11.72,47.58],[12.18,47.62],[12.2,47.65],[12.2,47.71],[12.21,47.72],[12.27,47.7],[12.36,47.69],[12.44,47.67],[12.48,47.64],[12.53,47.64],[12.59,47.66],[12.68,47.67],[12.77,47.64],[12.8,47.61],[12.78,47.59],[12.78,47.56],[12.81,47.54],[12.88,47.51],[12.97,47.48],[13.02,47.48],[13.03,47.51],[13.05,47.58],[13.06,47.66],[13.03,47.7],[12.99,47.71],[12.93,47.71],[12.9,47.72],[12.91,47.75],[12.95,47.81],[12.95,47.89],[12.85,47.99],[12.76,48.08],[12.76,48.11],[12.81,48.16],[12.9,48.2],[13.08,48.28],[13.14,48.29],[13.21,48.3],[13.32,48.33],[13.38,48.36],[13.41,48.39],[13.46,48.57],[13.47,48.57],[13.49,48.58],[13.67,48.52],[13.69,48.53],[13.73,48.54],[13.79,48.59],[13.8,48.62],[13.8,48.69],[13.8,48.75],[13.82,48.77],[13.84,48.76],[13.92,48.73],[13.99,48.69],[14.05,48.6],[14.19,48.58],[14.37,48.58],[14.43,48.62],[14.49,48.63],[14.55,48.61],[14.69,48.6],[14.71,48.67],[14.79,48.75],[14.82,48.77],[14.92,48.77],[14.95,48.83],[14.97,48.98],[14.99,49],[15.07,49],[15.14,48.97],[15.16,48.95],[15.2,48.95],[15.25,48.96],[15.31,48.97],[15.4,48.96],[15.6,48.89],[15.7,48.86],[15.77,48.87],[15.82,48.86],[16.06,48.75],[16.22,48.74],[16.37,48.74],[16.41,48.77],[16.48,48.8],[16.54,48.8],[16.6,48.78],[16.71,48.73],[16.76,48.72],[16.83,48.71],[16.88,48.7],[16.93,48.62],[16.95,48.6],[16.95,48.59],[16.94,48.55],[16.9,48.5],[16.86,48.44],[16.86,48.39],[16.97,48.2],[17.07,48.08],[17.09,48.04],[17.15,48.01],[17.09,47.96],[17.08,47.9],[17.04,47.87],[17.03,47.84],[17.04,47.8],[17.04,47.76],[17.07,47.71],[16.97,47.7],[16.86,47.7],[16.82,47.69],[16.79,47.68],[16.75,47.69],[16.65,47.74],[16.59,47.75],[16.55,47.75],[16.52,47.73],[16.47,47.7],[16.42,47.67],[16.43,47.66],[16.64,47.61],[16.68,47.54],[16.64,47.48],[16.62,47.45],[16.57,47.42],[16.52,47.4],[16.44,47.4],[16.44,47.37],[16.46,47.27],[16.44,47.25],[16.42,47.22],[16.44,47.15],[16.48,47.14],[16.49,47.12],[16.49,47.09],[16.48,47.06],[16.46,47.02],[16.45,47.01],[16.43,47],[16.33,47],[16.25,46.97],[16.09,46.86],[16.04,46.84],[15.98,46.8],[15.98,46.71],[15.97,46.7],[15.96,46.68],[15.77,46.71],[15.76,46.71],[15.63,46.7],[15.55,46.65],[15.44,46.63],[15.22,46.64],[15,46.63],[14.95,46.61],[14.89,46.61],[14.84,46.58],[14.81,46.54],[14.76,46.5],[14.68,46.46],[14.6,46.44],[14.58,46.41],[14.55,46.4],[14.5,46.42],[14.47,46.42],[14.42,46.43],[14.27,46.44],[14.1,46.46],[14.02,46.48],[13.93,46.5],[13.83,46.51],[13.74,46.52],[13.7,46.52],[13.49,46.56],[13.35,46.56],[13.17,46.57],[12.81,46.63],[12.7,46.65],[12.6,46.65],[12.48,46.67],[12.39,46.7],[12.33,46.76],[12.27,46.84],[12.16,46.94],[12.13,46.99],[12.17,47.03],[12.2,47.06],[12.2,47.08],[12.17,47.08],[11.97,47.04],[11.77,46.99],[11.7,46.98],[11.63,47],[11.53,47],[11.43,46.98],[11.24,46.98],[11.13,46.94],[11.06,46.86],[11.03,46.8],[10.99,46.78],[10.93,46.77],[10.83,46.78],[10.76,46.79],[10.69,46.85],[10.58,46.85],[10.48,46.86],[10.45,46.87],[10.46,46.9],[10.42,46.96],[10.35,46.99],[10.18,46.86],[10.13,46.85],[10,46.88],[9.88,46.94],[9.87,46.98],[9.84,47.01],[9.74,47.04],[9.62,47.06],[9.58,47.06],[9.6,47.08],[9.61,47.11],[9.6,47.13],[9.57,47.16],[9.56,47.19],[9.55,47.21],[9.54,47.23],[9.54,47.25],[9.53,47.27]]]}}]}</script>
+<script>
+/* ---------- location map ---------- */
+(() => {
+  const P = [
+    { n: 'Sachsenhausen', lon: 13.264, lat: 52.766, when: '1942 – März 1945', what: 'Die Fälscherwerkstatt',
+      text: 'In den Baracken 18 und 19 im sogenannten „Kleinen Lager“ des KZ Sachsenhausen bei Oranienburg wurde gedruckt. Die beiden Baracken waren mit eigenem Stacheldraht vom übrigen Lager abgetrennt. Insgesamt waren im KZ Sachsenhausen von 1936 bis 1945 rund 200.000 Menschen inhaftiert, zehntausende starben.',
+      img: ['img/sachsenhausen.webp', 'Turm A, das Eingangstor des früheren KZ Sachsenhausen, im Jahr 2007', 'Foto: Cabologist, 2007, gemeinfrei'],
+      visit: ['Gedenkstätte und Museum Sachsenhausen', 'Straße der Nationen 22, 16515 Oranienburg. Der Eintritt ist frei.'] },
+    { n: 'Berlin', lon: 13.383, lat: 52.507, when: '1939 – 1945', what: 'Die Planung',
+      text: 'Im Reichssicherheitshauptamt (RSHA) in Berlin wurde die Fälschung geplant. Hier arbeitete 1940 bis 1942 die erste Werkstatt der „Aktion Andreas“. Krügers Abteilung VI F 4a war für gefälschte Pässe und Dokumente zuständig. Der Punkt zeigt das Gelände der früheren Zentrale von Gestapo und SS.',
+      visit: ['Topographie des Terrors', 'Niederkirchnerstraße 8, 10963 Berlin. Dokumentationszentrum auf dem früheren Gelände von Gestapo und SS. Der Eintritt ist frei.'] },
+    { n: 'Spechthausen', lon: 13.80, lat: 52.80, when: 'ab 1940', what: 'Das erste Papier',
+      text: 'Die Papierfabrik Spechthausen bei Eberswalde lieferte das erste Papier für die Fälschungen. Banknotenpapier muss aus Leinenfasern bestehen und ein Wasserzeichen haben. Das war die erste große Hürde.' },
+    { n: 'Hahnemühle', lon: 9.72, lat: 51.80, when: '1942 – 1945', what: 'Das Papier für die Massenproduktion',
+      text: 'Später kam das Papier von der Hahnemühle in Relliehausen bei Dassel in Niedersachsen. Sie lieferte nach Schätzungen rund 1,5 Millionen Bogen. Auf jeden Bogen passten vier Noten. Nach dem Krieg arbeitete Bernhard Krüger hier.' },
+    { n: 'Prag', lon: 14.43, lat: 50.08, when: 'März 1945', what: 'Durchgangsstation',
+      text: 'Als die Rote Armee näher kam, wurden Häftlinge, Maschinen und Material in Zügen nach Süden gebracht. Der Weg führte über Prag nach Österreich.' },
+    { n: 'Mauthausen', lon: 14.501, lat: 48.257, when: 'ab 12. März 1945', what: 'KZ Mauthausen',
+      text: 'Das KZ Mauthausen bei Linz war eines der härtesten Lager des NS-Regimes. Die Fälscher wurden hier kurz festgehalten, getrennt von den anderen Häftlingen.',
+      visit: ['KZ-Gedenkstätte Mauthausen', 'Erinnerungsstraße 1, 4310 Mauthausen, Österreich.'] },
+    { n: 'Redl-Zipf', lon: 13.50, lat: 48.03, when: 'April – Anfang Mai 1945', what: 'Außenlager „Schlier“',
+      text: 'In Redl-Zipf lag das Außenlager „Schlier“ des KZ Mauthausen. Dort baute die SS in den Bierkellern der Brauerei Zipf an Raketentriebwerken. Die Fälscher sollten in einem Stollen weiterarbeiten. Am 3. Mai 1945 wurde das Lager geräumt und in Brand gesteckt.' },
+    { n: 'Toplitzsee', lon: 13.93, lat: 47.643, when: '28./29. April 1945', what: 'Das versenkte Falschgeld',
+      text: 'In der Nacht zum 29. April versenkte die SS Kisten mit Falschgeld und Druckplatten im Toplitzsee. Er ist über 100 Meter tief, und ab etwa 20 Metern gibt es fast keinen Sauerstoff mehr im Wasser. Deshalb blieben die Kisten gut erhalten. Bei Tauchgängen 1958/59 kamen Kisten mit Pfundnoten und ein Buch über das Nummernsystem der Bank of England nach oben. 1963 starb ein Taucher im See, danach suchte das österreichische Innenministerium. Im Jahr 2000 wurde ein Tauchboot eingesetzt. Adolf Burger war dabei.',
+      img: ['img/toplitzsee.webp', 'Der Toplitzsee im Salzkammergut, umgeben von steilen Bergwänden', 'Foto: Blueangel, gemeinfrei'] },
+    { n: 'Ebensee', lon: 13.77, lat: 47.81, when: '5. / 6. Mai 1945', what: 'Die Befreiung',
+      text: 'Ebensee war ein Außenlager von Mauthausen, in dem Häftlinge Stollen in den Berg schlagen mussten. Die Fälscher kamen in den letzten Kriegstagen hier an. Die SS wollte sie töten, doch durch eine Lastwagenpanne verzögerte sich alles. Am 6. Mai 1945 befreiten US-Soldaten das Lager.',
+      img: ['img/ebensee.webp', 'Das Lager Ebensee kurz nach der Befreiung im Mai 1945, vor einer Bergkulisse', 'Foto: J. Malan Heslop, US Army Signal Corps, 1945, gemeinfrei'],
+      visit: ['KZ-Gedenkstätte und Zeitgeschichte Museum Ebensee', 'Ebensee am Traunsee, Oberösterreich.'] },
+    { n: 'Meran', lon: 11.19, lat: 46.67, when: '1943 – 1945', what: 'Schloss Labers',
+      text: 'Von Schloss Labers bei Meran in Südtirol aus brachte Friedrich Schwend das Falschgeld in Umlauf. Sein Netz hatte rund 50 Agenten. Ein Drittel des Erlöses blieb bei ihm und seinen Leuten. Von hier aus floss Geld bis nach Ankara, wo der Spion „Cicero“ bezahlt wurde.' },
+  ];
+  const ROUTE = [0, 4, 5, 6, 8];
+  const svg = d3.select('#mapSvg');
+  if (svg.empty() || typeof d3 === 'undefined') return;
+  const geo = JSON.parse(document.getElementById('geoData').textContent);
+  const W = 640, H = 720;
+  const proj = d3.geoConicConformal().parallels([47, 53]).rotate([-12.5, 0]).clipExtent([[0, 0], [W, H]]);
+  const frame = { type: 'Feature', geometry: { type: 'MultiPoint', coordinates: [[8.4, 53.7], [17.0, 53.7], [8.8, 45.9], [16.6, 45.9]] } };
+  proj.fitExtent([[10, 10], [W - 10, H - 10]], frame);
+  const path = d3.geoPath(proj);
+  svg.append('g').selectAll('path').data(geo.features).join('path')
+    .attr('class', d => 'land' + (d.properties.id === '276' || d.properties.id === '040' ? ' reich' : '')).attr('d', path);
+  const labels = { '276': [10.2, 51.2], '040': [15.3, 47.35], '203': [15.6, 49.6], '616': [16.4, 52.9], '756': [9.0, 46.9], '380': [10.2, 46.15] };
+  svg.append('g').selectAll('text').data(geo.features.filter(f => labels[f.properties.id])).join('text')
+    .attr('class', 'cname').attr('text-anchor', 'middle')
+    .attr('x', d => proj(labels[d.properties.id])[0]).attr('y', d => proj(labels[d.properties.id])[1]).text(d => d.properties.n);
+  const line = d3.line().curve(d3.curveCatmullRom.alpha(.5));
+  const rt = svg.append('path').attr('class', 'rt').attr('d', line(ROUTE.map(i => proj([P[i].lon, P[i].lat]))));
+  svg.append('path').attr('class', 'rt').attr('stroke-dasharray', '5 6').style('stroke-width', 2)
+    .attr('d', line([6, 7].map(i => proj([P[i].lon, P[i].lat]))));
+  const pins = svg.append('g').selectAll('g').data(P).join('g').attr('class', 'pin').attr('tabindex', 0).attr('role', 'button')
+    .attr('aria-label', d => d.n).attr('transform', d => `translate(${proj([d.lon, d.lat])})`);
+  pins.append('circle').attr('r', 11);
+  pins.append('text').attr('text-anchor', 'middle').attr('dy', 4).text((d, i) => i + 1);
+  // name tags next to pins, nudged where pins sit close together
+  const off = { 'Berlin': [-14, 18, 'end'], 'Sachsenhausen': [-14, -10, 'end'], 'Spechthausen': [14, -6, 'start'], 'Redl-Zipf': [-14, 4, 'end'], 'Ebensee': [-14, 16, 'end'], 'Toplitzsee': [14, 14, 'start'], 'Mauthausen': [14, 4, 'start'], 'Prag': [14, 4, 'start'], 'Hahnemühle': [14, 4, 'start'], 'Meran': [14, 4, 'start'] };
+  svg.append('g').selectAll('text').data(P).join('text').attr('class', 'cname').style('font-style', 'normal').style('fill', 'var(--ink)')
+    .attr('text-anchor', d => off[d.n][2]).attr('x', d => proj([d.lon, d.lat])[0] + off[d.n][0]).attr('y', d => proj([d.lon, d.lat])[1] + off[d.n][1]).text(d => d.n);
+
+  const list = document.getElementById('placeList'), card = document.getElementById('placeCard');
+  P.forEach((p, i) => { const b = document.createElement('button'); b.className = 'chip'; b.textContent = `${i + 1} ${p.n}`; b.setAttribute('aria-pressed', 'false'); b.onclick = () => show(i); list.appendChild(b); });
+  const osm = p => `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=13/${p.lat}/${p.lon}`;
+  const show = i => {
+    const p = P[i];
+    pins.classed('on', (d, k) => k === i);
+    [...list.children].forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
+    card.innerHTML = (p.img ? `<figure class="photo"><img src="${p.img[0]}" alt="${p.img[1]}"><figcaption>${p.img[1]}.</figcaption></figure>` : '') +
+      `<p class="meta">${i + 1} · ${p.when}</p><h3>${p.n}: ${p.what}</h3><p>${p.text}</p>` +
+      (p.visit ? `<div class="visit"><strong>Heute besuchen: ${p.visit[0]}</strong><span>${p.visit[1]}</span></div>` : '') +
+      `<p class="small"><a href="${osm(p)}" target="_blank" rel="noopener">In OpenStreetMap ansehen</a> <span class="muted">(${p.lat.toFixed(2)}° N, ${p.lon.toFixed(2)}° O)</span></p>`;
+  };
+  pins.on('click', (e, d) => show(P.indexOf(d))).on('keydown', (e, d) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(P.indexOf(d)); } });
+  show(0);
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const len = rt.node().getTotalLength();
+    gsap.fromTo(rt.node(), { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, ease: 'none',
+      scrollTrigger: { trigger: '#mapSvg', start: 'top 75%', end: 'bottom 60%', scrub: true } });
+  }
+})();
+</script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = typeof gsap !== 'undefined';
+  if (hasGsap && typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- smooth scroll (Lenis) ---------- */
+  let lenis = null;
+  if (!reduce && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    window.__lenis = lenis;
+    if (hasGsap) {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(t => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    }
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    const el = id === '#top' ? document.body : document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(el, { offset: -64 });
+    else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  /* ---------- reading progress + active chapter ---------- */
+  const bar = document.getElementById('progress');
+  const tocLinks = [...document.querySelectorAll('nav.toc a')];
+  const onScroll = () => {
+    const h = document.documentElement.scrollHeight - innerHeight;
+    bar.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%';
+    let cur = null;
+    tocLinks.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s && s.getBoundingClientRect().top < innerHeight * .4) cur = a; });
+    tocLinks.forEach(a => a.classList.toggle('on', a === cur));
+  };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* ---------- decrypting serial number (React Bits "DecryptedText" idea, plain JS) ---------- */
+  const scramble = (el, finalText, dur = 1400) => {
+    if (reduce) { el.textContent = finalText; return; }
+    const chars = '0123456789ABCDEFGHJKLMNPRSTUVWXYZ/';
+    const start = performance.now();
+    const tick = now => {
+      const p = Math.min(1, (now - start) / dur);
+      const fixed = Math.floor(p * finalText.length);
+      el.textContent = finalText.split('').map((c, i) => i < fixed || c === ' ' || c === ' ' ? c : chars[Math.random() * chars.length | 0]).join('');
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  scramble(document.getElementById('heroSerial'), 'J 14752 · das Vorbild der Fälscher', 1800);
+
+  /* ---------- hero entrance ---------- */
+  if (hasGsap && !reduce) {
+    const h1 = document.querySelector('.hero h1');
+    gsap.from(h1, { y: 30, duration: 1.1, ease: 'power3.out' });
+    gsap.from('.hero .lede', { y: 20, duration: 1, delay: .2, ease: 'power3.out' });
+    gsap.from('#noteWrap', { y: 60, rotate: -3, duration: 1.4, delay: .3, ease: 'power3.out' });
+    // the note slowly tilts while scrolling past it
+    gsap.to('#noteWrap', { rotate: 2.5, y: -30, ease: 'none', scrollTrigger: { trigger: '.note-stage', start: 'top 70%', end: 'bottom top', scrub: true } });
+  }
+
+  /* ---------- loupe ---------- */
+  const wrap = document.getElementById('noteWrap');
+  const loupe = document.getElementById('loupe');
+  const zoom = 2.6;
+  const moveLoupe = (cx, cy) => {
+    const r = wrap.getBoundingClientRect();
+    const x = cx - r.left, y = cy - r.top;
+    if (x < 0 || y < 0 || x > r.width || y > r.height) { loupe.classList.remove('on'); return; }
+    loupe.classList.add('on');
+    loupe.style.left = x + 'px'; loupe.style.top = y + 'px';
+    loupe.style.backgroundSize = `${r.width * zoom}px ${r.height * zoom}px`;
+    loupe.style.backgroundPosition = `${-x * zoom + 95}px ${-y * zoom + 95}px`;
+  };
+  wrap.addEventListener('pointermove', e => { if (e.pointerType === 'mouse' && !e.target.closest('.hotspot')) moveLoupe(e.clientX, e.clientY); else if (e.target.closest('.hotspot')) loupe.classList.remove('on'); });
+  wrap.addEventListener('pointerleave', () => loupe.classList.remove('on'));
+
+  /* ---------- note features ---------- */
+  const features = [
+    ['Britannia', 'Die sitzende Britannia war ein feiner Kupferstich mit tausenden Linien. Graveure unter den Häftlingen brauchten Monate, bis ihre Platte dem Original glich. In der echten Note steckten winzige, geheime Kennzeichen, zum Beispiel Punkte an bestimmten Stellen. Schau dir die feinen Linien mit der Lupe an.'],
+    ['Seriennummer', 'Jede echte Note hatte eine Nummer, hier „J 14752“. Sie musste zum Datum und zur Unterschrift passen. Die Fälscher erforschten, nach welchem System die Bank of England die Nummern vergab. Passte eine Kombination nicht, fiel die Note bei einer Bank sofort auf.'],
+    ['Wasserzeichen', 'Das Wasserzeichen entsteht schon bei der Herstellung des Papiers. Hält man die Note gegen das Licht, sieht man es. Auf diesem Foto erkennt man es als hellgraues Muster hinter dem Wort „Five“. Die Papierfabrik Hahnemühle stellte das Papier mit dem passenden Wasserzeichen her.'],
+    ['Unterschrift', 'Auf jeder Note stand die gedruckte Unterschrift des Chief Cashiers der Bank of England. Jede Unterschrift gehörte zu einem bestimmten Zeitraum. Eine Note mit dem falschen Namen zum falschen Datum war sofort verdächtig.'],
+    ['Papier', 'Britische Banknoten bestanden aus Leinenfasern, nicht aus Holz. Unter UV-Licht leuchtet normales Papier anders. Erst nach vielen Versuchen hatten die Fälscher ein Papier, das wie das Original aussah und sich so anfühlte.'],
+  ];
+  const card = document.getElementById('featureCard');
+  const spots = [...document.querySelectorAll('.hotspot')];
+  spots.forEach(b => b.addEventListener('click', () => {
+    const f = features[+b.dataset.f];
+    spots.forEach(s => s.setAttribute('aria-pressed', String(s === b)));
+    card.innerHTML = `<h3>${b.dataset.f * 1 + 1}. ${f[0]}</h3><p>${f[1]}</p>`;
+    if (hasGsap && !reduce) gsap.from(card, { x: -12, duration: .4, ease: 'power2.out' });
+  }));
+
+  /* ---------- counters ---------- */
+  const fmt = (v, dec) => v.toLocaleString('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const end = +el.dataset.count, dec = +(el.dataset.dec || 0), pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+    if (!hasGsap || reduce) return;
+    const o = { v: 0 };
+    gsap.to(o, { v: end, duration: 1.6, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+      onUpdate: () => { el.textContent = pre + fmt(o.v, dec) + suf; } });
+  });
+
+  /* ---------- workshop steps + canvas drawings ---------- */
+  const steps = [...document.querySelectorAll('.step')];
+  const cv = document.getElementById('plateCanvas');
+  const ctx = cv.getContext('2d');
+  const cap = document.getElementById('plateCap');
+  const caps = ['Fachleute aussuchen', 'Das Papier', 'Die Druckplatten', 'Druck und Nummern', 'Prüfen und altern'];
+  let cur = 0, t0 = performance.now();
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const draw = now => {
+    const t = Math.min(1, (now - t0) / 1600), ink = css('--ink'), soft = css('--ink-soft'), stamp = css('--stamp'), bg = css('--paper-2'), note = css('--note');
+    const e = reduce ? 1 : 1 - Math.pow(1 - t, 3);
+    const late = Math.max(0, Math.min(1, (e - .55) / .45)); // labels fade in at the end
+    const LAB = '22px "Special Elite", monospace', TXT = '24px "Libre Baskerville", serif';
+    ctx.clearRect(0, 0, 800, 600); ctx.fillStyle = bg; ctx.fillRect(0, 0, 800, 600);
+    ctx.textAlign = 'left'; ctx.globalAlpha = 1;
+    // a dot on the feature, a line, then the label text (lines split by \n)
+    const lab = (fx, fy, tx, ty, txt, align = 'left') => {
+      ctx.save(); ctx.globalAlpha = late; ctx.strokeStyle = stamp; ctx.fillStyle = stamp; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(fx, fy, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(tx, ty); ctx.stroke();
+      ctx.font = LAB; ctx.textAlign = align;
+      const dx = align === 'left' ? 8 : align === 'right' ? -8 : 0, dy = align === 'center' ? 26 : 7;
+      txt.split('\n').forEach((l, k) => ctx.fillText(l, tx + dx, ty + dy + k * 25));
+      ctx.restore();
+    };
+    const title = s => { ctx.fillStyle = ink; ctx.font = '600 32px "Oswald", sans-serif'; ctx.fillText(s.toUpperCase(), 40, 58); };
+    const foot = lines => { ctx.fillStyle = ink; ctx.font = TXT; ctx.textAlign = 'center'; lines.forEach((l, k) => ctx.fillText(l, 400, 548 + k * 32 - (lines.length - 1) * 16)); ctx.textAlign = 'left'; };
+    const card = (x, y, w, h) => { ctx.fillStyle = note; ctx.fillRect(x, y, w, h); ctx.strokeStyle = ink; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h); };
+    ctx.strokeStyle = ink; ctx.fillStyle = ink; ctx.lineWidth = 2;
+    if (cur === 0) { // prisoner index cards sorted by job
+      title('Häftlinge nach Beruf ausgewählt');
+      ctx.fillStyle = soft; ctx.font = LAB; ctx.fillText('aus Auschwitz und anderen Lagern  →  Sachsenhausen', 40, 100);
+      const jobs = ['Drucker', 'Graveur', 'Fotograf', 'Bankangestellter', 'Zeichner'];
+      jobs.forEach((j, i) => {
+        const x = i < 3 ? 40 + i * 245 : 162 + (i - 3) * 245, y = i < 3 ? 130 : 300;
+        ctx.globalAlpha = e * 5 > i ? 1 : .12;
+        card(x, y, 225, 140);
+        ctx.fillStyle = soft; ctx.font = '18px "Special Elite", monospace'; ctx.fillText('HÄFTLING · BERUF:', x + 14, y + 32);
+        ctx.fillStyle = ink; ctx.font = '600 30px "Oswald", sans-serif'; ctx.fillText(j, x + 14, y + 80);
+        ctx.strokeStyle = soft; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + 14, y + 112); ctx.lineTo(x + 211, y + 112); ctx.stroke();
+      });
+      ctx.globalAlpha = 1;
+      foot(['Gesucht wurden Fachleute für Druck und Geld.', 'Etwa 140 jüdische Häftlinge mussten mitmachen.']);
+    } else if (cur === 1) { // a paper sheet, its fibres and the watermark
+      title('Das Papier');
+      card(40, 120, 400, 320);
+      ctx.fillStyle = soft; ctx.font = LAB; ctx.fillText('Papierbogen', 40, 108);
+      let s = 7; const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+      ctx.strokeStyle = ink; ctx.globalAlpha = .3; ctx.lineWidth = 1;
+      for (let i = 0; i < 220 * e; i++) { const x = 50 + rnd() * 370, y = 130 + rnd() * 290, a = rnd() * Math.PI; ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x + 6, y + 5, x + Math.cos(a) * 18, y + Math.sin(a) * 18); ctx.stroke(); }
+      ctx.globalAlpha = .18 * e; ctx.fillStyle = ink; ctx.beginPath(); ctx.ellipse(320, 350, 70, 48, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1;
+      // magnifier with big fibres
+      const mx = 630, my = 230, mr = 105;
+      ctx.save(); ctx.beginPath(); ctx.arc(mx, my, mr, 0, Math.PI * 2); ctx.fillStyle = note; ctx.fill(); ctx.clip();
+      ctx.strokeStyle = ink; ctx.lineWidth = 2.5; ctx.globalAlpha = .6 * e;
+      for (let i = 0; i < 26; i++) { const x = mx - mr + rnd() * mr * 2, y = my - mr + rnd() * mr * 2, a = rnd() * Math.PI; ctx.beginPath(); ctx.moveTo(x, y); ctx.bezierCurveTo(x + 20, y - 15, x + 30, y + 20, x + Math.cos(a) * 80, y + Math.sin(a) * 80); ctx.stroke(); }
+      ctx.restore();
+      ctx.strokeStyle = ink; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(mx, my, mr, 0, Math.PI * 2); ctx.stroke();
+      ctx.setLineDash([5, 6]); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(180, 200); ctx.lineTo(mx - mr, my); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(180, 200, 16, 0, Math.PI * 2); ctx.stroke();
+      lab(mx, my + mr, mx, my + mr + 18, 'Leinenfasern\n(vergrößert)', 'center');
+      lab(320, 350, 470, 470, 'Wasserzeichen');
+      foot(['Echte Pfundnoten waren aus Leinen, nicht aus Holz.']);
+    } else if (cur === 2) { // copper printing plate, mirrored
+      title('Die Druckplatte');
+      ctx.fillStyle = ink; ctx.globalAlpha = .1; ctx.fillRect(40, 110, 500, 330); ctx.globalAlpha = 1;
+      ctx.strokeStyle = ink; ctx.lineWidth = 3; ctx.strokeRect(40, 110, 500, 330);
+      ctx.fillStyle = soft; ctx.font = '18px "Special Elite", monospace'; ctx.fillText('KUPFERPLATTE', 56, 136);
+      ctx.save(); ctx.beginPath(); ctx.rect(40, 110, 500, 330); ctx.clip();
+      ctx.strokeStyle = ink; ctx.lineWidth = 1.1;
+      for (let r = 8; r < 100 * e; r += 6) { ctx.beginPath(); ctx.arc(150, 280, r, 0, Math.PI * 2); ctx.stroke(); }
+      for (let i = 0; i < 40 * e; i++) { const a = i / 40 * Math.PI * 2; ctx.beginPath(); ctx.moveTo(150, 280); ctx.lineTo(150 + Math.cos(a) * 100, 280 + Math.sin(a) * 100); ctx.stroke(); }
+      ctx.restore();
+      // mirrored text, because a printing plate prints the other way round
+      ctx.save(); ctx.globalAlpha = e; ctx.translate(390, 0); ctx.scale(-1, 1); ctx.fillStyle = ink;
+      ctx.font = '40px "Pinyon Script", cursive'; ctx.textAlign = 'center'; ctx.fillText('Bank of England', 0, 200);
+      ctx.font = '700 64px "Oswald", sans-serif'; ctx.fillText('Five', 0, 330); ctx.restore();
+      if (e > .95) { ctx.fillStyle = stamp; ctx.beginPath(); ctx.arc(196, 330, 4, 0, Math.PI * 2); ctx.fill(); }
+      lab(110, 372, 60, 458, 'Britannia: tausende feine Linien');
+      lab(445, 300, 580, 260, 'Schrift\nspiegelverkehrt');
+      lab(196, 330, 580, 380, 'geheimes\nKennzeichen');
+      foot(['Graveure ritzten jede Linie von Hand in Kupfer.', 'Beim Drucken erscheint alles richtig herum.']);
+    } else if (cur === 3) { // a sheet of four notes, one note enlarged
+      title('Druck und Nummern');
+      ctx.fillStyle = soft; ctx.font = LAB; ctx.fillText('1 Bogen = 4 Noten', 40, 102);
+      ctx.fillStyle = note; ctx.fillRect(40, 116, 300, 330); ctx.strokeStyle = ink; ctx.strokeRect(40, 116, 300, 330);
+      for (let i = 0; i < 4; i++) {
+        const x = 54 + (i % 2) * 140, y = 130 + Math.floor(i / 2) * 156;
+        ctx.globalAlpha = e * 4 > i ? 1 : .15; ctx.strokeStyle = ink; ctx.lineWidth = 1.5; ctx.strokeRect(x, y, 130, 142);
+        ctx.fillStyle = ink; ctx.font = '700 34px "Oswald", sans-serif'; ctx.fillText('£5', x + 12, y + 126);
+        ctx.font = '15px "Special Elite", monospace'; ctx.fillText('J ' + (14752 + i), x + 12, y + 28);
+      }
+      ctx.globalAlpha = 1;
+      ctx.setLineDash([5, 6]); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(184, 130); ctx.lineTo(420, 160); ctx.moveTo(184, 272); ctx.lineTo(420, 380); ctx.stroke(); ctx.setLineDash([]);
+      card(420, 160, 340, 220);
+      ctx.fillStyle = ink; ctx.font = '22px "Special Elite", monospace'; ctx.fillText('J 14752', 440, 198);
+      ctx.font = '26px "Pinyon Script", cursive'; ctx.fillText('London 1937 Feb. 15', 520, 262);
+      ctx.font = '700 46px "Oswald", sans-serif'; ctx.fillText('£5', 440, 360);
+      ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(600, 340); ctx.bezierCurveTo(630, 300, 650, 370, 680, 330); ctx.bezierCurveTo(700, 310, 720, 350, 740, 335); ctx.stroke();
+      lab(536, 190, 580, 120, 'Seriennummer', 'left');
+      lab(600, 268, 560, 420, 'Datum', 'right');
+      lab(690, 340, 690, 420, 'Unterschrift', 'center');
+      foot(['Nummer, Datum und Unterschrift mussten', 'zusammenpassen, sonst fiel die Note auf.']);
+    } else { // grading into four quality levels, then ageing
+      title('Prüfen und altern');
+      const dest = ['Spione', 'Geschäfte', 'Abwurf über\nEngland (geplant)', 'vernichtet'];
+      dest.forEach((d, i) => {
+        const x = 40 + i * 185, y = 140;
+        card(x, y, 165, 210);
+        ctx.setLineDash([4, 5]); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x, y + 105); ctx.lineTo(x + 165, y + 105); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = ink; [30, 50, 70].forEach(px => { ctx.beginPath(); ctx.arc(x + px, y + 18, 2.5, 0, Math.PI * 2); ctx.fill(); });
+        if (e > i / 4) {
+          ctx.save(); ctx.translate(x + 82, y + 150); ctx.rotate(-.2); ctx.strokeStyle = stamp; ctx.lineWidth = 3;
+          ctx.strokeRect(-62, -26, 124, 52); ctx.fillStyle = stamp; ctx.font = '600 28px "Oswald", sans-serif'; ctx.textAlign = 'center'; ctx.fillText('STUFE ' + (i + 1), 0, 10); ctx.restore();
+        }
+        ctx.save(); ctx.globalAlpha = late; ctx.fillStyle = ink; ctx.font = '20px "Special Elite", monospace'; ctx.textAlign = 'center';
+        d.split('\n').forEach((l, k) => ctx.fillText(l, x + 82, y + 245 + k * 24)); ctx.restore();
+      });
+      lab(90, 158, 140, 100, 'Nadellöcher');
+      lab(340, 245, 400, 100, 'gefaltet');
+      foot(['Die besten Noten bekamen Stufe 1. Alle wurden', 'gefaltet und durchstochen, damit sie benutzt aussahen.']);
+    }
+    if (t < 1 && !reduce) requestAnimationFrame(draw);
+  };
+  const setStep = i => {
+    cur = i; t0 = performance.now();
+    steps.forEach((s, k) => s.setAttribute('aria-expanded', String(k === i)));
+    cap.textContent = `Schritt ${i + 1} von 5: ${caps[i]}`;
+    requestAnimationFrame(draw);
+  };
+  steps.forEach((s, i) => s.addEventListener('click', () => setStep(i)));
+  document.fonts?.ready.then(() => setStep(0)); setStep(0);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => setStep(cur));
+
+  /* ---------- people filter ---------- */
+  const chips = [...document.querySelectorAll('.chip')];
+  chips.forEach(c => c.addEventListener('click', () => {
+    chips.forEach(x => x.setAttribute('aria-pressed', String(x === c)));
+    document.querySelectorAll('.person').forEach(p => { p.hidden = !(c.dataset.filter === 'all' || p.dataset.side === c.dataset.filter); });
+  }));
+
+  /* ---------- horizontal timeline (desktop only) ---------- */
+  if (hasGsap && !reduce && typeof ScrollTrigger !== 'undefined') {
+    // Sticky + own scroll math instead of a ScrollTrigger pin: a pin keeps cached
+    // positions and gets stuck when the page height changes (map card, iframe resize).
+    const sticky = document.getElementById('tlSticky'), run = document.getElementById('tlRun');
+    const track = document.getElementById('tlTrack'), outer = document.getElementById('tlOuter');
+    const wide = matchMedia('(min-width: 761px)');
+    const setX = gsap.quickTo(track, 'x', { duration: .5, ease: 'power3.out' });
+    let dist = 0;
+    const measure = () => {
+      if (!wide.matches) { sticky.classList.remove('on'); run.style.height = '0px'; gsap.set(track, { x: 0 }); dist = 0; return; }
+      sticky.classList.add('on');
+      dist = Math.max(0, track.scrollWidth - outer.clientWidth);
+      run.style.height = dist + 'px';
+      update();
+    };
+    const update = () => {
+      if (!dist) return;
+      const top = run.getBoundingClientRect().top - sticky.offsetHeight;
+      setX(-Math.min(1, Math.max(0, (88 - top) / dist)) * dist);
+    };
+    addEventListener('scroll', update, { passive: true });
+    if (lenis) lenis.on('scroll', update);
+    addEventListener('resize', measure);
+    wide.addEventListener?.('change', measure);
+    document.fonts?.ready.then(measure);
+    measure();
+    // section headings rise slightly (they stay visible at rest)
+    gsap.utils.toArray('section h2').forEach(h => gsap.from(h, { y: 24, duration: .9, ease: 'power3.out', scrollTrigger: { trigger: h, start: 'top 90%', once: true } }));
+  }
+
+  /* ---------- quiz ---------- */
+  const POOL = [
+    ['In welchem Konzentrationslager lag die Fälscherwerkstatt?', ['Dachau', 'Buchenwald', 'Sachsenhausen', 'Bergen-Belsen'], 2, 'Die Werkstatt lag in den Baracken 18 und 19 des KZ Sachsenhausen bei Oranienburg, nördlich von Berlin.'],
+    ['In welchen Baracken arbeiteten die Fälscher?', ['1 und 2', '18 und 19', '38 und 39', '64 und 65'], 1, 'Es waren die Baracken 18 und 19 im „Kleinen Lager“, mit eigenem Stacheldraht abgetrennt.'],
+    ['Wie hieß die erste Phase der Fälschung 1940 bis 1942?', ['Aktion Andreas', 'Unternehmen Seelöwe', 'Fall Weiß', 'Aktion Reinhardt'], 0, 'Sie hieß „Aktion Andreas“, nach dem Andreaskreuz im Union Jack, und wurde von Alfred Naujocks geleitet.'],
+    ['Wer schlug den Plan im September 1939 als Erster vor?', ['Hermann Göring', 'Arthur Nebe', 'Joseph Goebbels', 'Albert Speer'], 1, 'Arthur Nebe, der Chef der Kriminalpolizei, brachte die Idee am 18. September 1939 ein.'],
+    ['Aus welchem Material besteht britisches Banknotenpapier dieser Zeit?', ['Holz', 'Baumwolle und Plastik', 'Leinenfasern', 'Seide'], 2, 'Das Papier bestand aus Leinenfasern. Normales Papier aus Holz hätte unter UV-Licht anders ausgesehen.'],
+    ['Welche Firma lieferte das meiste Papier?', ['Hahnemühle', 'Siemens', 'Krupp', 'Bayer'], 0, 'Die Hahnemühle in Relliehausen lieferte schätzungsweise 1,5 Millionen Bogen. Krüger arbeitete nach dem Krieg sogar dort.'],
+    ['Wie viele Noten passten auf einen Druckbogen?', ['Eine', 'Zwei', 'Vier', 'Zwölf'], 2, 'Auf jedem Bogen waren vier Noten.'],
+    ['Wie wurden die Noten nach dem Druck sortiert?', ['Nach Farbe', 'In Qualitätsstufen', 'Nach Gewicht', 'Gar nicht'], 1, 'Die besten Noten (Stufe 1) gingen an Spione und in neutrale Länder, die schlechtesten wurden vernichtet.'],
+    ['Wer brachte das Falschgeld von Südtirol aus in Umlauf?', ['Friedrich Schwend', 'Otto Skorzeny', 'Adolf Eichmann', 'Rudolf Höß'], 0, 'Friedrich Schwend arbeitete von Schloss Labers bei Meran aus, mit rund 50 Agenten.'],
+    ['Wofür wurden 100.000 gefälschte Pfund im September 1943 benutzt?', ['Für Waffen aus Schweden', 'Für Informationen zur Befreiung Mussolinis', 'Für Gold aus Spanien', 'Für die Olympischen Spiele'], 1, 'Mit dem Geld kaufte die SS Informationen darüber, wo Mussolini auf dem Gran Sasso gefangen war.'],
+    ['Wie sprach Krüger die Häftlinge an?', ['Gar nicht', 'Nur mit Nummern', 'Mit „Sie“', 'Mit „du“'], 2, 'Krüger sprach die Häftlinge mit „Sie“ an. Das war für die SS gegenüber jüdischen Häftlingen sehr ungewöhnlich.'],
+    ['Welche Freizeitbeschäftigung gab es in der Fälscherbaracke?', ['Fußball', 'Tischtennis', 'Schwimmen', 'Kino'], 1, 'Es gab eine Tischtennisplatte. Die Häftlinge spielten manchmal sogar gegen die Wachleute.'],
+    ['Wer befahl im Mai 1944, auch Dollar zu fälschen?', ['Ernst Kaltenbrunner', 'Wilhelm Canaris', 'Martin Bormann', 'Erwin Rommel'], 0, 'Ernst Kaltenbrunner, Chef des Reichssicherheitshauptamts, gab den Befehl.'],
+    ['Wie reagierte die Bank of England im April 1943?', ['Sie druckte mehr Geld', 'Sie gab keine neuen Noten ab 10 Pfund mehr aus', 'Sie schloss alle Filialen', 'Sie führte den Euro ein'], 1, 'Ab April 1943 gab die Bank keine neuen Noten ab 10 Pfund mehr aus.'],
+    ['In welchem Land wurden die Fälscher befreit?', ['Deutschland', 'Polen', 'Österreich', 'Tschechien'], 2, 'Sie wurden im Lager Ebensee in Oberösterreich befreit.'],
+    ['Wer befreite das Lager Ebensee?', ['Die Rote Armee', 'Britische Truppen', 'US-Soldaten', 'Französische Truppen'], 2, 'Amerikanische Soldaten befreiten Ebensee am 6. Mai 1945.'],
+    ['Warum sind die Kisten im Toplitzsee so gut erhalten?', ['Der See ist zugefroren', 'In der Tiefe ist kaum Sauerstoff im Wasser', 'Sie waren aus Gold', 'Sie lagen am Ufer'], 1, 'Ab etwa 20 Metern Tiefe enthält das Wasser fast keinen Sauerstoff. Deshalb verrottet dort kaum etwas.'],
+    ['Wie hieß der Drucker, auf dessen Erinnerungen der Film „Die Fälscher“ beruht?', ['Adolf Burger', 'Leo Haas', 'Oskar Schindler', 'Primo Levi'], 0, 'Adolf Burger (1917–2016) schrieb „Des Teufels Werkstatt“ und sprach vor über 90.000 Jugendlichen.'],
+    ['Warum wurde Bernhard Krüger nie verurteilt?', ['Er floh nach Südamerika', 'Fälschen von Feindgeld galt nicht als Kriegsverbrechen', 'Er starb 1945', 'Die Briten wussten nichts von ihm'], 1, 'Das Fälschen feindlichen Geldes galt nicht als Kriegsverbrechen. Krüger lebte bis 1989.'],
+    ['Welcher Häftling zeichnete 1944 die Fälscherwerkstatt?', ['Leo Haas', 'Pablo Picasso', 'Adolf Burger', 'Moritz Nachtstern'], 0, 'Der Maler Leo Haas zeichnete die Werkstatt. Das Bild wird heute von den Brandenburgischen Gedenkstätten aufbewahrt.'],
+  ];
+  const shuffle = a => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [b[i], b[j]] = [b[j], b[i]]; } return b; };
+  const ROUND = 10;
+  const newRound = () => shuffle([...POOL, ...BASE]).slice(0, ROUND).map(([q, o, r, e]) => {
+    const order = shuffle(o.map((_, i) => i));
+    return [q, order.map(i => o[i]), order.indexOf(r), e];
+  });
+  const BASE = [
+    ['Welche Währung wurde in Sachsenhausen vor allem gefälscht?', ['US-Dollar', 'Britisches Pfund', 'Französischer Franc', 'Schweizer Franken'], 1, 'Gefälscht wurden vor allem Pfundnoten zu 5, 10, 20 und 50 Pfund. Dollar kamen erst 1944 dazu und wurden nicht mehr fertig.'],
+    ['Woher hat die Operation ihren Namen?', ['Vom Ort Bernau', 'Vom Leiter Bernhard Krüger', 'Von einem Häftling', 'Vom Bernhardiner als Wappen'], 1, 'SS-Sturmbannführer Bernhard Krüger leitete die Werkstatt ab 1942.'],
+    ['Was war das ursprüngliche Ziel des Plans von 1939?', ['Deutsche Schulden bezahlen', 'Falschgeld über Großbritannien abwerfen und die Wirtschaft schwächen', 'Die Reichsmark stärken', 'Gold in der Schweiz kaufen'], 1, 'Das Geld sollte über Großbritannien abgeworfen werden. Später nutzte die SS es vor allem, um Spione und Geschäfte zu bezahlen.'],
+    ['Wie viele Häftlinge arbeiteten ungefähr in der Fälscherwerkstatt?', ['Etwa 15', 'Etwa 140', 'Etwa 1.400', 'Etwa 14.000'], 1, 'Es waren rund 140 Häftlinge, die meisten von ihnen Juden aus verschiedenen Ländern Europas.'],
+    ['Wer wurde mit dem Falschgeld bezahlt?', ['Der Spion „Cicero“ in Ankara', 'Die Wehrmacht für ihren Sold', 'Die britische Regierung', 'Niemand, es wurde nie benutzt'], 0, 'Elyesa Bazna, genannt „Cicero“, verkaufte Geheimnisse aus der britischen Botschaft und bekam wertlose Pfund.'],
+    ['Warum überlebten die Fälscher am Ende?', ['Sie konnten alle fliehen', 'Die SS ließ sie frei', 'Ein Lastwagen hatte eine Panne, und US-Soldaten befreiten Ebensee rechtzeitig', 'Die Briten tauschten sie aus'], 2, 'Die SS wollte die Mitwisser töten. Durch die Verspätung kam es nicht mehr dazu, und am 5. und 6. Mai 1945 kam die Befreiung.'],
+    ['Wo versenkte die SS Kisten mit Falschgeld?', ['In der Ostsee', 'Im Bodensee', 'Im Toplitzsee in Österreich', 'In der Spree'], 2, 'Die Kisten landeten im Toplitzsee im Salzkammergut. 1959 holten Taucher einige davon wieder heraus.'],
+    ['Wie heißt der Film über die Fälscherwerkstatt, der 2008 einen Oscar gewann?', ['Die Fälscher', 'Der Untergang', 'Schindlers Liste', 'Das Boot'], 0, '„Die Fälscher“ von Stefan Ruzowitzky beruht auf den Erinnerungen von Adolf Burger.'],
+  ];
+  let Q = newRound(), qi = 0, score = 0;
+  const box = document.getElementById('quizBox'), quizShell = box.innerHTML;
+  let qText, qA, qE, qN, qC, qS;
+  const bindQuiz = () => {
+    qText = document.getElementById('qText'); qA = document.getElementById('qAnswers'); qE = document.getElementById('qExplain');
+    qN = document.getElementById('qNext'); qC = document.getElementById('qCount'); qS = document.getElementById('qScore');
+    qN.addEventListener('click', onNext);
+  };
+  const render = () => {
+    const [q, opts] = Q[qi];
+    qC.textContent = `Frage ${qi + 1} von ${Q.length}`; qS.textContent = `${score} richtig`;
+    qText.textContent = q; qE.textContent = ''; qN.disabled = true;
+    qN.textContent = qi === Q.length - 1 ? 'Ergebnis zeigen' : 'Nächste Frage';
+    qA.innerHTML = '';
+    opts.forEach((o, i) => {
+      const b = document.createElement('button'); b.className = 'answer'; b.textContent = o;
+      b.addEventListener('click', () => {
+        const right = Q[qi][2];
+        if (i === right) score++;
+        [...qA.children].forEach((c, k) => { c.disabled = true; if (k === right) c.classList.add('right'); else if (k === i) c.classList.add('wrong'); });
+        qE.textContent = (i === right ? 'Richtig. ' : 'Leider falsch. ') + Q[qi][3];
+        qS.textContent = `${score} richtig`; qN.disabled = false; qN.focus({ preventScroll: true });
+      });
+      qA.appendChild(b);
+    });
+  };
+  function onNext() {
+    if (qi < Q.length - 1) { qi++; render(); return; }
+    const verdict = score >= 9 ? 'Meisterprüfer' : score >= 6 ? 'Guter Blick' : 'Nochmal lesen';
+    box.innerHTML = `<div class="q-meta"><span>Ergebnis</span><span>${score} von ${Q.length}</span></div>
+      <p class="stamp-result">${verdict}</p>
+      <p class="explain" style="text-align:center">Du hast ${score} von ${Q.length} Fragen richtig beantwortet.</p>
+      <div class="quiz-actions" style="justify-content:center"><button class="btn" id="qAgain">Neue Runde mit anderen Fragen</button></div>`;
+    if (hasGsap && !reduce) gsap.from('.stamp-result', { scale: 2.4, opacity: 0, rotate: -20, duration: .5, ease: 'back.out(2)' });
+    document.getElementById('qAgain').addEventListener('click', () => {
+      box.innerHTML = quizShell; bindQuiz(); Q = newRound(); qi = 0; score = 0; render();
+    });
+  }
+  bindQuiz();
+  render();
+})();
+</script>
+<script>
+(() => {
+  const btn = document.getElementById('srcToggle'), body = document.getElementById('srcBody');
+  btn.addEventListener('click', () => {
+    const open = body.hidden;
+    body.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? 'Quellen ausblenden' : 'Quellen anzeigen';
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  });  const tBtn = document.getElementById('teamToggle'), tBody = document.getElementById('teamBody');
+  tBtn.addEventListener('click', () => {
+    const open = tBody.hidden;
+    tBody.hidden = !open;
+    tBtn.setAttribute('aria-expanded', String(open));
+    tBtn.textContent = open ? 'Projektgruppe ausblenden' : 'Projektgruppe';
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  });
+})();
+</script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGsap = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+
+  /* ---------- file cover at the start ---------- */
+  const intro = document.getElementById('intro');
+  if (!reduce && hasGsap) {
+    intro.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    window.__lenis?.stop();
+    gsap.from('#folder', { y: 40, opacity: 0, duration: .9, ease: 'power3.out' });
+    gsap.from('.f-stamp', { scale: 2.6, opacity: 0, rotate: -30, duration: .45, delay: .7, ease: 'back.out(2)' });
+    let opened = false;
+    const open = () => {
+      if (opened) return; opened = true;
+      gsap.timeline({ onComplete: () => { intro.remove(); document.documentElement.style.overflow = ''; window.__lenis?.start(); ScrollTrigger.refresh(); } })
+        .to('#folder', { y: '-110vh', rotate: -6, duration: .9, ease: 'power3.in' })
+        .to(intro, { opacity: 0, duration: .45 }, '-=.3');
+    };
+    document.getElementById('introOpen').addEventListener('click', open);
+    intro.addEventListener('wheel', open, { passive: true });
+    intro.addEventListener('touchmove', open, { passive: true });
+    addEventListener('keydown', e => { if (['Enter', ' ', 'ArrowDown', 'PageDown', 'Escape'].includes(e.key)) open(); });
+    setTimeout(() => document.getElementById('introOpen').focus({ preventScroll: true }), 50);
+  } else intro.remove();
+
+  if (!hasGsap || reduce) return;
+
+  /* ---------- year badge follows the sections ---------- */
+  const badge = document.getElementById('yearBadge'), yearNow = document.getElementById('yearNow');
+  const setYear = y => {
+    if (!y) { badge.classList.remove('on'); return; }
+    badge.classList.add('on');
+    if (yearNow.textContent === y) return;
+    gsap.to(yearNow, { y: -10, opacity: 0, duration: .15, onComplete: () => { yearNow.textContent = y; gsap.fromTo(yearNow, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .25 }); } });
+  };
+  document.querySelectorAll('main section').forEach(sec => ScrollTrigger.create({
+    trigger: sec, start: 'top 55%', end: 'bottom 55%',
+    onToggle: st => { if (st.isActive) setYear(sec.dataset.year); }
+  }));
+
+  /* ---------- kickers type like a typewriter ---------- */
+  document.querySelectorAll('main section:not(.hero) .kicker').forEach(k => {
+    const full = k.textContent; k.setAttribute('aria-label', full);
+    k.style.minHeight = k.offsetHeight + 'px'; k.textContent = '';
+    const o = { n: 0 };
+    gsap.to(o, { n: full.length, duration: Math.min(1.4, full.length * .045), ease: 'none',
+      scrollTrigger: { trigger: k, start: 'top 88%', once: true },
+      onStart: () => k.classList.add('typing'),
+      onUpdate: () => { k.textContent = full.slice(0, Math.round(o.n)); },
+      onComplete: () => setTimeout(() => k.classList.remove('typing'), 900) });
+  });
+
+  /* ---------- photos uncover from top to bottom ---------- */
+  document.querySelectorAll('figure.photo img, img.portrait').forEach(img => gsap.fromTo(img,
+    { clipPath: 'inset(0 0 100% 0)', scale: 1.06 },
+    { clipPath: 'inset(0 0 0% 0)', scale: 1, duration: 1.3, ease: 'power3.out', scrollTrigger: { trigger: img, start: 'top 88%', once: true } }));
+
+  /* ---------- the quote lights up word by word ---------- */
+  document.querySelectorAll('.quote').forEach(q => {
+    q.innerHTML = q.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' ');
+    gsap.fromTo(q.querySelectorAll('.w'), { opacity: .15 }, { opacity: 1, stagger: .1, ease: 'none',
+      scrollTrigger: { trigger: q, start: 'top 80%', end: 'bottom 50%', scrub: true } });
+  });
+})();
+</script>
